@@ -1,0 +1,24 @@
+.container {
+    width: 250px;
+    height: 350px;
+    border-radius: 7px;
+    outline: solid 1.5px #eee;
+    overflow: hidden;
+
+    display: grid;
+    grid-auto-flow: row;
+}
+
+.placeholderImage {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: whitesmoke;
+}
+
+.urgent {
+    outline: solid 1.5px orange;
+}
+
+.urgent:hover {
+    outline: solid 1.5px orange;
+}

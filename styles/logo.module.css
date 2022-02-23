@@ -1,0 +1,20 @@
+.logo {
+    height: 45px;
+    width: 65px;
+    border-radius: 7px;
+    background-color: var(--primary);
+    padding: 0 15px;
+    margin: auto;
+}
+
+.text {
+    font-family: Ubuntu, Segoe UI, Roboto; 
+    font-size: 20px;
+    font-weight: bold;
+    text-align: end;
+    color: white;
+    text-align: center;
+    line-height: 45px;
+    text-align: center;
+    font-style: italic;
+}

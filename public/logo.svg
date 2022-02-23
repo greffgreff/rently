@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900.79 359.31">
+    <defs>
+        <style>
+            .cls-1 {
+                fill: #ff9240;
+            }
+
+            .cls-2 {
+                font-size: 222.22px;
+                fill: #fff;
+                font-family: Ubuntu-BoldItalic, Ubuntu;
+                font-weight: 700;
+                font-style: italic;
+                letter-spacing: -0.04em;
+            }
+
+            .cls-3 {
+                letter-spacing: 0em;
+            }
+        </style>
+    </defs>
+    <title>Asset 3</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <rect class="cls-1" width="900.79" height="359.31" rx="82.58" /><text class="cls-2"
+                transform="matrix(0.97, 0, 0.22, 0.97, 117.37, 247.37)">R<tspan class="cls-3" x="136.89" y="0">ently
+                </tspan></text>
+        </g>
+    </g>
+</svg>
