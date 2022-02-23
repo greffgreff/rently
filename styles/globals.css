@@ -14,3 +14,8 @@ body {
 e {
   padding-left: 10px;
 }
+
+main {
+  margin: 0 auto;
+  width: var(--content);
+}

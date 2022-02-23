@@ -1,6 +1,6 @@
-.container {
-    width: var(--content);
-    margin: 80px auto;
+.adverts {
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 .searchOptions {
@@ -12,7 +12,7 @@
     /* min-height: fit-content; */
 }
 
-.adverts {
+.results {
     margin: 50px 0;
     display: grid;
     gap: 1em;

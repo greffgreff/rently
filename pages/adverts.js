@@ -12,36 +12,36 @@ export default function Adverts() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <main >
-          <NavigationBar />
-          <div className={Styling.container}>
-            <SearchBar />
-            <div className={Styling.adverts}>
-              <div className={Styling.searchOptions}>
-                <p>Place</p>
-                <p>Rate</p>
-                <p>Period</p>
-              </div>
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
-              <AdvertCard urgent={false} />
+      <div>
+        <NavigationBar />
+        <main className={Styling.adverts}>
+          <SearchBar />
+          <div className={Styling.results}>
+            <div className={Styling.searchOptions}>
+              <p>Place</p>
+              <p>Rate</p>
+              <p>Period</p>
             </div>
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
+            <AdvertCard urgent={false} />
           </div>
-      </main>
+        </main>
+      </div>
     </>
   );
 }

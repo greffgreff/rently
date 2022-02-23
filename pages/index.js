@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import NavigationBar from '../components/navigationBar'
+import Styling from '../styles/index.module.css'
 
 export default function Index() {
   return (
@@ -9,9 +10,10 @@ export default function Index() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <main>
+      <div>
         <NavigationBar />
-      </main>
+        <main className={Styling.index}></main>
+      </div>
     </>
   )
 }
