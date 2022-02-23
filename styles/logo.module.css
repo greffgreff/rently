@@ -4,6 +4,7 @@
     background-color: var(--primary);
     padding: 0 15px;
     margin: auto;
+    transition: 0.2s;
 }
 
 .text {
@@ -16,4 +17,9 @@
     line-height: 45px;
     text-align: center;
     font-style: italic;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
