@@ -11,16 +11,13 @@ export default function NavigationBar() {
       <div className={Styling.content}>
         <div className={Styling.navItemsContainer}>
           <Logo />
-          <button className={Styling.navBtn}><i className="fa fa-plus" /><e>Lease something</e></button>
+          <Button icon = { "fa fa-plus" } text = { "Lease something" } />
           <Link href="/adverts">
-            <button className={`${Styling.navBtn} ${Styling.searchBtn}`}><i className="fa fa-search" /><t>Search</t></button>
+            <ButtonLink icon = { "fa fa-search" } text = { "Search" } />
           </Link>
         </div>
         <div className={Styling.navItemsContainer}>
-          <button className={`${Styling.navBtn} ${Styling.loginBtn}`}>Login</button>
-          <Button icon = { "fa fa-search" } text = { "Search" } />
-          <ButtonSecondary icon = { "fa fa-search" } text = { "Search" } />
-          <ButtonLink icon = { "fa fa-search" } text = { "Search" } />
+          <ButtonSecondary text = { "Login" } />
         </div>
       </div>
     </div>
