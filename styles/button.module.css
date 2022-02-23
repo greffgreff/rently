@@ -37,3 +37,7 @@
   font-weight: normal;
   font-size: 18px;
 }
+
+.link:hover {
+  opacity: 0.5;
+}

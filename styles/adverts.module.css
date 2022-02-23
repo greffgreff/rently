@@ -3,13 +3,6 @@
     margin: 80px auto;
 }
 
-.refineSearch {
-    height: 200px;
-    margin: 0 auto;
-    background-color: rgb(231, 231, 231);
-    border-radius: 7px;
-}
-
 .searchOptions {
     border-radius: 7px;
     grid-row: 1 / 3;

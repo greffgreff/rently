@@ -2,6 +2,7 @@ import Head from "next/head";
 import Styling from "../styles/adverts.module.css";
 import AdvertCard from "../components/advertCard.js";
 import NavigationBar from "../components/navigationBar";
+import SearchBar from "../components/searchBar";
 
 export default function Adverts() {
   return (
@@ -14,7 +15,7 @@ export default function Adverts() {
       <main >
           <NavigationBar />
           <div className={Styling.container}>
-            <div className={Styling.refineSearch} />
+            <SearchBar />
             <div className={Styling.adverts}>
               <div className={Styling.searchOptions}>
                 <p>Place</p>
