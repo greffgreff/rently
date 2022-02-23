@@ -17,7 +17,7 @@ export default function Index() {
           <div className={Styling.explore}>
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
-              <div className={`${Styling.marquee}`}>
+              <div className={Styling.marquee}>
                 <SuggestionCard />
                 <SuggestionCard />
                 <SuggestionCard />

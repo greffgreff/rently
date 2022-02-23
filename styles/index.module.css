@@ -6,7 +6,6 @@
   position: relative;
   margin: 50px auto;
   overflow-x: hidden;
-  border-radius: 7px;
 }
 
 .search {
@@ -31,24 +30,25 @@
   justify-content: space-between;
   grid-auto-flow: dense;
 
-  --offset: 20vw;
-  --move-initial: calc(-25% + var(--offset));
-  --move-final: calc(-50% + var(--offset));
+  --move-initial: calc(0%);
+  --move-final: calc(-100%);
+}
+
+.suggestions .marquee:nth-child(2n+1) * {
+    transform: translateX(100px);
 }
 
 .marquee {
   display: grid;
   grid-auto-flow: column;
   gap: 1em;
-
-  transform: translate3d(var(--move-initial), 0, 0);
-  animation: marquee 15s linear infinite;
+  animation: marquee 30s linear infinite;
   animation-play-state: running;
 }
 
-/* .suggestions:hover .marquee {
+.suggestions:hover .marquee {
     animation-play-state: paused;
-} */
+}
 
 @keyframes marquee {
   0%   { transform: translateX(var(--move-initial)); }
