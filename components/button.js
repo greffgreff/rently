@@ -8,7 +8,7 @@ export default function Button({ icon, text }) {
         <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet"/>
       </Head>
       <button type="button" className={`${Styling.btn} ${Styling.primary}`}>  
-        <i className={`${icon} ${Styling.icon}`} style={ { display: icon == null | icon == "" ? 'none' : '' } } />
+        <i className={`${icon} ${Styling.icon}`} style={ { display: icon == null | icon == "" ? "none" : "" } } />
         {text}
       </button>
     </>
