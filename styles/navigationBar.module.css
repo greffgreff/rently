@@ -20,20 +20,17 @@
 }
 
 .navItemsContainer {
+    height: inherit;
     display: grid;
     grid-auto-flow: column;
-    margin: auto;
     column-gap: 1em;
+    margin: auto;
 }
 
 .navBtn {
     background-color: var(--primary);
     color: white;
-    height: 35px;
-    font-size: 17px;
-    font-weight: bold;
-    margin-left: 20px;
-    margin: auto;
+    height: 60%;
 }
 
 .loginBtn {
@@ -44,5 +41,5 @@
     background-color: unset;
     color: black;
     font-weight: 400;
-    font-size: 19px;
+    font-size: 18px;
 }
