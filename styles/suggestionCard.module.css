@@ -1,0 +1,13 @@
+.container {
+    min-width: 220px;
+    min-height: 250px;
+    background-color: rgb(187, 187, 187);
+    border-radius: 7px;
+    transition: 0.2s;
+} 
+
+.container:hover {
+    /* transform: scale(0.98); */
+    opacity: 0.7;
+    cursor: pointer;
+}
