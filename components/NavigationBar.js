@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Styling from "../styles/navigationBar.module.css";
 import Button from "./button";
 import ButtonLink from "./buttonLink";
@@ -11,13 +10,11 @@ export default function NavigationBar() {
       <div className={Styling.content}>
         <div className={Styling.navItemsContainer}>
           <Logo />
-          <Button icon = { "fa fa-plus" } text = { "Lease something" } />
-          <Link href="/adverts">
-            <ButtonLink icon = { "fa fa-search" } text = { "Search" } />
-          </Link>
+          <Button icon={ "fa fa-plus" } text={ "Lease something" } />
+          <ButtonLink icon={ "fa fa-search" } text={ "Search" } route={ "/adverts" } />
         </div>
         <div className={Styling.navItemsContainer}>
-          <ButtonSecondary text = { "Login" } />
+          <ButtonSecondary text={ "Login" } />
         </div>
       </div>
     </div>
