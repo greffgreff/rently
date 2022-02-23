@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import NavigationBar from '../components/navigationBar'
 
 export default function About() {
   return (
@@ -9,7 +9,10 @@ export default function About() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div>about</div>
+      <main>
+        <NavigationBar />
+        <p>This is the about page</p>
+      </main>
     </>
   );
 }

@@ -5,7 +5,7 @@
 }
 
 .content {
-    width: 55%;
+    width: var(--content);
     height: inherit;
     margin: auto;
     display: grid;
