@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Styling from "../styles/navigationBar.module.css";
-import Logo from "./logo";
+import Logo from "./logoAlt";
 
 export default function NavigationBar() {
   return (
