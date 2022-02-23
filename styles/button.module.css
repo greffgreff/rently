@@ -1,0 +1,37 @@
+.btn {
+  height: 35px;
+  font-family: Ubuntu, Segoe UI, Roboto;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 7px;
+  border: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: auto;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.icon {
+  padding-right: 15px;
+}
+
+.secondary {
+  background-color: rgb(214, 214, 214);
+}
+
+.primary {
+  background-color: var(--primary);
+}
+
+.link {
+  background-color: unset;
+  color: black;
+  font-weight: normal;
+  font-size: 18px;
+}

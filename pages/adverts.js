@@ -14,9 +14,13 @@ export default function Adverts() {
       <main >
           <NavigationBar />
           <div className={Styling.container}>
-            {/* <div className={Styling.refineSearch} /> */}
+            <div className={Styling.refineSearch} />
             <div className={Styling.adverts}>
-              <div className={Styling.searchOptions} />
+              <div className={Styling.searchOptions}>
+                <p>Place</p>
+                <p>Rate</p>
+                <p>Period</p>
+              </div>
               <AdvertCard urgent={false} />
               <AdvertCard urgent={false} />
               <AdvertCard urgent={false} />
