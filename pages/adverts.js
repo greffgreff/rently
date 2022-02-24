@@ -18,7 +18,7 @@ export default function Adverts() {
         <NavigationBar />
         <main className={Styling.adverts}>
           <SuggestionCard />
-          <SearchBar />
+          {/* <SearchBar /> */}
           <div className={Styling.results}>
             <div className={Styling.searchOptions}>
               <p>Place</p>

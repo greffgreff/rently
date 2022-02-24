@@ -2,7 +2,9 @@
   width: 180px;
   height: 220px;
   position: relative;
+  border: solid 1px rgb(231, 231, 231);
   border-radius: 4px;
+  overflow: hidden;
   transition: 0.2s;
 }
 
@@ -14,18 +16,26 @@
 .image {
   width: 100%;
   aspect-ratio: 1;
-  /* background-color: rgb(200, 200, 200); */
-  /* background: linear-gradient(to bottom, rgba(30,87,153,0) 0%,rgba(32,89,154,0) 1%,rgba(255,255,255,1) 100%); */
+  object-fit: cover;
+  z-index: -999;
 }
 
 .meta {
   position: absolute;
+  width: 100%;
   bottom: 0;
+  background-color: white;
+  box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%);
+  z-index: 999;
+}
+
+.innerMeta {
+  padding: 10px 10px;
 }
 
 .title,
 .price {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .title {
