@@ -16,6 +16,7 @@
   margin: auto;
   border-radius: 7px;
   z-index: 1000;
+  box-shadow: 0px 0px 30px -5px #8E8E8E;
 }
 
 .suggestions {
@@ -28,7 +29,7 @@
   grid-auto-flow: dense;
 }
 
-.suggestions .marqueeContainer:nth-child(2n + 1) * {
+.suggestions .marqueeContainer:nth-child(2n + 1)  {
   transform: translateX(-100px);
 }
 
@@ -40,8 +41,8 @@
 }
 
 .marqueeContainer {
-  border-radius: 4px;
-  overflow: hidden;
+  /* border-radius: 4px;
+  overflow: hidden;*/
 }
 
 .marquee {
@@ -53,6 +54,10 @@
 .search:hover .marquee {
   animation-play-state: paused;
 }
+
+/* .suggestions:hover + .search {
+  opacity: 0.5;
+} */
 
 @keyframes marquee {
   0% {
