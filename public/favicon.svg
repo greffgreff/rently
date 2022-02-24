@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 359.47 359.31"><defs><style>.cls-1{fill:#fc7e32;}.cls-2{font-size:310px;fill:#fff;font-family:Ubuntu-BoldItalic, Ubuntu;font-weight:700;font-style:italic;}</style></defs><title>Asset 5</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect class="cls-1" width="359.47" height="359.31" rx="82.58"/><text class="cls-2" transform="matrix(0.97, 0, 0.22, 0.97, 81.37, 282.12)">R</text></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 359.47 359.31">
+    <defs>
+        <style>
+            .cls-1 {
+                fill: rgb(248, 104, 39);
+            }
+
+            .cls-2 {
+                font-size: 310px;
+                fill: #fff;
+                font-family: Ubuntu-BoldItalic, Ubuntu;
+                font-weight: 700;
+                font-style: italic;
+            }
+        </style>
+    </defs>
+    <title>Asset 5</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <rect class="cls-1" width="359.47" height="359.31" rx="82.58" /><text class="cls-2"
+                transform="matrix(0.97, 0, 0.22, 0.97, 81.37, 282.12)">R</text>
+        </g>
+    </g>
+</svg>
