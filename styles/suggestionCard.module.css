@@ -1,6 +1,6 @@
 .container {
-    min-width: 220px;
-    min-height: 250px;
+    min-width: 180px;
+    min-height: 200px;
     background-color: rgb(187, 187, 187);
     border-radius: 4px;
     transition: 0.2s;
