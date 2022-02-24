@@ -5,6 +5,8 @@ import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
 
 export default function Adverts() {
+  const results = 10
+
   return (
     <>
       <Head>
@@ -18,12 +20,12 @@ export default function Adverts() {
         <main className={Styling.adverts}>
           {/* <SearchBar /> */}
           <div className={Styling.results}>
-            <div className={Styling.searchOptions}>
+            <div className={Styling.searchOptions} style={{ display: (results < 10) ? 'none' : '' }} >
               <p>Place</p>
               <p>Rate</p>
               <p>Period</p>
             </div>
-            {[...Array(5)].map((_) => (
+            {[...Array(results)].map((_) => (
               <AdvertCard />
             ))}
           </div>
