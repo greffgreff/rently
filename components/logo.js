@@ -4,7 +4,7 @@ export default function Logo() {
   return (
     <Link href="/">
       <div className={Styling.logo}>
-        <div className={Styling.text}>Rently</div>
+        <div className={Styling.text}>Rently.io</div>
       </div>
     </Link>
   );

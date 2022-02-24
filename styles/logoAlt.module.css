@@ -4,6 +4,7 @@
   padding: 0 15px;
   margin: auto;
   transition: 0.2s;
+  width: 200px;
 }
 
 .text {
@@ -12,7 +13,6 @@
   font-weight: bold;
   text-align: end;
   color: var(--primary);
-  text-align: center;
   line-height: 45px;
   text-align: center;
   font-style: italic;

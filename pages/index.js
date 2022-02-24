@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Rently</title>
+        <title>Rently.io - Find what you need</title>
         <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
@@ -22,13 +22,9 @@ export default function Index() {
                 <div className={Styling.marqueeContainer}>
                   {[...Array(2)].map((_) => (
                     <div className={Styling.marquee}>
-                      <SuggestionCard isNew={'yes'} />
-                      <SuggestionCard />
-                      <SuggestionCard />
-                      <SuggestionCard />
-                      <SuggestionCard />
-                      <SuggestionCard />
-                      <SuggestionCard />
+                      {[...Array(7)].map((_) => ( 
+                        <SuggestionCard />
+                      ))}
                     </div>
                   ))}
                 </div>
