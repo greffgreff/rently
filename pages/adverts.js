@@ -3,7 +3,6 @@ import Styling from '../styles/adverts.module.css';
 import AdvertCard from '../components/advertCard.js';
 import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
-import SuggestionCard from '../components/suggestionCard';
 
 export default function Adverts() {
   return (
@@ -17,7 +16,6 @@ export default function Adverts() {
       <div>
         <NavigationBar />
         <main className={Styling.adverts}>
-          <SuggestionCard />
           {/* <SearchBar /> */}
           <div className={Styling.results}>
             <div className={Styling.searchOptions}>

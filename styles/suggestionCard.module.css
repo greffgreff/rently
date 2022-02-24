@@ -3,15 +3,9 @@
   width: 180px;
   height: 220px;
   position: relative;
-  border: solid 1.5px rgb(235, 235, 235);
   border-radius: 4px;
   overflow: hidden;
   transition: 0.1s;
-}
-
-.container:hover {
-  cursor: pointer;
-  border: solid 1.5px var(--primary);
 }
 
 .image {
@@ -32,6 +26,7 @@
 
 .innerMeta {
   padding: 10px 10px;
+  font-size: inherit;
 }
 
 .title,
@@ -40,7 +35,7 @@
 }
 
 .title {
-  font-size: 90%;
+  font-size: 80%;
 }
 
 .price {
