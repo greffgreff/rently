@@ -14,7 +14,7 @@ export default function Index() {
 
       <div>
         <NavigationBar />
-        <main className={Styling.index}>
+        {/* <main className={Styling.index}> */}
           <div className={Styling.explore}>
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
@@ -22,7 +22,7 @@ export default function Index() {
                 <div className={Styling.marqueeContainer}>
                   {[...Array(2)].map((_) => (
                     <div className={Styling.marquee}>
-                      {[...Array(7)].map((_) => ( 
+                      {[...Array(20)].map((_) => ( 
                         <SuggestionCard />
                       ))}
                     </div>
@@ -31,7 +31,7 @@ export default function Index() {
               ))}
             </div>
           </div>
-        </main>
+        {/* </main> */}
       </div>
     </>
   );
