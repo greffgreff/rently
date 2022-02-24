@@ -1,7 +1,7 @@
-import Head from 'next/head'
-import NavigationBar from '../components/navigationBar'
-import SuggestionCard from '../components/suggestionCard'
-import Styling from '../styles/index.module.css'
+import Head from "next/head";
+import NavigationBar from "../components/navigationBar";
+import SuggestionCard from "../components/suggestionCard";
+import Styling from "../styles/index.module.css";
 
 export default function Index() {
   return (
@@ -18,7 +18,7 @@ export default function Index() {
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
               <div className={Styling.marqueeContainer}>
-              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                <div className={Styling.marquee}>
                   <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -27,8 +27,8 @@ export default function Index() {
                   <SuggestionCard />
                   <SuggestionCard />
                 </div>
-                <div className={`${Styling.marquee} ${Styling.trail}`}>
-                  <SuggestionCard isNew={"yes"}/>
+                <div className={Styling.marquee}>
+                  <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -38,7 +38,7 @@ export default function Index() {
                 </div>
               </div>
               <div className={Styling.marqueeContainer}>
-              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                <div className={Styling.marquee}>
                   <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -47,8 +47,8 @@ export default function Index() {
                   <SuggestionCard />
                   <SuggestionCard />
                 </div>
-                <div className={`${Styling.marquee} ${Styling.trail}`}>
-                  <SuggestionCard isNew={"yes"}/>
+                <div className={Styling.marquee}>
+                  <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -58,7 +58,7 @@ export default function Index() {
                 </div>
               </div>
               <div className={Styling.marqueeContainer}>
-              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                <div className={Styling.marquee}>
                   <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -67,8 +67,8 @@ export default function Index() {
                   <SuggestionCard />
                   <SuggestionCard />
                 </div>
-                <div className={`${Styling.marquee} ${Styling.trail}`}>
-                  <SuggestionCard isNew={"yes"}/>
+                <div className={Styling.marquee}>
+                  <SuggestionCard isNew={"yes"} />
                   <SuggestionCard />
                   <SuggestionCard />
                   <SuggestionCard />
@@ -82,5 +82,5 @@ export default function Index() {
         </main>
       </div>
     </>
-  )
+  );
 }

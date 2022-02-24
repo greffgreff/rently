@@ -32,15 +32,14 @@
   grid-auto-flow: dense;
 }
 
+.suggestions .marqueeContainer:nth-child(2n+1) {
+  transform: translateX(100px);
+}
+
 .marqueeContainer, .marquee {
   display: grid;
   grid-auto-flow: column;
   gap: inherit;
-}
-
-.marqueeContainer {
-  border-radius: 4px;
-  overflow: hidden;
 }
 
 .marquee { 
