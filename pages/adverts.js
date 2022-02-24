@@ -3,18 +3,21 @@ import Styling from '../styles/adverts.module.css';
 import AdvertCard from '../components/advertCard.js';
 import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
+import SuggestionCard from '../components/suggestionCard';
 
 export default function Adverts() {
   return (
     <>
       <Head>
-        <title>Adverts</title>
+        <title>Rently - Adverts</title>
         <link rel="icon" href="/favicon.svg" />
+        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
       </Head>
 
       <div>
         <NavigationBar />
         <main className={Styling.adverts}>
+          <SuggestionCard />
           <SearchBar />
           <div className={Styling.results}>
             <div className={Styling.searchOptions}>

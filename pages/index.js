@@ -8,6 +8,7 @@ export default function Index() {
     <>
       <Head>
         <title>Rently</title>
+        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
