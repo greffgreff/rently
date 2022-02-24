@@ -23,25 +23,27 @@
 }
 
 .suggestions {
+  --gap-width: 0.7em;
   display: grid;
   grid-auto-flow: row;
-  gap: 1em;
+  gap: var(--gap-width);
   grid-template-rows: 1fr 1fr 1fr;
   justify-content: space-between;
   grid-auto-flow: dense;
-
-  --move-initial: calc(0%);
-  --move-final: calc(-100%);
 }
 
-.suggestions .marquee:nth-child(2n+1) * {
-    transform: translateX(100px);
-}
-
-.marquee {
+.marqueeContainer, .marquee {
   display: grid;
   grid-auto-flow: column;
-  gap: 1em;
+  gap: inherit;
+}
+
+.marqueeContainer {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.marquee { 
   animation: marquee 30s linear infinite;
   animation-play-state: running;
 }
@@ -51,6 +53,6 @@
 }
 
 @keyframes marquee {
-  0%   { transform: translateX(var(--move-initial)); }
-  100% { transform: translateX(var(--move-final)); }
+  0%   { transform: translateX(calc(0% + var(--gap-width))); }
+  100% { transform: translateX(-100%); }
 }

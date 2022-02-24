@@ -17,29 +17,65 @@ export default function Index() {
           <div className={Styling.explore}>
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
-              <div className={Styling.marquee}>
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
+              <div className={Styling.marqueeContainer}>
+              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                  <SuggestionCard isNew={"yes"} />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
+                <div className={`${Styling.marquee} ${Styling.trail}`}>
+                  <SuggestionCard isNew={"yes"}/>
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
               </div>
-              <div className={Styling.marquee}>
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
+              <div className={Styling.marqueeContainer}>
+              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                  <SuggestionCard isNew={"yes"} />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
+                <div className={`${Styling.marquee} ${Styling.trail}`}>
+                  <SuggestionCard isNew={"yes"}/>
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
               </div>
-              <div className={Styling.marquee}>
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
-                <SuggestionCard />
+              <div className={Styling.marqueeContainer}>
+              <div className={`${Styling.marquee} ${Styling.lead}`}>
+                  <SuggestionCard isNew={"yes"} />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
+                <div className={`${Styling.marquee} ${Styling.trail}`}>
+                  <SuggestionCard isNew={"yes"}/>
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                  <SuggestionCard />
+                </div>
               </div>
             </div>
           </div>
