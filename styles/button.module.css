@@ -1,5 +1,5 @@
 .btn {
-  height: 35px;
+  height: 33px;
   font-family: Ubuntu, Segoe UI, Roboto;
   color: white;
   border-radius: 7px;
@@ -21,13 +21,13 @@
 
 .secondary {
   background-color: rgb(214, 214, 214);
-  font-size: 16.5px;
+  font-size: 15px;
   font-weight: bold;
 }
 
 .primary {
   background-color: var(--primary);
-  font-size: 16.5px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -35,7 +35,7 @@
   background-color: unset;
   color: black;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16.5px;
 }
 
 .link:hover {
