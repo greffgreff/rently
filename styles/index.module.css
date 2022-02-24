@@ -44,7 +44,7 @@
 }
 
 .marquee { 
-  animation: marquee 10s linear infinite;
+  animation: marquee 30s linear infinite;
   animation-play-state: running;
 }
 

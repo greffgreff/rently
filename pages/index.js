@@ -17,9 +17,9 @@ export default function Index() {
           <div className={Styling.explore}>
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
-              {[...Array(3)].map((_) => (
+              {[...Array(3)].map(_ => (
                 <div className={Styling.marqueeContainer}>
-                  {[...Array(2)].map((_) => (
+                  {[...Array(2)].map(_ => (
                     <div className={Styling.marquee}>
                       <SuggestionCard isNew={"yes"} />
                       <SuggestionCard />
