@@ -23,23 +23,9 @@ export default function Adverts() {
               <p>Rate</p>
               <p>Period</p>
             </div>
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
-            <AdvertCard urgent={false} />
+            {[...Array(5)].map((_) => (
+              <AdvertCard />
+            ))}
           </div>
         </main>
       </div>
