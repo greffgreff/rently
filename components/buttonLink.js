@@ -1,6 +1,6 @@
-import Head from "next/head";
-import Link from "next/link";
-import Styling from "../styles/button.module.css";
+import Head from 'next/head';
+import Link from 'next/link';
+import Styling from '../styles/button.module.css';
 
 export default function ButtonLink({ icon, text, route }) {
   return (
@@ -9,9 +9,9 @@ export default function ButtonLink({ icon, text, route }) {
         <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
       </Head>
 
-      <Link href={route == null | route == "" ? "/" : route} >
-        <button type="button" className={`${Styling.btn} ${Styling.link}`} >
-          <i className={`${icon} ${Styling.icon}`} style={ { display: (icon == null) | (icon == "") ? "none" : "" } } />
+      <Link href={(route == null) | (route == '') ? '/' : route}>
+        <button type="button" className={`${Styling.btn} ${Styling.link}`}>
+          <i className={`${icon} ${Styling.icon}`} style={{ display: (icon == null) | (icon == '') ? 'none' : '' }} />
           {text}
         </button>
       </Link>

@@ -1,8 +1,8 @@
-import Head from "next/head";
-import Styling from "../styles/adverts.module.css";
-import AdvertCard from "../components/advertCard.js";
-import NavigationBar from "../components/navigationBar";
-import SearchBar from "../components/searchBar";
+import Head from 'next/head';
+import Styling from '../styles/adverts.module.css';
+import AdvertCard from '../components/advertCard.js';
+import NavigationBar from '../components/navigationBar';
+import SearchBar from '../components/searchBar';
 
 export default function Adverts() {
   return (

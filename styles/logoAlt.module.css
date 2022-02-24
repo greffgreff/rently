@@ -1,24 +1,24 @@
 .logo {
-    height: 45px;
-    border-radius: 7px;
-    padding: 0 15px;
-    margin: auto;
-    transition: 0.2s;
+  height: 45px;
+  border-radius: 7px;
+  padding: 0 15px;
+  margin: auto;
+  transition: 0.2s;
 }
 
 .text {
-    font-family: Ubuntu, Segoe UI, Roboto; 
-    font-size: 25px;
-    font-weight: bold;
-    text-align: end;
-    color: var(--primary);
-    text-align: center;
-    line-height: 45px;
-    text-align: center;
-    font-style: italic;
+  font-family: Ubuntu, Segoe UI, Roboto;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: end;
+  color: var(--primary);
+  text-align: center;
+  line-height: 45px;
+  text-align: center;
+  font-style: italic;
 }
 
 .logo:hover {
-    transform: scale(1.05);
-    cursor: pointer;
+  transform: scale(1.05);
+  cursor: pointer;
 }

@@ -1,5 +1,5 @@
-import Head from "next/head";
-import NavigationBar from '../components/navigationBar'
+import Head from 'next/head';
+import NavigationBar from '../components/navigationBar';
 
 export default function About() {
   return (

@@ -28,11 +28,12 @@
   grid-auto-flow: dense;
 }
 
-.suggestions .marqueeContainer:nth-child(2n+1) * {
+.suggestions .marqueeContainer:nth-child(2n + 1) * {
   transform: translateX(-100px);
 }
 
-.marqueeContainer, .marquee {
+.marqueeContainer,
+.marquee {
   display: grid;
   grid-auto-flow: column;
   gap: inherit;
@@ -43,16 +44,21 @@
   overflow: hidden;
 }
 
-.marquee { 
+.marquee {
   animation: marquee 30s linear infinite;
   animation-play-state: running;
 }
 
-.suggestions:hover .marquee {
-    animation-play-state: paused;
+.suggestions:hover .marquee,
+.search:hover .marquee {
+  animation-play-state: paused;
 }
 
 @keyframes marquee {
-  0%   { transform: translateX(calc(0% + var(--gap-width))); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(calc(0% + var(--gap-width)));
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

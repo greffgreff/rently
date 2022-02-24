@@ -1,4 +1,4 @@
-import styling from '../styles/advertCard.module.css'
+import styling from '../styles/advertCard.module.css';
 
 export default function AdvertCard({ urgent }) {
   return (
@@ -6,5 +6,5 @@ export default function AdvertCard({ urgent }) {
       <div className={styling.placeholderImage} />
       <p></p>
     </div>
-  )
+  );
 }

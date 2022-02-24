@@ -1,16 +1,16 @@
 .container {
-    min-width: 250px;
-    min-height: 300px;
-    width: 100%;
-    border-radius: 7px;
-    outline: solid 1.5px #eee;
-    overflow: hidden;
+  min-width: 250px;
+  min-height: 300px;
+  width: 100%;
+  border-radius: 7px;
+  outline: solid 1.5px #eee;
+  overflow: hidden;
 
-    display: grid;
-    grid-auto-flow: row;
-    margin: auto;
+  display: grid;
+  grid-auto-flow: row;
+  margin: auto;
 
-    background-color: #eee;
+  background-color: #eee;
 }
 
 /* .placeholderImage {
