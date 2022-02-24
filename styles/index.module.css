@@ -1,7 +1,3 @@
-/* .index {
-    height: 1500px;
-} */
-
 .explore {
   position: relative;
   margin: 50px auto;
@@ -32,8 +28,8 @@
   grid-auto-flow: dense;
 }
 
-.suggestions .marqueeContainer:nth-child(2n+1) {
-  transform: translateX(100px);
+.suggestions .marqueeContainer:nth-child(2n+1) * {
+  transform: translateX(-100px);
 }
 
 .marqueeContainer, .marquee {
@@ -42,8 +38,13 @@
   gap: inherit;
 }
 
+.marqueeContainer {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 .marquee { 
-  animation: marquee 30s linear infinite;
+  animation: marquee 10s linear infinite;
   animation-play-state: running;
 }
 
