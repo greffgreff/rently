@@ -17,66 +17,21 @@ export default function Index() {
           <div className={Styling.explore}>
             <div className={Styling.search} />
             <div className={Styling.suggestions}>
-              <div className={Styling.marqueeContainer}>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
+              {[...Array(3)].map((_) => (
+                <div className={Styling.marqueeContainer}>
+                  {[...Array(2)].map((_) => (
+                    <div className={Styling.marquee}>
+                      <SuggestionCard isNew={"yes"} />
+                      <SuggestionCard />
+                      <SuggestionCard />
+                      <SuggestionCard />
+                      <SuggestionCard />
+                      <SuggestionCard />
+                      <SuggestionCard />
+                    </div>
+                  ))}
                 </div>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                </div>
-              </div>
-              <div className={Styling.marqueeContainer}>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                </div>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                </div>
-              </div>
-              <div className={Styling.marqueeContainer}>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                </div>
-                <div className={Styling.marquee}>
-                  <SuggestionCard isNew={"yes"} />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                  <SuggestionCard />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </main>
