@@ -48,14 +48,14 @@
 } */
 
 .marquee {
-  animation: marquee 50s linear infinite;
+  animation: marquee 80s linear infinite;
   animation-play-state: running;
 }
 
-.suggestions:hover .marquee,
+/* .suggestions:hover .marquee,
 .search:hover .marquee {
   animation-play-state: paused;
-}
+} */
 
 /* .suggestions:hover + .search {
   opacity: 0.5;

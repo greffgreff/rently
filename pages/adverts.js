@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default function Adverts() {
   const router = useRouter()
   var { results } = router.query
-  var count = isNaN(parseInt(results))  ? 0 : parseInt(results)
+  var count = isNaN(parseInt(results))  ? 10 : parseInt(results)
 
   console.log(count)
   return (
