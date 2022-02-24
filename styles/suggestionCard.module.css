@@ -1,16 +1,17 @@
 .container {
+  box-sizing: border-box;
   width: 180px;
   height: 220px;
   position: relative;
-  border: solid 1px rgb(231, 231, 231);
+  border: solid 1.5px rgb(235, 235, 235);
   border-radius: 4px;
   overflow: hidden;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 .container:hover {
-  opacity: 0.7;
   cursor: pointer;
+  border: solid 1.5px var(--primary);
 }
 
 .image {
