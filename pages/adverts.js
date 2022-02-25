@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Adverts() {
   const router = useRouter();
+  var { search } = router.query;
   var { results } = router.query;
   var count = isNaN(parseInt(results)) ? 10 : parseInt(results);
 
@@ -23,6 +24,10 @@ export default function Adverts() {
         <NavigationBar />
         <main>
           <SearchBar />
+          <div className={Styling.resultsMeta}>
+            <p>Showing results for "{search}"</p>
+            <p>{count} result(s)</p>
+          </div>
           <div className={Styling.results}>
             <div className={Styling.searchOptions} style={{ display: count < 10 ? 'none' : '' }}>
               <p>Place</p>

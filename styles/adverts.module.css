@@ -20,6 +20,16 @@
   margin-bottom: 50px;
 }
 
+.resultsMeta {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+
+.resultsMeta > p {
+  width: fit-content;
+}
+
 @media screen and (max-width: 1300px) {
   .results {
     grid-template-columns: 1fr 1fr 1fr 1fr;
