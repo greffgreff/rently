@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Styling from '../styles/searchBar.module.css';
 import { useRouter } from 'next/router';
 
@@ -7,7 +6,7 @@ export default function SearchBar({ pixelWidth, percentageWidth }) {
 
   const handleClick = () => {
     const search = document.getElementById('searchInput').value;
-    router.push(`/adverts?search=${search}`, undefined, { shallow: true })
+    router.push(`/adverts${search != "" ? `?search=${search}` : ""}`)
   };
 
   return (
