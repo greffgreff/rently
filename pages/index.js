@@ -16,8 +16,9 @@ export default function Index() {
 
       <div>
         <NavigationBar />
+        <Marquee rows={1} items={11} seconds={80} />
         <SearchBar percentageWidth={60} />
-        <Marquee rows={3} items={11} seconds={80} />
+        <Marquee rows={1} items={11} seconds={80} reversed={true} />
 
         <main>
           <h1>24/7 support to keep it running smoothly</h1>
