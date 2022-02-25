@@ -1,6 +1,6 @@
 .logo {
   height: 45px;
-  border-radius: 7px;
+  border-radius: var(--roundness);
   background-color: var(--primary);
   padding: 0 15px;
   margin: auto;

@@ -4,7 +4,12 @@ import Button from './button';
 export default function SearchBar({ pixelWidth, percentageWidth }) {
   return (
     <div className={Styling.searchBar} style={{ width: percentageWidth == null ? `${pixelWidth}px` : pixelWidth == null ? `${percentageWidth}%` : 'auto' }}>
-      <Button text={'Search'} icon={'fa fa-search'} />
+      <div className={Styling.searchBtn}>
+        <div className={Styling.btnText}>
+          <i className={`fa fa-search ${Styling.icon}`} />
+          Search
+        </div>
+      </div>
       <input placeholder="Barbeque..." />
     </div>
   );

@@ -1,6 +1,7 @@
 :root {
   --content: 60%;
   --primary: rgb(248, 104, 39);
+  --roundness: 5px;
 }
 
 body {
