@@ -22,8 +22,8 @@ export default function Adverts() {
 
       <div>
         <NavigationBar />
-        <main className={Styling.adverts}>
-          {/* <SearchBar /> */}
+        <main>
+          <SearchBar />
           <div className={Styling.results}>
             <div className={Styling.searchOptions} style={{ display: (count < 10) ? 'none' : '' }} >
               <p>Place</p>

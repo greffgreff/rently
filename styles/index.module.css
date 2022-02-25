@@ -1,12 +1,9 @@
 .index {
-  margin: 50px auto;
-
-  /* testing purposes */
-  margin-bottom: 1000px;
+  
 }
 
-.explore {
-  position: relative;
-  margin: 50px auto;
-  overflow-x: hidden;
+.features {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1em;
 }

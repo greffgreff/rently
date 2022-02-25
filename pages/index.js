@@ -2,6 +2,7 @@ import Head from 'next/head';
 import FeatureCard from '../components/featureCard';
 import Marquee from '../components/marquee';
 import NavigationBar from '../components/navigationBar';
+import SearchBar from '../components/searchBar'
 import Styling from '../styles/index.module.css';
 
 export default function Index() {
@@ -13,15 +14,12 @@ export default function Index() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div>
+      <div className={Styling.index}>
         <NavigationBar />
+        <SearchBar percentageWidth={60} />
+        <Marquee rows={3} items={11} seconds={80} />
 
-        <div className={Styling.explore}>
-          <div className={Styling.search} />
-          <Marquee rows={3} items={11} seconds={80} />
-        </div>
-
-        <main className={Styling.index}>
+        <main>
           <h1>24/7 support to keep it running smoothly</h1>
           <div className={Styling.features}>
             <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
