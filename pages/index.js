@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import FeatureCard from '../components/featureCard';
+import Marquee from '../components/marquee';
 import NavigationBar from '../components/navigationBar';
-import SuggestionCard from '../components/suggestionCard';
 import Styling from '../styles/index.module.css';
 
 export default function Index() {
@@ -14,24 +15,21 @@ export default function Index() {
 
       <div>
         <NavigationBar />
-        {/* <main className={Styling.index}> */}
-          <div className={Styling.explore}>
-            <div className={Styling.search} />
-            <div className={Styling.suggestions}>
-              {[...Array(3)].map((_, index) => (
-                <div className={Styling.marqueeContainer}>
-                  {[...Array(2)].map((_) => (
-                    <div className={Styling.marquee} style={{ animationDirection: index%2 == 0 ? 'reverse' : 'normal' }}>
-                      {[...Array(10)].map((_) => ( 
-                        <SuggestionCard />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+
+        <div className={Styling.explore}>
+          <div className={Styling.search} />
+          <Marquee rows={3} items={11} seconds={80} />
+        </div>
+
+        <main className={Styling.index}>
+          <h1>24/7 support to keep it running smoothly</h1>
+          <div className={Styling.features}>
+            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
+            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
+            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
+            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
           </div>
-        {/* </main> */}
+        </main>
       </div>
     </>
   );
