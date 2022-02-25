@@ -6,11 +6,11 @@ export default function SearchBar({ pixelWidth, percentageWidth }) {
     <div className={Styling.searchBar} style={{ width: percentageWidth == null ? `${pixelWidth}px` : pixelWidth == null ? `${percentageWidth}%` : 'auto' }}>
       <div className={Styling.searchBtn}>
         <div className={Styling.btnText}>
-          <i className={`fa fa-search ${Styling.icon}`} />
+          {/* <i className={`fa fa-search ${Styling.icon}`} /> */}
           Search
         </div>
       </div>
-      <input placeholder="Barbeque..." />
+      <input className={Styling.input} placeholder="Barbeque..." />
     </div>
   );
 }

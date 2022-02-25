@@ -23,7 +23,7 @@ export default function Adverts() {
       <div>
         <NavigationBar />
         <main>
-          <SearchBar />
+          <SearchBar percentageWidth={100} />
           <div className={Styling.results}>
             <div className={Styling.searchOptions} style={{ display: (count < 10) ? 'none' : '' }} >
               <p>Place</p>
