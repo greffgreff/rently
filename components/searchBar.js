@@ -1,17 +1,22 @@
+import Link from 'next/link';
 import Styling from '../styles/searchBar.module.css';
-import Button from './button';
 
 export default function SearchBar({ pixelWidth, percentageWidth }) {
+  // const input = document.getElementById("searchInput")
+
+  const handleClick = () => {
+    console.log(document.getElementById("searchInput").value)
+    // input = document.getElementById("searchInput").value
+  }
+
   return (
     <div className={Styling.searchBar} style={{ width: percentageWidth == null ? `${pixelWidth}px` : pixelWidth == null ? `${percentageWidth}%` : 'auto' }}>
-      <div className={Styling.searchBtn}>
-        <div className={Styling.btnText}>
-          {/* <i className={`fa fa-search ${Styling.icon}`} /> */}
-          Search
+      {/* <Link href={`/adverts?search=${input}`}> */}
+        <div className={Styling.searchBtn} onClick={handleClick}>
+          <div className={Styling.btnText}>Search</div>
         </div>
-      </div>
-      <input className={Styling.input} placeholder="Barbeque..." />
-      {/* <input className={Styling.input} placeholder="&#xf002; Barbeque..." /> */}
+      {/* </Link> */}
+      <input id='searchInput' className={Styling.input} placeholder="Barbeque..." />
     </div>
   );
 }

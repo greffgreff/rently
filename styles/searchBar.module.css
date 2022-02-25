@@ -50,3 +50,9 @@
 .input:focus {
   outline: 1px solid rgb(206, 206, 206);
 }
+
+@media screen and (max-width: 800px) {
+  .searchBar {
+    width: 100% !important;
+  }
+}

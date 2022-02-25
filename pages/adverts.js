@@ -11,7 +11,6 @@ export default function Adverts() {
   var { results } = router.query;
   var count = isNaN(parseInt(results)) ? 10 : parseInt(results);
 
-  console.log(count);
   return (
     <>
       <Head>

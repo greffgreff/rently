@@ -13,9 +13,21 @@
   grid-column: 1 / 2;
   border: solid 1px rgb(231, 231, 231);
   background-color: rgb(231, 231, 231);
-  height: calc(270px * 2 + var(--gap-width));
+  height: calc(1.5fr * 2 + var(--gap-width));
 }
 
 .advert > div {
   margin-bottom: 50px;
+}
+
+@media screen and (max-width: 1300px) {
+  .results {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .results {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

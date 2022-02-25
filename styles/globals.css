@@ -4,6 +4,12 @@
   --roundness: 5px;
 }
 
+@media screen and (max-width: 1300px) {
+  :root {
+    --content: calc(100% - 5em);
+  }
+}
+
 body {
   padding: 0;
   margin: 0;

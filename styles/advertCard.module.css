@@ -1,6 +1,6 @@
 .container {
   box-sizing: border-box;
-  height: 270px;
+  height: 1.5fr;
   position: relative;
   border-radius: var(--roundness);
   overflow: hidden;
