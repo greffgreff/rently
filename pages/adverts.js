@@ -12,7 +12,7 @@ export default function Adverts() {
   const { results } = router.query;
   const count = isNaN(parseInt(results)) ? 10 : parseInt(results);
 
-  console.log(search)
+  console.log(search);
   return (
     <>
       <Head>
@@ -25,7 +25,9 @@ export default function Adverts() {
         <NavigationBar />
         <main>
           <SearchBar />
-          <div className={Styling.resultsMeta} style={{ display: search != '' ? '' : 'none !important' }}> /* not working */
+          <div className={Styling.resultsMeta} style={{ display: search != '' ? '' : 'none !important' }}>
+            {' '}
+            {/* not working */}
             <p>Showing results for "{search}"</p>
             <p>{count} result(s)</p>
           </div>

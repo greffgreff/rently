@@ -4,7 +4,7 @@ import HoverStyle from '../styles/hoverable.module.css';
 
 export default function AdvertCard() {
   return (
-    <Link href='/'>
+    <Link href="/">
       <div className={`${Styling.container} ${HoverStyle.container}`}>
         <img className={Styling.image} src="https://img.leboncoin.fr/api/v1/lbcpb1/images/39/da/c9/39dac95eade62e4b0a28764429f4316eb42eefde.jpg?rule=ad-large" />
         <div className={Styling.meta}>
