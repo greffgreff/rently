@@ -14,7 +14,7 @@ export default function Index() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div className={Styling.index}>
+      <div>
         <NavigationBar />
         <SearchBar percentageWidth={60} />
         <Marquee rows={3} items={11} seconds={80} />

@@ -11,6 +11,7 @@ export default function SearchBar({ pixelWidth, percentageWidth }) {
         </div>
       </div>
       <input className={Styling.input} placeholder="Barbeque..." />
+      {/* <input className={Styling.input} placeholder="&#xf002; Barbeque..." /> */}
     </div>
   );
 }

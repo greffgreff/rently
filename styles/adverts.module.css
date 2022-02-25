@@ -1,5 +1,4 @@
 .results {
-  margin: 50px 0;
   display: grid;
   --gap-width: 1em;
   gap: var(--gap-width);
@@ -15,4 +14,8 @@
   border: solid 1px rgb(231, 231, 231);
   background-color: rgb(231, 231, 231);
   height: calc(300px*2 + var(--gap-width));
+}
+
+.advert > div {
+  margin-bottom: 50px;
 }
