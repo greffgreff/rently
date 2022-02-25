@@ -8,11 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Adverts() {
   const router = useRouter();
-  const { search } = router.query | '';
+  const { search } = router.query;
   const { results } = router.query;
   const count = isNaN(parseInt(results)) ? 10 : parseInt(results);
 
-  console.log(search);
   return (
     <>
       <Head>
@@ -24,10 +23,8 @@ export default function Adverts() {
       <div>
         <NavigationBar />
         <main>
-          <SearchBar />
-          <div className={Styling.resultsMeta} style={{ display: search != '' ? '' : 'none !important' }}>
-            {' '}
-            {/* not working */}
+          <SearchBar prevSearch={search} />
+          <div className={Styling.resultsMeta} style={{ display: search != null & search != '' ? '' : 'none !important' }}>
             <p>Showing results for "{search}"</p>
             <p>{count} result(s)</p>
           </div>
