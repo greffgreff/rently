@@ -4,7 +4,6 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 150px 10fr;
-
 }
 
 .searchBtn,
@@ -28,7 +27,7 @@
 .btnText {
   text-align: center;
   font-size: 17px;
-  display: table-cell; 
+  display: table-cell;
   vertical-align: middle;
   color: white;
   font-weight: 500;

@@ -8,5 +8,5 @@ export default function FeatureCard({ title, desc }) {
         <h3 className={Styling.desc}>{desc}</h3>
       </div>
     </div>
-  )
+  );
 }

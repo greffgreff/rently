@@ -2,7 +2,7 @@ import Head from 'next/head';
 import FeatureCard from '../components/featureCard';
 import Marquee from '../components/marquee';
 import NavigationBar from '../components/navigationBar';
-import SearchBar from '../components/searchBar'
+import SearchBar from '../components/searchBar';
 import Styling from '../styles/index.module.css';
 
 export default function Index() {
@@ -16,17 +16,16 @@ export default function Index() {
 
       <div>
         <NavigationBar />
-        <Marquee rows={1} items={11} seconds={80} />
-        <SearchBar percentageWidth={60} />
-        <Marquee rows={1} items={11} seconds={80} reversed={true} />
-
         <main>
+          <Marquee rows={1} items={11} seconds={80} />
+          <SearchBar percentageWidth={60} />
+          <Marquee rows={1} items={11} seconds={80} reversed={true} />
           <h1>24/7 support to keep it running smoothly</h1>
           <div className={Styling.features}>
-            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
-            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
-            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
-            <FeatureCard title={ "Some title" } desc={ "A somewhat short descrpition of the service" } />
+            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
           </div>
         </main>
       </div>

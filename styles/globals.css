@@ -17,7 +17,7 @@ e {
 }
 
 main {
-  margin: 0 auto 400px auto;
+  margin: 50px auto 400px auto;
   width: var(--content);
 }
 

@@ -13,7 +13,7 @@
   grid-column: 1 / 2;
   border: solid 1px rgb(231, 231, 231);
   background-color: rgb(231, 231, 231);
-  height: calc(300px*2 + var(--gap-width));
+  height: calc(300px * 2 + var(--gap-width));
 }
 
 .advert > div {

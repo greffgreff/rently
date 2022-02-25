@@ -3,15 +3,15 @@ import Styling from '../styles/adverts.module.css';
 import AdvertCard from '../components/advertCard.js';
 import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Adverts() {
-  const router = useRouter()
-  var { results } = router.query
-  var count = isNaN(parseInt(results))  ? 10 : parseInt(results)
+  const router = useRouter();
+  var { results } = router.query;
+  var count = isNaN(parseInt(results)) ? 10 : parseInt(results);
 
-  console.log(count)
+  console.log(count);
   return (
     <>
       <Head>
@@ -22,11 +22,10 @@ export default function Adverts() {
 
       <div>
         <NavigationBar />
-        <SearchBar percentageWidth={60} />
-
         <main>
+          <SearchBar percentageWidth={60} />
           <div className={Styling.results}>
-            <div className={Styling.searchOptions} style={{ display: (count < 10) ? 'none' : '' }} >
+            <div className={Styling.searchOptions} style={{ display: count < 10 ? 'none' : '' }}>
               <p>Place</p>
               <p>Rate</p>
               <p>Period</p>

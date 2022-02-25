@@ -1,12 +1,12 @@
 .container {
-    background-color: white;
-    border-radius: var(--roundness);
+  background-color: white;
+  border-radius: var(--roundness);
 }
 
 .innerContainer {
-    padding: 50px 20px;
+  padding: 50px 20px;
 }
 
 .desc {
-    font-weight: normal;
+  font-weight: normal;
 }
