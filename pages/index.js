@@ -17,16 +17,16 @@ export default function Index() {
       <div>
         <NavigationBar />
         <main>
-          <Marquee rows={1} items={11} seconds={80} />
+          <Marquee rows={1} items={11} seconds={150} />
           <SearchBar percentageWidth={60} />
-          <Marquee rows={1} items={11} seconds={80} reversed={true} />
-          <h1>24/7 support to keep it running smoothly</h1>
-          <div className={Styling.features}>
+          <Marquee rows={1} items={11} seconds={150} reversed={true} />
+          {/* <h1>24/7 support to keep it running smoothly</h1> */}
+          {/* <div className={Styling.features}>
             <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
             <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
             <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
             <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
-          </div>
+          </div> */}
         </main>
       </div>
     </>

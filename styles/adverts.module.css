@@ -2,7 +2,7 @@
   display: grid;
   --gap-width: 1em;
   gap: var(--gap-width);
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: space-between;
   grid-auto-flow: dense;
 }
@@ -13,7 +13,7 @@
   grid-column: 1 / 2;
   border: solid 1px rgb(231, 231, 231);
   background-color: rgb(231, 231, 231);
-  height: calc(300px * 2 + var(--gap-width));
+  height: calc(270px * 2 + var(--gap-width));
 }
 
 .advert > div {
