@@ -26,16 +26,19 @@ export default function Adverts() {
         <main>
           <SearchBar prevSearch={search} />
           <Input options={ ["Sarreguemines", "Remelfing", "Hambach", "Zetting"] } />
+
           <div className={Styling.resultsMeta} style={{ display: search != null & search != '' ? '' : 'none !important' }}>
             <p>Showing results for "{search}"</p>
             <p>{count} result(s)</p>
           </div>
+
+          <div className={Styling.spoiler}>
+            <input type="checkbox" id="spoiler_" className={Styling.spoilerInput} />
+            <label for="spoiler_">show suggestions</label>
+            <div className={Styling.spoilerContent}>Some text</div>
+          </div>
+
           <div className={Styling.results}>
-            {/* <div className={Styling.searchOptions} style={{ display: count < 10 ? 'none' : '' }}>
-              <p>Place</p>
-              <p>Rate</p>
-              <p>Period</p>
-            </div> */}
             {[...Array(count)].map((_) => (
               <AdvertCard key={uuidv4()} />
             ))}

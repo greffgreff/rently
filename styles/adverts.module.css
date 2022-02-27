@@ -7,11 +7,6 @@
   margin: 20px 0;
 }
 
-.searchOptions {
-  border-radius: var(--roundness);
-  background-color: white;
-}
-
 .advert > div {
   margin-bottom: 50px;
 }
@@ -25,4 +20,37 @@
 .resultsMeta > p {
   width: fit-content;
   margin: 20px 0 0 0;
+}
+
+.spoiler {
+  width: 100%;
+  margin: 20px 0;
+  transition: 0.2s;
+}
+
+.spoilerInput {
+  display: none;
+}
+
+.spoilerInput + label {
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+}
+
+.spoilerInput:checked + label {
+  color: var(--primary);
+}
+
+.spoilerContent {
+  margin: 0;
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.spoilerInput:checked ~ .spoilerContent {
+  margin: 20px 0;
+  height: 100px;
 }
