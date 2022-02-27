@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import Styling from '../styles/adverts.module.css';
+import Head from 'next/head';
 import AdvertCard from '../components/advertCard.js';
 import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
@@ -7,14 +7,13 @@ import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import Input from '../components/input';
 import Link from 'next/link';
+import Spoiler from '../components/spoiler';
 
 export default function Adverts() {
   const router = useRouter();
   const { search } = router.query;
   const { results } = router.query;
   const count = isNaN(parseInt(results)) ? 10 : parseInt(results);
-
-  const suggestions = ['rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt'];
 
   return (
     <>
@@ -29,38 +28,20 @@ export default function Adverts() {
         <main>
           <SearchBar prevSearch={search} />
           <Input options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
+          <Spoiler />
 
-          <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
-            <p>Showing results for "{search}"</p>
-            <p>{count} result(s)</p>
-          </div>
+          <div className={Styling.resultsContainer}>
+            <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
+              <div>Showing results for "{search}"</div>
+              <div>{count} result(s)</div>
+            </div>
 
-          <div className={Styling.spoiler}>
-            <input type="checkbox" id="spoiler_" className={Styling.spoilerInput} />
-            <label for="spoiler_">
-              <i className={`fas fa-angle-right ${Styling.arrow}`} />
-            </label>
-
-            <div className={Styling.spoilerContent}>
-              {suggestions.map((s) => (
-                <div className={Styling.suggestionLink}>
-                  <Link href={`/adverts?search=${s}`}>{s}</Link>
-                </div>
+            <div className={Styling.results}>
+              {[...Array(count)].map((_) => (
+                <AdvertCard key={uuidv4()} />
               ))}
             </div>
           </div>
-
-          <div className={Styling.results}>
-            {[...Array(count)].map((_) => (
-              <AdvertCard key={uuidv4()} />
-            ))}
-          </div>
-
-          {suggestions.map((s) => (
-            <div className={Styling.suggestionLink}>
-              <Link href={`/adverts?search=${search}`}>{s}</Link>
-            </div>
-          ))}
         </main>
       </div>
     </>

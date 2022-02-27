@@ -2,7 +2,7 @@ import Styling from '../styles/navigationBar.module.css';
 import Button from './button';
 import ButtonLink from './buttonLink';
 import ButtonSecondary from './buttonSecondary';
-import Logo from './logoAlt';
+import Logo from './logo';
 
 export default function NavigationBar() {
   return (
