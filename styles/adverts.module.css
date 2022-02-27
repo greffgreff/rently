@@ -4,6 +4,7 @@
   --gap-width: 1em;
   gap: var(--gap-width);
   justify-content: space-between;
+  margin: 20px 0;
 }
 
 .searchOptions {
@@ -23,4 +24,5 @@
 
 .resultsMeta > p {
   width: fit-content;
+  margin: 20px 0 0 0;
 }
