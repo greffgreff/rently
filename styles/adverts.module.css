@@ -24,21 +24,3 @@
 .resultsMeta > p {
   width: fit-content;
 }
-
-/* @media screen and (max-width: 1300px) {
-  .results {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .results {
-    grid-template-columns: 1fr 1fr 1fr !important;
-  }
-}
-
-@media screen and (max-width: 1550px) {
-  .results {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-} */
