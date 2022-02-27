@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import FeatureCard from '../components/featureCard';
 import Marquee from '../components/marquee';
+import Meta from '../components/meta';
 import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
 import Styling from '../styles/index.module.css';
@@ -15,10 +16,11 @@ export default function Index() {
       </Head>
 
       <div>
+        {/* <Meta /> */}
         <NavigationBar />
         <main>
           <Marquee rows={1} items={10} seconds={150} />
-          <SearchBar percentageWidth={60} />
+          <SearchBar />
           <Marquee rows={1} items={10} seconds={150} reversed={true} />
           {/* <h1>24/7 support to keep it running smoothly</h1> */}
           {/* <div className={Styling.features}>

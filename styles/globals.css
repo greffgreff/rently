@@ -1,7 +1,8 @@
 :root {
-  --content: 60%;
-  --primary: rgb(248, 104, 39);
-  --roundness: 5px;
+  --content: 50%;
+  --primary: rgb(255, 136, 0);
+  /* --alt-text: rgb(18, 0, 59); */
+  --roundness: 7px;
 }
 
 @media screen and (max-width: 1300px) {
@@ -13,9 +14,11 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: Ubuntu, Segoe UI, Roboto;
   /* needs to use shipped font */
+  font-family: Ubuntu, Segoe UI, Roboto;
   background-color: rgb(247, 247, 247);
+  /* background-color: #f3f3f3; */
+  color: var(--alt-text);
 }
 
 e {

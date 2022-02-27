@@ -21,25 +21,15 @@
   gap: inherit;
 }
 
-/* .marqueeContainer {
-    border-radius: 4px;
-    overflow: hidden;
-  } */
-
 .marquee {
   animation: marquee linear infinite;
   animation-play-state: running;
-  /* animation-duration: 10s; */
 }
 
-/* .suggestions:hover .marquee,
-  .search:hover .marquee {
+.suggestions:hover .marquee,
+.search:hover .marquee {
     animation-play-state: paused;
-  } */
-
-/* .suggestions:hover + .search {
-    opacity: 0.5;
-  } */
+}
 
 @keyframes marquee {
   0% {

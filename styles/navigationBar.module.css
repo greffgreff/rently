@@ -1,11 +1,12 @@
 .container {
-  width: 100%;
+  width: var(--content);
   height: 55px;
-  box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%);
+  margin: 30px auto 20px auto;
+  /* box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%); */
 }
 
 .content {
-  width: var(--content);
+  width: 100%;
   height: inherit;
   margin: auto;
   display: grid;
@@ -25,18 +26,4 @@
   grid-auto-flow: column;
   column-gap: 1em;
   margin: auto;
-}
-
-.navBtn {
-  background-color: var(--primary);
-  color: white;
-  height: 35px;
-  font-size: 15px;
-}
-
-.searchBtn {
-  background-color: unset;
-  color: black;
-  font-weight: 400;
-  font-size: 18px;
 }

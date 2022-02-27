@@ -1,0 +1,10 @@
+.container {
+    /* width: var(--content); */
+    display: flex;
+    gap: 5em;
+    margin: 20px;
+    /* margin: 20px auto; */
+    color: rgb(200, 200, 200);
+    font-weight: 500;
+    font-size: 15px;
+}

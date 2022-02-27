@@ -1,19 +1,14 @@
 .results {
   display: grid;
+  grid-auto-flow: row;
   --gap-width: 1em;
   gap: var(--gap-width);
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: space-between;
-  grid-auto-flow: dense;
 }
 
 .searchOptions {
-  border-radius: 7px;
-  grid-row: 1 / span 2;
-  grid-column: 1 / 2;
-  border: solid 1px rgb(231, 231, 231);
-  background-color: rgb(231, 231, 231);
-  height: calc(1.5fr * 2 + var(--gap-width));
+  border-radius: var(--roundness);
+  background-color: white;
 }
 
 .advert > div {
@@ -30,7 +25,7 @@
   width: fit-content;
 }
 
-@media screen and (max-width: 1300px) {
+/* @media screen and (max-width: 1300px) {
   .results {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
@@ -46,4 +41,4 @@
   .results {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
-}
+} */
