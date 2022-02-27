@@ -7,10 +7,6 @@
   margin: 20px 0;
 }
 
-.advert > div {
-  margin-bottom: 50px;
-}
-
 .resultsMeta {
   display: grid;
   grid-auto-flow: column;
@@ -28,29 +24,54 @@
   transition: 0.2s;
 }
 
-.spoilerInput {
-  display: none;
-}
-
-.spoilerInput + label {
-  text-align: center;
-  text-decoration: underline;
-  cursor: pointer;
-  user-select: none;
-}
-
-.spoilerInput:checked + label {
-  color: var(--primary);
+.suggestionLink {
+  padding-left: 10px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .spoilerContent {
+  display: flex;
   margin: 0;
   height: 0;
   overflow: hidden;
   transition: 0.2s;
 }
 
+.spoilerInput {
+  display: none;
+}
+
+.arrow {
+  transition: 0.2s;
+  margin-right: 10px;
+}
+
+.spoilerInput + label::after {
+  content: "Show suggestions";
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.spoilerInput + label:hover {
+  text-decoration: underline;
+}
+
+.spoilerInput:checked + label {
+  color: var(--primary);
+}
+
+.spoilerInput:checked + label::after {
+  content: "Hide suggestions";
+}
+
 .spoilerInput:checked ~ .spoilerContent {
-  margin: 20px 0;
-  height: 100px;
+  margin: 20px 0 50px 0;
+  height: auto;
+}
+
+.spoilerInput:checked + label .arrow {
+  transform: rotate(90deg) !important;
 }

@@ -6,12 +6,15 @@ import SearchBar from '../components/searchBar';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 import Input from '../components/input';
+import Link from 'next/link';
 
 export default function Adverts() {
   const router = useRouter();
   const { search } = router.query;
   const { results } = router.query;
   const count = isNaN(parseInt(results)) ? 10 : parseInt(results);
+
+  const suggestions = ['rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt'];
 
   return (
     <>
@@ -25,17 +28,26 @@ export default function Adverts() {
         <NavigationBar />
         <main>
           <SearchBar prevSearch={search} />
-          <Input options={ ["Sarreguemines", "Remelfing", "Hambach", "Zetting"] } />
+          <Input options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
 
-          <div className={Styling.resultsMeta} style={{ display: search != null & search != '' ? '' : 'none !important' }}>
+          <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
             <p>Showing results for "{search}"</p>
             <p>{count} result(s)</p>
           </div>
 
           <div className={Styling.spoiler}>
             <input type="checkbox" id="spoiler_" className={Styling.spoilerInput} />
-            <label for="spoiler_">show suggestions</label>
-            <div className={Styling.spoilerContent}>Some text</div>
+            <label for="spoiler_">
+              <i className={`fas fa-angle-right ${Styling.arrow}`} />
+            </label>
+
+            <div className={Styling.spoilerContent}>
+              {suggestions.map((s) => (
+                <div className={Styling.suggestionLink}>
+                  <Link href={`/adverts?search=${s}`}>{s}</Link>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className={Styling.results}>
@@ -43,6 +55,12 @@ export default function Adverts() {
               <AdvertCard key={uuidv4()} />
             ))}
           </div>
+
+          {suggestions.map((s) => (
+            <div className={Styling.suggestionLink}>
+              <Link href={`/adverts?search=${search}`}>{s}</Link>
+            </div>
+          ))}
         </main>
       </div>
     </>
