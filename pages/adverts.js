@@ -5,6 +5,7 @@ import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
+import Input from '../components/input';
 
 export default function Adverts() {
   const router = useRouter();
@@ -24,16 +25,17 @@ export default function Adverts() {
         <NavigationBar />
         <main>
           <SearchBar prevSearch={search} />
+          <Input options={ ["Sarreguemines", "Remelfing", "Hambach", "Zetting"] } />
           <div className={Styling.resultsMeta} style={{ display: search != null & search != '' ? '' : 'none !important' }}>
             <p>Showing results for "{search}"</p>
             <p>{count} result(s)</p>
           </div>
           <div className={Styling.results}>
-            <div className={Styling.searchOptions} style={{ display: count < 10 ? 'none' : '' }}>
+            {/* <div className={Styling.searchOptions} style={{ display: count < 10 ? 'none' : '' }}>
               <p>Place</p>
               <p>Rate</p>
               <p>Period</p>
-            </div>
+            </div> */}
             {[...Array(count)].map((_) => (
               <AdvertCard key={uuidv4()} />
             ))}
