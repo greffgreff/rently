@@ -1,6 +1,7 @@
 :root {
   --content: 50%;
   --primary: rgb(0, 143, 71);
+  --secondary: rgb(235, 235, 235);
   /* --primary: rgb(255, 136, 0); */
   /* --primary: rgb(0, 128, 202); */
   /* --primary: rgb(0, 202, 61); */
