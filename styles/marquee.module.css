@@ -28,7 +28,7 @@
 
 .suggestions:hover .marquee,
 .search:hover .marquee {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 @keyframes marquee {

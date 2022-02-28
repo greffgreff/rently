@@ -6,6 +6,14 @@ import Input from '../components/input';
 import Button from '../components/button';
 
 export default function Login() {
+  const showRegisterForm = (_) => {
+    document.getElementById('registerForm').style.display = '';
+  };
+
+  const hideRegisterForm = (_) => {
+    document.getElementById('registerForm').style.display = 'none';
+  };
+
   return (
     <>
       <Head>
@@ -14,43 +22,74 @@ export default function Login() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <main>
+      <main onLoad={hideRegisterForm}>
         <Meta />
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <h1>Login</h1>
+        <div className={Styling.loginContainer}>
+          <div className={Styling.container}>
+            <div className={Styling.innerContainer}>
+              <h1>Login</h1>
 
-            <div className={Styling.login}>
-              <div className={Styling.inputs}>
-                <p>Username</p>
-                <Input placeholder={'Username'} />
-                <p>Password</p>
-                <Input placeholder={'Password'} />
-              </div>
-
-              <div className={Styling.btn}>
-                <Button text={'Sign in'} width={'100%'} />
-              </div>
-
-              <p className={Styling.help}>Forgot username or password?</p>
-            </div>
-
-            <div className={Styling.options}>
-              <Link href={'/'}>
-                <div className={Styling.back}>
-                  <i className={`fas fa-angle-left ${Styling.arrow}`} />
-                  Back
+              <div className={Styling.inputContainer}>
+                <div className={Styling.inputs}>
+                  <p>Username</p>
+                  <input className={Styling.input} placeholder="Username" />
+                  <p>Password</p>
+                  <input className={Styling.input} placeholder="Password" />
                 </div>
-              </Link>
 
-              <div className={Styling.back}>
-                Register
-                <i className={`fas fa-angle-right ${Styling.arrow}`} />
+                <div className={Styling.btn}>
+                  <Button text={'Sign in'} width={'100%'} />
+                </div>
+
+                <p className={Styling.help}>Forgot username or password?</p>
+              </div>
+
+              <div className={Styling.options}>
+                <Link href={'/'}>
+                  <div className={Styling.back}>
+                    <i className={`fas fa-angle-left ${Styling.arrowLeft}`} />
+                    Back
+                  </div>
+                </Link>
+
+                <div className={Styling.back} onClick={showRegisterForm}>
+                  Register
+                  <i className={`fas fa-angle-right ${Styling.arrowRight}`} />
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div id="registerForm" className={`${Styling.container} ${Styling.registerContainer}`}>
+          <div className={Styling.innerContainer}>
+            <h1>Register</h1>
+
+            <div className={Styling.inputContainer}>
+              <div className={Styling.inputs}>
+                <p>Email</p>
+                <input className={Styling.input} placeholder="Email" />
+                <p>Username</p>
+                <input className={Styling.input} placeholder="Username" />
+                <p>Password</p>
+                <input className={Styling.input} placeholder="Password" />
+                <p>Repeat password</p>
+                <input className={Styling.input} placeholder="Repeat password" />
+              </div>
+
+              <div className={Styling.btn}>
+                <Button text={'Register!'} width={'100%'} />
+              </div>
+            </div>
+
+            <div className={Styling.back} onClick={hideRegisterForm}>
+              <i className={`fas fa-angle-left ${Styling.arrowLeft}`} />
+              Login
+            </div>
+          </div>
+        </div>
+
         <img className={Styling.image1} src="login-icon.svg" />
         <img className={Styling.image2} src="login-icon.svg" />
       </main>

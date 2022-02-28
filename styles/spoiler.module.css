@@ -1,4 +1,3 @@
-
 .spoiler {
   width: 100%;
   margin: 20px 0;
@@ -28,7 +27,7 @@
 }
 
 .spoilerInput + label::after {
-  content: "Show suggestions";
+  content: 'Show suggestions';
   font-size: 15px;
   text-align: center;
   cursor: pointer;
@@ -44,7 +43,7 @@
 }
 
 .spoilerInput:checked + label::after {
-  content: "Hide suggestions";
+  content: 'Hide suggestions';
 }
 
 .spoilerInput:checked ~ .spoilerContent {
@@ -53,5 +52,5 @@
 }
 
 .spoilerInput:checked + label .arrow {
-  transform: rotate(90deg) !important;
+  transform: rotate(90deg);
 }

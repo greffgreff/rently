@@ -1,20 +1,19 @@
 .container {
-    /* width: var(--content); */
-    margin: 20px auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 5em;
-    color: rgb(179, 179, 179);
-    font-weight: 500;
-    font-size: 15px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 5em;
+  color: rgb(179, 179, 179);
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .left {
-    display: flex;
-    gap: 5em;
+  display: flex;
+  gap: 5em;
 }
 
 .locale i {
-    margin-right: 10px;
-    font-size: 11px;
+  margin-right: 10px;
+  font-size: 11px;
 }

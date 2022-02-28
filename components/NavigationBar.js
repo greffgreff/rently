@@ -14,7 +14,7 @@ export default function NavigationBar() {
           <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/adverts'} />
         </div>
         <div className={Styling.navItemsContainer}>
-          <ButtonSecondary text={'Login'} route={'/login'}/>
+          <ButtonSecondary text={'Login'} route={'/login'} />
         </div>
       </div>
     </div>

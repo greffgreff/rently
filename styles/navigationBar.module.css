@@ -1,8 +1,6 @@
 .container {
-  /* width: var(--content); */
   height: 55px;
   margin: 30px auto 20px auto;
-  /* box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%); */
 }
 
 .content {
