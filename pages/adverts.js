@@ -28,7 +28,7 @@ export default function Adverts() {
         <main>
           <SearchBar prevSearch={search} />
           <Input options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-          <Spoiler />
+          <Spoiler text={search} />
 
           <div className={Styling.resultsContainer}>
             <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
