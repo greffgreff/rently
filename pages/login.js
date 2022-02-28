@@ -51,6 +51,8 @@ export default function Login() {
             </div>
           </div>
         </div>
+        <img className={Styling.image1} src="login-icon.svg" />
+        <img className={Styling.image2} src="login-icon.svg" />
       </main>
     </>
   );
