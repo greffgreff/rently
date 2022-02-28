@@ -1,0 +1,42 @@
+.container {
+  width: 370px;
+  height: auto;
+  background-color: white;
+  margin: 100px auto;
+  border-radius: var(--roundness);
+  animation: slide 0.3s ease-out forwards;
+}
+
+.innerContainer {
+  padding: 30px 50px;
+}
+
+.arrow {
+  margin-right: 10px;
+}
+
+.back:hover,
+.help:hover {
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.inputs {
+  margin: 50px 0;
+}
+
+.help {
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

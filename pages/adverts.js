@@ -5,9 +5,9 @@ import NavigationBar from '../components/navigationBar';
 import SearchBar from '../components/searchBar';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
-import Input from '../components/input';
-import Link from 'next/link';
+import Select from '../components/select';
 import Spoiler from '../components/spoiler';
+import Meta from '../components/meta';
 
 export default function Adverts() {
   const router = useRouter();
@@ -24,10 +24,12 @@ export default function Adverts() {
       </Head>
 
       <div>
+        <Meta />
         <NavigationBar />
+        
         <main>
           <SearchBar prevSearch={search} />
-          <Input options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
+          <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
           <Spoiler text={search} />
 
           <div className={Styling.resultsContainer}>

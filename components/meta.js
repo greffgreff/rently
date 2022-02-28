@@ -12,7 +12,7 @@ export default function Meta() {
         <div className={Styling.locale}><i class="fa fa-location-arrow" />Sarreguemines</div>
         <div>{date}</div>
       </div>
-      <div><b>EN</b></div>
+      <div className={Styling.locale}><i class="fa fa-globe"/><b>EN</b></div>
     </div>
   )
 }
