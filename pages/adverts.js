@@ -23,29 +23,26 @@ export default function Adverts() {
         <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
       </Head>
 
-      <div>
+      <main>
         <Meta />
         <NavigationBar />
-        
-        <main>
-          <SearchBar prevSearch={search} />
-          <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-          <Spoiler text={search} />
+        <SearchBar prevSearch={search} />
+        <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
+        <Spoiler text={search} />
 
-          <div className={Styling.resultsContainer}>
-            <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
-              <div>Showing results for "{search}"</div>
-              <div>{count} result(s)</div>
-            </div>
-
-            <div className={Styling.results}>
-              {[...Array(count)].map((_) => (
-                <AdvertCard key={uuidv4()} />
-              ))}
-            </div>
+        <div className={Styling.resultsContainer}>
+          <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
+            <div>Showing results for "{search}"</div>
+            <div>{count} result(s)</div>
           </div>
-        </main>
-      </div>
+
+          <div className={Styling.results}>
+            {[...Array(count)].map((_) => (
+              <AdvertCard key={uuidv4()} />
+            ))}
+          </div>
+        </div>
+      </main>
     </>
   );
 }
