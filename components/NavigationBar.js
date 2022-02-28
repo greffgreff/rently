@@ -5,7 +5,7 @@ import ButtonSecondary from './buttonSecondary';
 import Logo from './logo';
 
 export default function NavigationBar() {
-  const authed = false;
+  const authed = true;
   return (
     <div className={Styling.container}>
       <div className={Styling.content}>
@@ -18,8 +18,8 @@ export default function NavigationBar() {
           {authed ? (
             <>
               <ButtonLink text={'messages'} />
-              <ButtonLink text={'notification'} />
-              <Button text={'Account'} icon={'fa fa-user'} />
+              <ButtonLink text={'notifications'} />
+              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
             </>
           ) : (
             <ButtonSecondary text={'Login'} route={'/login'} />

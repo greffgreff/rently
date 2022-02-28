@@ -1,0 +1,63 @@
+.container {
+  width: 100%;
+  min-height: 500px;
+  display: grid;
+  grid-template-columns: auto 10fr;
+}
+
+.tabs {
+  width: 200px;
+}
+
+.tab {
+  padding: 15px;
+  margin: 0 13px 13px 0;
+  border-radius: var(--roundness);
+  transition: 0.2s;
+}
+
+.mainTab {
+  background-color: white;
+  font-weight: bold;
+}
+
+.tab:not(.mainTab) {
+  background-color: var(--secondary);
+}
+
+.tab:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
+.settingsContainer {
+  background-color: white;
+  border-radius: var(--roundness);
+  padding: 25px 40px;
+}
+
+.settingsInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5em;
+}
+
+.header {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+}
+
+.input {
+  min-height: 37px;
+  --padding: 20px;
+  width: calc(100% - var(--padding));
+  font-family: Ubuntu, Segoe UI, Roboto;
+  border-radius: var(--roundness);
+  border: none;
+  transition: 0.2s;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: var(--secondary);
+  padding-left: var(--padding);
+}
