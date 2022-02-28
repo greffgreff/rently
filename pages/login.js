@@ -33,9 +33,9 @@ export default function Login() {
               <div className={Styling.inputContainer}>
                 <div className={Styling.inputs}>
                   <p>Username</p>
-                  <input className={Styling.input} placeholder="Username" />
+                  <input className={Styling.input} id="loginUsername" placeholder="Username" />
                   <p>Password</p>
-                  <input className={Styling.input} placeholder="Password" />
+                  <input className={Styling.input} id="loginPassword" placeholder="Password" />
                 </div>
 
                 <div className={Styling.btn}>
@@ -69,13 +69,13 @@ export default function Login() {
             <div className={Styling.inputContainer}>
               <div className={Styling.inputs}>
                 <p>Email</p>
-                <input className={Styling.input} placeholder="Email" />
+                <input className={Styling.input} id="registerEmail" placeholder="Email" />
                 <p>Username</p>
-                <input className={Styling.input} placeholder="Username" />
+                <input className={Styling.input} id="registerUsername" placeholder="Username" />
                 <p>Password</p>
-                <input className={Styling.input} placeholder="Password" />
+                <input className={Styling.input} id="registerPassword" placeholder="Password" />
                 <p>Repeat password</p>
-                <input className={Styling.input} placeholder="Repeat password" />
+                <input className={Styling.input} id="registerRepeat" placeholder="Repeat password" />
               </div>
 
               <div className={Styling.btn}>
