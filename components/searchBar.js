@@ -1,7 +1,7 @@
 import Styling from '../styles/searchBar.module.css';
 import { useRouter } from 'next/router';
 
-export default function SearchBar({ prevSearch, pixelWidth, percentageWidth }) {
+export default function SearchBar({ prevSearch, width }) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -10,7 +10,7 @@ export default function SearchBar({ prevSearch, pixelWidth, percentageWidth }) {
   };
 
   return (
-    <div className={Styling.searchBar} style={{ width: percentageWidth == null ? `${pixelWidth}px` : pixelWidth == null ? `${percentageWidth}%` : 'auto' }}>
+    <div className={Styling.searchBar} style={{ width: width ?? 'auto'}}>
       <div className={Styling.searchBtn} onClick={handleClick}>
         <div className={Styling.btnText}>Search</div>
       </div>

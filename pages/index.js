@@ -16,8 +16,9 @@ export default function Index() {
       </Head>
 
       <div>
-        {/* <Meta /> */}
+        <Meta />
         <NavigationBar />
+        
         <main>
           <Marquee rows={1} items={10} seconds={150} />
           <SearchBar />
