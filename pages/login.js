@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Meta from '../components/meta';
 import Link from 'next/link';
 import Input from '../components/input';
-import Button from '../components/button'
+import Button from '../components/button';
 
 export default function Login() {
   return (
@@ -21,24 +21,34 @@ export default function Login() {
           <div className={Styling.innerContainer}>
             <h1>Login</h1>
 
-            <div className={Styling.inputs}>
-              <p>Username</p>
-              <Input placeholder={'Username'} />
+            <div className={Styling.login}>
+              <div className={Styling.inputs}>
+                <p>Username</p>
+                <Input placeholder={'Username'} />
+                <p>Password</p>
+                <Input placeholder={'Password'} />
+              </div>
 
-              <p>Password</p>
-              <Input placeholder={'Password'} />
+              <div className={Styling.btn}>
+                <Button text={'Sign in'} width={'100%'} />
+              </div>
 
               <p className={Styling.help}>Forgot username or password?</p>
-
-              <Button icon={'fa fa-plus'} text={'Lease something'} route={'/lease'} width={'100%'} />
             </div>
 
-            <Link href={'/'}>
+            <div className={Styling.options}>
+              <Link href={'/'}>
+                <div className={Styling.back}>
+                  <i className={`fas fa-angle-left ${Styling.arrow}`} />
+                  Back
+                </div>
+              </Link>
+
               <div className={Styling.back}>
-                <i className={`fas fa-angle-left ${Styling.arrow}`} />
-                Back
+                Register
+                <i className={`fas fa-angle-right ${Styling.arrow}`} />
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
