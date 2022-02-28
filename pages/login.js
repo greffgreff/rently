@@ -14,7 +14,7 @@ export default function Login() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div>
+      <main>
         <Meta />
 
         <div className={Styling.container}>
@@ -51,7 +51,7 @@ export default function Login() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

@@ -15,23 +15,20 @@ export default function Index() {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div>
+      <main>
         <Meta />
         <NavigationBar />
-        
-        <main>
-          <Marquee rows={1} items={10} seconds={150} />
-          <SearchBar />
-          <Marquee rows={1} items={10} seconds={150} reversed={true} />
-          {/* <h1>24/7 support to keep it running smoothly</h1> */}
-          {/* <div className={Styling.features}>
-            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
-            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
-            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
-            <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
-          </div> */}
-        </main>
-      </div>
+        <Marquee rows={1} items={10} seconds={150} />
+        <SearchBar />
+        <Marquee rows={1} items={10} seconds={150} reversed={true} />
+        {/* <h1>24/7 support to keep it running smoothly</h1> */}
+        {/* <div className={Styling.features}>
+          <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+          <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+          <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+          <FeatureCard title={'Some title'} desc={'A somewhat short descrpition of the service'} />
+        </div> */}
+      </main>
     </>
   );
 }
