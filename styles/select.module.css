@@ -1,6 +1,5 @@
 .input {
   min-height: 37px;
-  min-width: 230px;
   font-family: Ubuntu, Segoe UI, Roboto;
   border-radius: var(--roundness);
   border: none;
@@ -10,5 +9,6 @@
   transition: 0.2s;
   font-size: 15px;
   font-weight: 500;
-  background-color: var(--secondary);
+  border: solid 1px var(--primary);
+  color: var(--primary);
 }

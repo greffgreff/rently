@@ -1,12 +1,7 @@
-import Styling from '../styles/input.module.css';
-import { v4 as uuid } from 'uuid';
+import Styling from '../styles/input.module.css'
 
-export default function Input({ options }) {
+export default function Input({ placeholder }) {
   return (
-    <select className={`${Styling.input} ${Styling.primary}`}>
-      {options.map((t) => {
-        return <option key={uuid()}>{t}</option>;
-      })}
-    </select>
-  );
+    <input className={Styling.input} placeholder={placeholder} />
+  )
 }
