@@ -20,10 +20,10 @@ export default function Account() {
         <div className={Styling.container}>
           <div className={Styling.tabs}>
             <div className={`${Styling.tab} ${Styling.mainTab}`}>My profile</div>
+            <div className={Styling.tab}>Rentals</div>
+            <div className={Styling.tab}>Adverts</div>
             <div className={Styling.tab}>Messages</div>
             <div className={Styling.tab}>Notifications</div>
-            <div className={Styling.tab}>Adverts</div>
-            <div className={Styling.tab}>Rentals</div>
           </div>
           <div className={Styling.settingsContainer}>
             <div className={Styling.header}>
