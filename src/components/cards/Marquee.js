@@ -1,5 +1,5 @@
-import SuggestionCard from './SuggestionCard';
-import Styling from '../styles/marquee.module.css';
+import Styling from './styles/marquee.module.css';
+import { SuggestionCard } from '../index';
 
 export default function Marquee({ rows, items, seconds, reversed }) {
   return (

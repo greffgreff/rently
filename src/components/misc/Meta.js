@@ -1,4 +1,4 @@
-import Styling from '../styles/meta.module.css';
+import Styling from './styles/meta.module.css';
 import React from 'react';
 
 export default function Meta() {

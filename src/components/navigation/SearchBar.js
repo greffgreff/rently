@@ -1,4 +1,4 @@
-import Styling from '../styles/searchBar.module.css';
+import Styling from './styles/searchBar.module.css';
 import { useRouter } from 'next/router';
 
 export default function SearchBar({ prevSearch, width }) {

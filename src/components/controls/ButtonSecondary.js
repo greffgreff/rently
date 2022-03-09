@@ -1,5 +1,5 @@
+import Styling from './styles/button.module.css';
 import Link from 'next/link';
-import Styling from '../styles/button.module.css';
 
 export default function ButtonSecondary({ icon, text, route, width }) {
   return (

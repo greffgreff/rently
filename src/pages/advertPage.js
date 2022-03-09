@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import NavigationBar from '../components/navigationBar';
+import { NavigationBar } from '../components';
 
 export default function AdvertPage({ advert }) {
   return (

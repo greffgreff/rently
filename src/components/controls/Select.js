@@ -1,4 +1,4 @@
-import Styling from '../styles/select.module.css';
+import Styling from './styles/select.module.css';
 import { v4 as uuid } from 'uuid';
 
 export default function Select({ options }) {

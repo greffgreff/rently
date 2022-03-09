@@ -1,6 +1,6 @@
+import Styling from './styles/advertCard.module.css';
 import Link from 'next/link';
-import Styling from '../styles/advertCard.module.css';
-import HoverStyle from '../styles/hoverable.module.css';
+import HoverStyle from '../../styles/hoverable.module.css';
 
 export default function AdvertCard() {
   return (
