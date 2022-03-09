@@ -1,5 +1,5 @@
-import Styling from './styles/button.module.css';
-import Link from 'next/link';
+import Styling from './styles/button.module.css'
+import Link from 'next/link'
 
 export default function Button({ icon, text, route, width }) {
   return (
@@ -9,5 +9,5 @@ export default function Button({ icon, text, route, width }) {
         {text}
       </button>
     </Link>
-  );
+  )
 }

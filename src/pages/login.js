@@ -1,16 +1,16 @@
-import Styling from '../styles/login.module.css';
-import Head from 'next/head';
-import Link from 'next/link';
+import Styling from '../styles/login.module.css'
+import Head from 'next/head'
+import Link from 'next/link'
 import { Meta, Input, Button } from '../components'
 
 export default function Login() {
   const showRegisterForm = (_) => {
-    document.getElementById('registerForm').style.display = '';
-  };
+    document.getElementById('registerForm').style.display = ''
+  }
 
   const hideRegisterForm = (_) => {
-    document.getElementById('registerForm').style.display = 'none';
-  };
+    document.getElementById('registerForm').style.display = 'none'
+  }
 
   return (
     <>
@@ -92,5 +92,5 @@ export default function Login() {
         <img className={Styling.image2} src="login-icon.svg" />
       </main>
     </>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import Styling from './styles/advertCard.module.css';
-import Link from 'next/link';
-import HoverStyle from '../../styles/hoverable.module.css';
+import Styling from './styles/advertCard.module.css'
+import Link from 'next/link'
+import HoverStyle from '../../styles/hoverable.module.css'
 
 export default function AdvertCard() {
   return (
@@ -17,5 +17,5 @@ export default function AdvertCard() {
         </div>
       </div>
     </Link>
-  );
+  )
 }

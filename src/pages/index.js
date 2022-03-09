@@ -1,6 +1,6 @@
-import Styling from '../styles/index.module.css';
-import Head from 'next/head';
-import { FeatureCard, Marquee, Meta, NavigationBar, SearchBar } from '../components';
+import Styling from '../styles/index.module.css'
+import Head from 'next/head'
+import { FeatureCard, Marquee, Meta, NavigationBar, SearchBar } from '../components'
 
 export default function Index() {
   return (
@@ -26,5 +26,5 @@ export default function Index() {
         </div> */}
       </main>
     </>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import Styling from './styles/featureCard.module.css';
+import Styling from './styles/featureCard.module.css'
 
 export default function FeatureCard({ title, desc }) {
   return (
@@ -8,5 +8,5 @@ export default function FeatureCard({ title, desc }) {
         <h3 className={Styling.desc}>{desc}</h3>
       </div>
     </div>
-  );
+  )
 }

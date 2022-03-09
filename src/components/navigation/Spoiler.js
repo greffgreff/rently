@@ -1,8 +1,8 @@
-import Styling from './styles/spoiler.module.css';
-import Link from 'next/link';
+import Styling from './styles/spoiler.module.css'
+import Link from 'next/link'
 
 export default function Spoiler({ text }) {
-  const suggestions = [text ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt'];
+  const suggestions = [text ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
 
   return (
     <div className={Styling.spoiler}>
@@ -19,5 +19,5 @@ export default function Spoiler({ text }) {
         ))}
       </div>
     </div>
-  );
+  )
 }

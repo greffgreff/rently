@@ -1,5 +1,5 @@
-import Styling from '../styles/account.module.css';
-import Head from 'next/head';
+import Styling from '../styles/account.module.css'
+import Head from 'next/head'
 import { Meta, NavigationBar, Button } from '../components'
 
 export default function Account() {
@@ -51,5 +51,5 @@ export default function Account() {
         </div>
       </main>
     </>
-  );
+  )
 }

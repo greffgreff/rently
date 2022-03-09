@@ -1,5 +1,5 @@
 // import Styling from '../styles/lease.module.css';
-import Head from 'next/head';
+import Head from 'next/head'
 
 export default function Lease() {
   return (
@@ -12,5 +12,5 @@ export default function Lease() {
 
       <main>Lease</main>
     </>
-  );
+  )
 }

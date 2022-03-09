@@ -1,14 +1,14 @@
-import Styling from '../styles/adverts.module.css';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { v4 as uuidv4 } from 'uuid';
-import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components';
+import Styling from '../styles/adverts.module.css'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { v4 as uuidv4 } from 'uuid'
+import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 
 export default function Adverts() {
-  const router = useRouter();
-  const { search } = router.query;
-  const { results } = router.query;
-  const count = isNaN(parseInt(results)) ? 10 : parseInt(results);
+  const router = useRouter()
+  const { search } = router.query
+  const { results } = router.query
+  const count = isNaN(parseInt(results)) ? 10 : parseInt(results)
 
   return (
     <>
@@ -39,5 +39,5 @@ export default function Adverts() {
         </div>
       </main>
     </>
-  );
+  )
 }

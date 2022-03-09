@@ -1,10 +1,10 @@
-import Styling from './styles/meta.module.css';
-import React from 'react';
+import Styling from './styles/meta.module.css'
+import React from 'react'
 
 export default function Meta() {
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const current = new Date();
-  const date = `${months[current.getMonth()]} ${current.getDate()}`;
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const current = new Date()
+  const date = `${months[current.getMonth()]} ${current.getDate()}`
 
   return (
     <div className={Styling.container}>
@@ -20,5 +20,5 @@ export default function Meta() {
         <b>EN</b>
       </div>
     </div>
-  );
+  )
 }

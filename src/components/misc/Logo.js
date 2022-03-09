@@ -1,5 +1,5 @@
-import Styling from './styles/logo.module.css';
-import Link from 'next/link';
+import Styling from './styles/logo.module.css'
+import Link from 'next/link'
 
 export default function Logo() {
   return (
@@ -8,5 +8,5 @@ export default function Logo() {
         <div className={Styling.text}>Rently.io</div>
       </div>
     </Link>
-  );
+  )
 }
