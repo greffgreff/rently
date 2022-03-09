@@ -1,8 +1,8 @@
 import Styling from '../styles/account.module.css';
-import Meta from '../components/meta';
-import NavigationBar from '../components/navigationBar';
+import Meta from '../components/Meta';
+import NavigationBar from '../components/NavigationBar';
 import Head from 'next/head';
-import Button from '../components/button';
+import Button from '../components/Button';
 
 export default function Account() {
   return (

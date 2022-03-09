@@ -1,10 +1,6 @@
-import Head from 'next/head';
-import FeatureCard from '../components/featureCard';
-import Marquee from '../components/marquee';
-import Meta from '../components/meta';
-import NavigationBar from '../components/navigationBar';
-import SearchBar from '../components/searchBar';
 import Styling from '../styles/index.module.css';
+import Head from 'next/head';
+import { FeatureCard, Marquee, Meta, NavigationBar, SearchBar } from '../components';
 
 export default function Index() {
   return (

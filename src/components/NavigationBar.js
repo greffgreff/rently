@@ -1,11 +1,11 @@
 import Styling from '../styles/navigationBar.module.css';
-import Button from './button';
-import ButtonLink from './buttonLink';
-import ButtonSecondary from './buttonSecondary';
-import Logo from './logo';
+import Button from './Button';
+import ButtonLink from './ButtonLink';
+import ButtonSecondary from './ButtonSecondary';
+import Logo from './Logo';
 
 export default function NavigationBar() {
-  const authed = true;
+  const authed = false;
   return (
     <div className={Styling.container}>
       <div className={Styling.content}>
@@ -22,7 +22,7 @@ export default function NavigationBar() {
               <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
             </>
           ) : (
-            <ButtonSecondary text={'Login'} route={'/login'} />
+            <ButtonSecondary text={'Login'} route={'/Login'} />
           )}
         </div>
       </div>

@@ -1,9 +1,7 @@
 import Styling from '../styles/login.module.css';
 import Head from 'next/head';
-import Meta from '../components/meta';
 import Link from 'next/link';
-import Input from '../components/input';
-import Button from '../components/button';
+import { Meta, Input, Button } from '../components'
 
 export default function Login() {
   const showRegisterForm = (_) => {

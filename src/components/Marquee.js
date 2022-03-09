@@ -1,4 +1,4 @@
-import SuggestionCard from '../components/suggestionCard';
+import SuggestionCard from './SuggestionCard';
 import Styling from '../styles/marquee.module.css';
 
 export default function Marquee({ rows, items, seconds, reversed }) {

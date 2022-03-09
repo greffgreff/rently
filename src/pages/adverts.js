@@ -1,13 +1,13 @@
 import Styling from '../styles/adverts.module.css';
 import Head from 'next/head';
-import AdvertCard from '../components/advertCard.js';
-import NavigationBar from '../components/navigationBar';
-import SearchBar from '../components/searchBar';
+import AdvertCard from '../components/AdvertCard.js';
+import NavigationBar from '../components/NavigationBar';
+import SearchBar from '../components/SearchBar';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
-import Select from '../components/select';
-import Spoiler from '../components/spoiler';
-import Meta from '../components/meta';
+import Select from '../components/Select';
+import Spoiler from '../components/Spoiler';
+import Meta from '../components/Meta';
 
 export default function Adverts() {
   const router = useRouter();
