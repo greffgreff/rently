@@ -1,8 +1,13 @@
 import Styling from './styles/spoiler.module.css'
 import Link from 'next/link'
 
-export default function Spoiler(text : string) {
-  const suggestions = [text ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
+export default function Spoiler({ search } : { search : string | string[] | undefined }) {
+  var suggestions;
+  if (!Array.isArray(search)) {
+    suggestions = [search ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
+  } else {
+    suggestions = search;
+  }
 
   return (
     <div className={Styling.spoiler}>

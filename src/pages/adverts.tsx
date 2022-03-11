@@ -8,6 +8,8 @@ export default function Adverts() {
   const router = useRouter()
   const { search } = router.query
 
+  const count = 10
+
   return (
     <>
       <Head>
@@ -21,10 +23,10 @@ export default function Adverts() {
         <NavigationBar />
         <SearchBar prevSearch={search} />
         <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-        <Spoiler text={search} />
-
+        {search ? <Spoiler search={search} /> : null}
+        
         <div className={Styling.resultsContainer}>
-          <div className={Styling.resultsMeta} style={{ display: (search != null) & (search != '') ? '' : 'none !important' }}>
+          <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
             <div>Showing results for "{search}"</div>
             <div>{count} result(s)</div>
           </div>
