@@ -1,7 +1,7 @@
 import Styling from './styles/searchBar.module.css'
 import { useRouter } from 'next/router'
 
-export default function SearchBar({ prevSearch, width } : { prevSearch : string , width? : string}) {
+export default function SearchBar({ prevSearch, width } : { prevSearch? : string , width? : string}) {
   const router = useRouter()
 
   const handleClick = () => {
