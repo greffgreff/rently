@@ -7,7 +7,7 @@
   grid-auto-flow: dense;
 
   border-radius: var(--roundness);
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .suggestions .marqueeContainer:nth-child(2n + 1) {

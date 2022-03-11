@@ -1,7 +1,7 @@
 import Styling from './styles/marquee.module.css'
 import { SuggestionCard } from '../index'
 
-export default function Marquee({ rows, items, seconds, reversed }) {
+export default function Marquee({ rows, items, seconds, reversed } : { rows : number, items : number, seconds : number, reversed?: boolean }) {
   return (
     <div className={Styling.suggestions}>
       {[...Array(rows)].map((_, index) => (
