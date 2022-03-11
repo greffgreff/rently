@@ -2,14 +2,19 @@ import Styling from '../styles/login.module.css'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Meta, Input, Button } from '../components'
+import { useEffect } from 'react'
 
 export default function Login() {
-  const showRegisterForm = (_) => {
-    document.getElementById('registerForm').style.display = ''
+  useEffect(() => {
+    hideRegisterForm()
+  }, [])
+
+  const hideRegisterForm = () => {
+    document.getElementById('registerForm')!.style.display = 'none'
   }
 
-  const hideRegisterForm = (_) => {
-    document.getElementById('registerForm').style.display = 'none'
+  const showRegisterForm = () => {
+    document.getElementById('registerForm')!.style.display = ''
   }
 
   return (
@@ -87,9 +92,6 @@ export default function Login() {
             </div>
           </div>
         </div>
-
-        <img className={Styling.image1} src="login-icon.svg" />
-        <img className={Styling.image2} src="login-icon.svg" />
       </main>
     </>
   )
