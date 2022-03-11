@@ -5,7 +5,7 @@ export default function ButtonSecondary({text, icon, route, width } : { text : s
   return (
     <Link href={route ?? '/'}>
       <button type="button" className={`${Styling.btn} ${Styling.secondary}`} style={{ width: width ?? 'auto' }}>
-        <i className={`${icon} ${Styling.icon}`} style={{ display: icon ? 'none' : '' }} />
+        <i className={`${icon} ${Styling.icon}`} style={{ display: !icon ? 'none' : '' }} />
         {text}
       </button>
     </Link>

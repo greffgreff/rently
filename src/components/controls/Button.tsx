@@ -5,7 +5,7 @@ export default function Button({text, icon, route, width } : { text : string, ic
   return (
     <Link href={route ?? '/'}>
       <button type="button" className={`${Styling.btn} ${Styling.primary}`} style={{ width: width ?? 'auto' }}>
-        <i className={`${icon} ${Styling.icon}`} style={{ display: icon ? 'none' : '' }} />
+        <i className={`${icon} ${Styling.icon}`} style={{ display: !icon ? 'none' : '' }} />
         {text}
       </button>
     </Link>
