@@ -1,13 +1,13 @@
 import Styling from './styles/spoiler.module.css'
 import Link from 'next/link'
 
-export default function Spoiler({ text }) {
+export default function Spoiler(text : string) {
   const suggestions = [text ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
 
   return (
     <div className={Styling.spoiler}>
       <input type="checkbox" id="spoiler_" className={Styling.spoilerInput} />
-      <label for="spoiler_">
+      <label htmlFor="spoiler_">
         <i className={`fas fa-angle-right ${Styling.arrow}`} />
       </label>
 

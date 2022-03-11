@@ -1,11 +1,11 @@
 import Styling from './styles/searchBar.module.css'
 import { useRouter } from 'next/router'
 
-export default function SearchBar({ prevSearch, width }) {
+export default function SearchBar({ prevSearch, width } : { prevSearch : string , width? : string}) {
   const router = useRouter()
 
   const handleClick = () => {
-    const search = document.getElementById('searchInput').value
+    const search = (document.getElementById('searchInput')! as HTMLInputElement).value
     router.push(`/adverts${search != '' ? `?search=${search}` : ''}`)
   }
 
@@ -14,7 +14,7 @@ export default function SearchBar({ prevSearch, width }) {
       <div className={Styling.searchBtn} onClick={handleClick}>
         <div className={Styling.btnText}>Search</div>
       </div>
-      <input id="searchInput" className={Styling.input} placeholder={(prevSearch != null) & (prevSearch != '') ? prevSearch : 'Search anything at any price...'} />
+      <input id="searchInput" className={Styling.input} placeholder={ prevSearch ? prevSearch : 'Search anything at any price...' } />
     </div>
   )
 }

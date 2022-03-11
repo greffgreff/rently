@@ -1,6 +1,6 @@
 import Styling from './styles/featureCard.module.css'
 
-export default function FeatureCard({ title, desc }) {
+export default function FeatureCard( title : string , desc : string ) {
   return (
     <div className={Styling.container}>
       <div className={Styling.innerContainer}>
