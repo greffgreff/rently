@@ -1,14 +1,18 @@
 import Styling from '../styles/adverts.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { v4 as uuidv4 } from 'uuid'
 import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
+import { useEffect, useState } from 'react'
+import { fetchAdverts } from '../api'
+import { Advert } from '../types'
 
 export default function Adverts() {
-  const router = useRouter()
-  const { search } = router.query
+  const { search } = useRouter().query
+  const [adverts, setAdverts] = useState<Advert[]>([])
 
-  const count = 10
+  useEffect(() => {
+    fetchAdverts().then(setAdverts)
+  }, [])
 
   return (
     <>
@@ -28,12 +32,12 @@ export default function Adverts() {
         <div className={Styling.resultsContainer}>
           {search ? <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
             <div>Showing results for "{search}"</div>
-            <div>{count} result(s)</div>
+            <div>{10} result(s)</div>
           </div> : null}
 
           <div className={Styling.results}>
-            {[...Array(count)].map((_) => (
-              <AdvertCard key={uuidv4()} />
+            {adverts.map(advert => (
+              <AdvertCard key={advert.id} advert={advert} />
             ))}
           </div>
         </div>

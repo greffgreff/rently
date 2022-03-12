@@ -1,8 +1,9 @@
 import Styling from './styles/advertCard.module.css'
 import Link from 'next/link'
 import HoverStyle from '../../styles/hoverable.module.css'
+import { Advert } from '../../types'
 
-export default function AdvertCard() {
+export default function AdvertCard({ advert } : { advert: Advert }) {
   return (
     <Link href="/">
       <div className={`${Styling.container} ${HoverStyle.container}`}>
@@ -11,8 +12,8 @@ export default function AdvertCard() {
         </div>
         <div className={Styling.meta}>
           <div className={Styling.innerMeta}>
-            <div className={Styling.price}>10€/day</div>
-            <div className={Styling.title}>DeWalt Generator 7000W</div>
+            <div className={Styling.price}>{advert.price}€/day</div>
+            <div className={Styling.title}>{advert.name}</div>
           </div>
         </div>
       </div>

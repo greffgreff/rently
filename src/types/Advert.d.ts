@@ -1,5 +1,6 @@
 export default interface Advert {
-    title : string,
-    desc : string,
-    price : number
+  id: string
+  name: string
+  desc: string
+  price: string
 }
