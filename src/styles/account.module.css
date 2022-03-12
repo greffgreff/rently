@@ -15,6 +15,7 @@
   margin: 0 13px 13px 0;
   border-radius: var(--roundness);
   transition: 0.2s;
+  white-space: nowrap;
 }
 
 .mainTab {
@@ -35,7 +36,7 @@
   background-color: white;
   border-radius: var(--roundness);
   padding: 25px 40px;
-  padding-bottom: 70px;
+  padding-bottom: 120px;
 }
 
 .settingsInputs {
@@ -48,6 +49,11 @@
   display: grid;
   grid-auto-flow: column;
   justify-content: space-between;
+  align-items: center;
+}
+
+.header button {
+  margin-left: 13px;
 }
 
 .input {
@@ -62,4 +68,24 @@
   font-weight: 500;
   background-color: var(--secondary);
   padding-left: var(--padding);
+}
+
+
+@media screen and (max-width: 800px) {
+  .container {
+    grid-auto-flow: row;
+    grid-template-columns: unset;
+  }
+
+  .tabs {
+    display: grid;
+    grid-auto-flow: column;
+    width: 100%;
+    gap: 1em;
+    margin-bottom: 1em;
+  }
+
+  .tab {
+    margin: unset;
+  }
 }

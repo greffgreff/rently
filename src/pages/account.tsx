@@ -1,6 +1,6 @@
 import Styling from '../styles/account.module.css'
 import Head from 'next/head'
-import { Meta, NavigationBar, Button } from '../components'
+import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
 import { MouseEventHandler, useEffect } from 'react'
 
@@ -28,7 +28,7 @@ export default function Account() {
 
   const showProfile = () => {
     document.getElementById('profile')!.style.display = ''
-    document.getElementById('profile')!.classList.add(Styling.mainTab)
+    document.getElementById('profileTab')!.classList.add(Styling.mainTab)
   }
 
   const changeTab = (name: string, tab: string) => {
@@ -62,7 +62,10 @@ export default function Account() {
             <div id="profile">
               <div className={Styling.header}>
                 <h1>My profile</h1>
-                <Button text={'Save changes'} />
+                <div>
+                  <Button text={'Save changes'} />
+                  <ButtonSecondary text={'Logout'} />
+                </div>
               </div>
 
               <div className={Styling.settingsInputs}>
@@ -80,6 +83,14 @@ export default function Account() {
                 </div>
                 <div>
                   <p>Phone number</p>
+                  <input className={Styling.input} id="phone" placeholder="Phone" />
+                </div>
+                <div>
+                  <p>Password</p>
+                  <input className={Styling.input} id="email" placeholder="Email" />
+                </div>
+                <div>
+                  <p>Confirm password</p>
                   <input className={Styling.input} id="phone" placeholder="Phone" />
                 </div>
               </div>
