@@ -14,8 +14,8 @@ export default function NavigationBar() {
         <div className={Styling.navItemsContainer}>
           {authed ? (
             <>
-              <ButtonLink text={'messages'} />
-              <ButtonLink text={'notifications'} />
+              <ButtonLink text={'messages'} route={'/account?tab=messages'} />
+              <ButtonLink text={'activity'} route={'/account?tab=notifications'} />
               <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
             </>
           ) : (

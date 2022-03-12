@@ -2,39 +2,31 @@ import Styling from '../styles/account.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
-import { MouseEventHandler, useEffect } from 'react'
+import { useEffect } from 'react'
 
-export default function Account() {
+export default function Account() {  
   const router = useRouter()
-  const { search } = router.query
+  const { tab } = router.query
+  const tabs = ['profile', 'rentals', 'advert', 'messages', 'notifications']
+  const tabSelect : string = tab == undefined ? 'profile' : tabs.find(t => t == tab) != undefined ? tab.toString() : 'profile'
 
+  console.log(tabSelect)
+  
   useEffect(() => {
-    hideAll()
-    showProfile()
+    changeTab(tabSelect)
   }, [])
-
+    
   const hideAll = () => {
-    document.getElementById('profile')!.style.display = 'none'
-    document.getElementById('profileTab')!.classList.remove(Styling.mainTab)
-    document.getElementById('rentals')!.style.display = 'none'
-    document.getElementById('rentalsTab')!.classList.remove(Styling.mainTab)
-    document.getElementById('adverts1')!.style.display = 'none'
-    document.getElementById('advertsTab')!.classList.remove(Styling.mainTab)
-    document.getElementById('messages')!.style.display = 'none'
-    document.getElementById('messagesTab')!.classList.remove(Styling.mainTab)
-    document.getElementById('notifications')!.style.display = 'none'
-    document.getElementById('notificationsTab')!.classList.remove(Styling.mainTab)
+    tabs.forEach(t => {
+      document.getElementById(t)!.style.display = 'none'
+      document.getElementById(t+'Tab')!.classList.remove(Styling.mainTab)
+    })
   }
 
-  const showProfile = () => {
-    document.getElementById('profile')!.style.display = ''
-    document.getElementById('profileTab')!.classList.add(Styling.mainTab)
-  }
-
-  const changeTab = (name: string, tab: string) => {
+  const changeTab = (name: string) => {
     hideAll()
     document.getElementById(name)!.style.display = ''
-    document.getElementById(tab)!.classList.add(Styling.mainTab)
+    document.getElementById(name+'Tab')!.classList.add(Styling.mainTab)
   }
 
   return (
@@ -51,11 +43,11 @@ export default function Account() {
 
         <div className={Styling.container}>
           <div className={Styling.tabs}>
-            <div id='profileTab' className={Styling.tab} onClick={() => changeTab('profile', 'profileTab')}>My profile</div>
-            <div id='rentalsTab' className={Styling.tab} onClick={() => changeTab('rentals', 'rentalsTab')}>Rentals</div>
-            <div id='advertsTab' className={Styling.tab} onClick={() => changeTab('adverts1', 'advertsTab')}>Adverts</div>
-            <div id='messagesTab' className={Styling.tab} onClick={() => changeTab('messages', 'messagesTab')}>Messages</div>
-            <div id='notificationsTab' className={Styling.tab} onClick={() => changeTab('notifications', 'notificationsTab')}>Activity</div>
+            <div id='profileTab' className={Styling.tab} onClick={() => changeTab('profile')}>My profile</div>
+            <div id='rentalsTab' className={Styling.tab} onClick={() => changeTab('rentals')}>Rentals</div>
+            <div id='advertTab' className={Styling.tab} onClick={() => changeTab('advert')}>Adverts</div>
+            <div id='messagesTab' className={Styling.tab} onClick={() => changeTab('messages')}>Messages</div>
+            <div id='notificationsTab' className={Styling.tab} onClick={() => changeTab('notifications')}>Activity</div>
           </div>
 
           <div className={Styling.settingsContainer}>
@@ -104,7 +96,7 @@ export default function Account() {
             </div>
 
 
-            <div id="adverts1">
+            <div id="advert">
               <div className={Styling.header}>
                 <h1>My adverts</h1>
               </div>
