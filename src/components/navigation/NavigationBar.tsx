@@ -2,7 +2,7 @@ import Styling from './styles/navigationBar.module.css'
 import { Button, ButtonLink, ButtonSecondary, Logo } from '../index'
 
 export default function NavigationBar() {
-  const authed = false
+  const authed = true
   return (
     <div className={Styling.container}>
       <div className={Styling.content}>

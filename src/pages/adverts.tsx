@@ -26,10 +26,10 @@ export default function Adverts() {
         {search ? <Spoiler search={search} /> : null}
         
         <div className={Styling.resultsContainer}>
-          <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
+          {search ? <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
             <div>Showing results for "{search}"</div>
             <div>{count} result(s)</div>
-          </div>
+          </div> : null}
 
           <div className={Styling.results}>
             {[...Array(count)].map((_) => (
