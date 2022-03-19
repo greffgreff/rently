@@ -24,6 +24,7 @@
   grid-auto-flow: column;
   column-gap: 1em;
   margin: auto;
+  align-items: center;
 }
 
 @media screen and (max-width: 800px) {

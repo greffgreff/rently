@@ -7,13 +7,11 @@ export default function AdvertPage(advert: Advert) {
     <>
       <Head>
         <title>Rently.io</title>
-        <link rel="icon" href="/favicon.svg" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
       </Head>
 
       <NavigationBar />
       <main>
-        <h1>{advert.title}</h1>
+        <h1>{advert.name}</h1>
         <h3>{advert.desc}</h3>
         <b>{advert.price}</b>
       </main>

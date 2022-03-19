@@ -6,9 +6,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Rently.io - Find what you need</title>
-        <link rel="icon" href="./public/favicon.svg" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
+        <title>Rently.io - Rent what you need</title>
       </Head>
 
       <main>

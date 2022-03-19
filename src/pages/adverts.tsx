@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 import { useEffect, useState } from 'react'
-import { fetchAdverts } from '../api'
+import { fetchAdverts } from './api'
 import { Advert } from '../types'
 
 export default function Adverts() {
@@ -18,8 +18,6 @@ export default function Adverts() {
     <>
       <Head>
         <title>Rently.io - Listings</title>
-        <link rel="icon" href="/favicon.svg" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
       </Head>
 
       <main>

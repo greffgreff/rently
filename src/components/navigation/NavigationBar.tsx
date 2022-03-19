@@ -1,8 +1,10 @@
 import Styling from './styles/navigationBar.module.css'
 import { Button, ButtonLink, ButtonSecondary, Logo } from '../index'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function NavigationBar() {
-  const authed = true
+  const { data: session, status } = useSession()
+
   return (
     <div className={Styling.container}>
       <div className={Styling.content}>
@@ -12,14 +14,20 @@ export default function NavigationBar() {
           <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/adverts'} />
         </div>
         <div className={Styling.navItemsContainer}>
-          {authed ? (
+          {status === "authenticated" ? (
             <>
-              <ButtonLink text={'Messages'} route={'/account?tab=messages'} />
+              {/* <ButtonLink text={'Messages'} route={'/account?tab=messages'} />
               <ButtonLink text={'Activity'} route={'/account?tab=notifications'} />
-              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
+              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} /> */}
+              <div onClick={signOut}>
+                <ButtonSecondary text={'Sign out'} />
+              </div>
             </>
           ) : (
-            <ButtonSecondary text={'Login'} route={'/login'} />
+            // <ButtonSecondary text={'Login'} route={'/login'} />
+            <div onClick={signIn}>
+              <Button text={'Login'} />
+            </div>
           )}
         </div>
       </div>

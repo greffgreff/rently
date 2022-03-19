@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "next": "^12.1.0",
+    "next-auth": "^4.3.1",
+    "next-auth-client": "^1.5.0",
     "nextjs-redirect": "^5.2.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
