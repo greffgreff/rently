@@ -16,9 +16,9 @@ export default function NavigationBar() {
         <div className={Styling.navItemsContainer}>
           {status === "authenticated" ? (
             <>
-              {/* <ButtonLink text={'Messages'} route={'/account?tab=messages'} />
+              <ButtonLink text={'Messages'} route={'/account?tab=messages'} />
               <ButtonLink text={'Activity'} route={'/account?tab=notifications'} />
-              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} /> */}
+              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
               <div onClick={signOut}>
                 <ButtonSecondary text={'Sign out'} />
               </div>
