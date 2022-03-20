@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { Meta, Button } from '../components'
 import { getProviders } from 'next-auth/react'
 import { signIn } from 'next-auth/react'
+import { Provider } from '../types'
 
 export default function Login({ providers }) {
   return (
@@ -19,17 +20,17 @@ export default function Login({ providers }) {
             <h1>Chose your login provider</h1>
 
             <div className={Styling.inputContainer}>
-              {Object.values(providers).map((provider) => (
+              {Object.values(providers).map((provider : Provider) => (
                 <div
-                  key={provider.name}
-                  className={provider.name}
+                  key={provider.name.split(' ')[0]}
+                  className={provider.name.split(' ')[0]}
                   onClick={() =>
                     signIn(provider.id, {
                       callbackUrl: `${window.location.origin}/`,
                     })
                   }
                 >
-                  <Button text={provider.name} width={'100%'} />
+                  <Button text={provider.name.split(' ')[0]} width={'100%'} />
                 </div>
               ))}
             </div>
@@ -45,12 +46,24 @@ export default function Login({ providers }) {
           </div>
         </div>
       </main>
+
+      <style jsx global>{`
+        .Facebook button {
+          background-color: rgb(45, 67, 136);
+        }
+        .Google button {
+          background-color: rgb(225, 60, 60);
+        }
+        .Twitter button {
+          background-color: rgb(52, 131, 255);
+        }
+      `}</style>
     </>
   )
 }
 
 export async function getServerSideProps() {
-  const providers = await getProviders()
+  const providers: [Provider] = await getProviders()
   return {
     props: { providers },
   }

@@ -4,17 +4,18 @@ import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { Session } from '../types'
 
 export default function Account() {
-  const { status } = useSession()
   const router = useRouter()
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
       router.back()
-    }
-  }, [status])
+    },
+  })
 
+  // Tab redirection stuff
   useEffect(() => {
     changeTab(tabSelect)
   }, [])
@@ -35,6 +36,9 @@ export default function Account() {
     document.getElementById(name)!.style.display = ''
     document.getElementById(name + 'Tab')!.classList.add(Styling.mainTab)
   }
+
+  // Account info
+  const userData: Session = session
 
   return (
     <>
@@ -69,24 +73,21 @@ export default function Account() {
             <div id="profile">
               <div className={Styling.header}>
                 <h1>My profile</h1>
-                <div>
-                  <Button text={'Save changes'} />
-                  <ButtonSecondary text={'Logout'} />
-                </div>
+                <Button text={'Save changes'} />
               </div>
 
               <div className={Styling.settingsInputs}>
                 <div>
                   <p>Display name</p>
-                  <input className={Styling.input} id="username" placeholder="Username" />
+                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={userData?.user.name ?? ""} disabled={true} />
                 </div>
                 <div>
                   <p>Full name</p>
-                  <input className={Styling.input} id="fullname" placeholder="Full name" />
+                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={userData?.user.name ?? ""} disabled={true} />
                 </div>
                 <div>
                   <p>Email address</p>
-                  <input className={Styling.input} id="email" placeholder="Email" />
+                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user.email ?? ""} disabled={true} />
                 </div>
                 <div>
                   <p>Phone number</p>

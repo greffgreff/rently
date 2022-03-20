@@ -33,6 +33,10 @@
   padding-bottom: 20px;
 }
 
+.inputContainer button {
+  height: 40px;
+}
+
 .back:hover {
   color: var(--primary);
   cursor: pointer;
@@ -45,8 +49,4 @@
 
 .arrowLeft {
   margin-right: 10px;
-}
-
-.Facebook {
-  background-color: blue;
 }
