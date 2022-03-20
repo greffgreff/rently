@@ -3,7 +3,7 @@ import { Button, ButtonLink, ButtonSecondary, Logo } from '../index'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function NavigationBar() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
 
   return (
     <div className={Styling.container}>
@@ -14,7 +14,7 @@ export default function NavigationBar() {
           <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/adverts'} />
         </div>
         <div className={Styling.navItemsContainer}>
-          {status === "authenticated" ? (
+          {status === 'authenticated' ? (
             <>
               {/* <ButtonLink text={'Messages'} route={'/account?tab=messages'} /> */}
               {/* <ButtonLink text={'Activity'} route={'/account?tab=notifications'} /> */}

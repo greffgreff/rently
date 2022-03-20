@@ -1,4 +1,4 @@
-import Styling from '../styles/index.module.css'
+import Styling from './styles/index.module.css'
 import Head from 'next/head'
 import { FeatureCard, Marquee, Meta, NavigationBar, SearchBar } from '../components'
 

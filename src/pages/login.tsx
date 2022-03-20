@@ -1,4 +1,4 @@
-import Styling from '../styles/login.module.css'
+import Styling from './styles/login.module.css'
 import Head from 'next/head'
 import { Meta, Button } from '../components'
 import { getProviders } from 'next-auth/react'

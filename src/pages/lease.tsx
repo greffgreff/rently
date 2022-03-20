@@ -1,4 +1,4 @@
-// import Styling from '../styles/lease.module.css';
+// import Styling from './styles/lease.module.css';
 import Head from 'next/head'
 
 export default function Lease() {

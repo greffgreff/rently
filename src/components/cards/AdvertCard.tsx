@@ -1,6 +1,6 @@
 import Styling from './styles/advertCard.module.css'
 import Link from 'next/link'
-import HoverStyle from '../../styles/hoverable.module.css'
+import HoverStyle from '../../pages/styles/hoverable.module.css'
 import { Advert } from '../../types'
 
 export default function AdvertCard({ advert } : { advert: Advert }) {

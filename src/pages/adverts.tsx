@@ -1,4 +1,4 @@
-import Styling from '../styles/adverts.module.css'
+import Styling from './styles/adverts.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
