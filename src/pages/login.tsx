@@ -16,7 +16,7 @@ export default function Login({ providers }) {
 
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
-            <h1>Chose your provider</h1>
+            <h1>Chose your login provider</h1>
 
             <div className={Styling.inputContainer}>
               {Object.values(providers).map((provider) => (
@@ -26,10 +26,21 @@ export default function Login({ providers }) {
                   onClick={() =>
                     signIn(provider.id, {
                       callbackUrl: `${window.location.origin}/`,
-                    })}>
-                  <Button text={'Sign in ' + provider.name} width={'100%'} />
+                    })
+                  }
+                >
+                  <Button text={provider.name} width={'100%'} />
                 </div>
               ))}
+            </div>
+
+            <div className={Styling.options}>
+              <a href={'/'}>
+                <div className={Styling.back}>
+                  <i className={`fas fa-angle-left ${Styling.arrowLeft}`} />
+                  Back
+                </div>
+              </a>
             </div>
           </div>
         </div>

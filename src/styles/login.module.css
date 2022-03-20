@@ -1,5 +1,4 @@
 .container {
-  box-shadow: 0 0 10px 0 rgb(26 26 26 / 0%), 0 4px 8px 0 rgb(26 26 26 / 10%);
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
@@ -8,6 +7,7 @@
   width: 370px;
   background-color: white;
   border-radius: var(--roundness);
+  filter: drop-shadow(0 0 10px rgb(236, 236, 236));
 }
 
 .innerContainer {
@@ -31,6 +31,20 @@
 
 .inputContainer div {
   padding-bottom: 20px;
+}
+
+.back:hover {
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.arrowLeft {
+  margin-right: 10px;
 }
 
 .Facebook {

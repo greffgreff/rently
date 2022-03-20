@@ -14,7 +14,7 @@ export default function SearchBar({ prevSearch, width } : { prevSearch? : string
       <div className={Styling.searchBtn} onClick={handleClick}>
         <div className={Styling.btnText}>Search</div>
       </div>
-      <input id="searchInput" className={Styling.input} placeholder={ prevSearch?.toString() ?? 'Search anything at any price...' } />
+      <input id="searchInput" className={Styling.input} placeholder={ prevSearch?.toString() ?? 'Find anything at any price...' } />
     </div>
   )
 }
