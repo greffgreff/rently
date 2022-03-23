@@ -20,7 +20,7 @@ export default function Login({ providers }) {
             <h1>Chose your login provider</h1>
 
             <div className={Styling.inputContainer}>
-              {Object.values(providers).map((provider : Provider) => (
+              {Object.values(providers).map((provider: Provider) => (
                 <div
                   key={provider.name.split(' ')[0]}
                   className={provider.name.split(' ')[0]}

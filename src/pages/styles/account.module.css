@@ -70,7 +70,6 @@
   padding-left: var(--padding);
 }
 
-
 @media screen and (max-width: 800px) {
   .container {
     grid-auto-flow: row;

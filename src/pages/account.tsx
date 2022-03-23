@@ -8,7 +8,7 @@ import { Session } from '../types'
 
 export default function Account() {
   const router = useRouter()
-  const { data: session } = useSession({
+  const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
       router.back()

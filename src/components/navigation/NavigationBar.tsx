@@ -5,6 +5,10 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 export default function NavigationBar() {
   const { status } = useSession()
 
+  const logout = async () => {
+    await signOut()
+  }
+
   return (
     <div className={Styling.container}>
       <div className={Styling.content}>
@@ -19,8 +23,8 @@ export default function NavigationBar() {
               {/* <ButtonLink text={'Messages'} route={'/account?tab=messages'} /> */}
               {/* <ButtonLink text={'Activity'} route={'/account?tab=notifications'} /> */}
               <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
-              <div onClick={signOut}>
-                <ButtonSecondary text={'Sign out'} />
+              <div onClick={logout}>
+                <ButtonSecondary text={'Sign out'} route={'/'} />
               </div>
             </>
           ) : (

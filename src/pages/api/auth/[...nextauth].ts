@@ -15,8 +15,9 @@ export default NextAuth({
       clientSecret: '4dfbdc01711852771ad4c42a1329ac58',
     }),
     TwitterProvider({
-      clientId: '478652591193-154niej44ummo8if0tp23tuc6epuma24.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: 'S0FxanhtSjh1VUlHbVZHc3BjUDY6MTpjaQ',
+      clientSecret: 'Do2YFFvSwXnhtvIECJOakOloEhYJZKCUYbYBgdutcktKmwvPZK',
+      version: "2.0",
     }),
   ],
   pages: {

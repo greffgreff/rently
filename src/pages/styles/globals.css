@@ -38,7 +38,6 @@ input {
 }
 
 input:disabled {
-  font-family: Ubuntu, Segoe UI, Roboto;
   opacity: 0.5;
 }
 
