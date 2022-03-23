@@ -7,17 +7,17 @@ import jwt from 'jsonwebtoken'
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: '478652591193-154niej44ummo8if0tp23tuc6epuma24.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
     FacebookProvider({
-      clientId: '435847995008552',
-      clientSecret: '4dfbdc01711852771ad4c42a1329ac58',
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
     }),
     TwitterProvider({
-      clientId: 'S0FxanhtSjh1VUlHbVZHc3BjUDY6MTpjaQ',
-      clientSecret: 'Do2YFFvSwXnhtvIECJOakOloEhYJZKCUYbYBgdutcktKmwvPZK',
-      version: "2.0",
+      clientId: process.env.TWITTER_ID,
+      clientSecret: process.env.TWITTER_SECRET,
+      version: '2.0',
     }),
   ],
   pages: {
