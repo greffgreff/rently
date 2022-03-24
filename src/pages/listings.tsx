@@ -1,16 +1,16 @@
-import Styling from './styles/adverts.module.css'
+import Styling from './styles/listings.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
-import { Advert } from '../types'
+import { ListingCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
+import { Listing } from '../types'
 
-export default function Adverts({ data }) {
+export default function Listings({ data }) {
   if (data === 'Not found') {
     useRouter().push('/')
   }
 
   const { search } = useRouter().query
-  const adverts: Advert[] = data
+  const listings: Listing[] = data
 
   return (
     <>
@@ -34,8 +34,8 @@ export default function Adverts({ data }) {
           ) : null}
 
           <div className={Styling.results}>
-            {adverts.map((advert) => (
-              <AdvertCard key={advert.id} advert={advert} />
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
             ))}
           </div>
         </div>

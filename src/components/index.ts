@@ -1,4 +1,4 @@
-export { default as AdvertCard } from './cards/AdvertCard'
+export { default as ListingCard } from './cards/ListingCard'
 export { default as Button } from './controls/Button'
 export { default as ButtonLink } from './controls/ButtonLink'
 export { default as ButtonSecondary } from './controls/ButtonSecondary'

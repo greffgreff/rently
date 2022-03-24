@@ -17,7 +17,7 @@ export default function NavigationBar() {
         <div className={Styling.navItemsContainer}>
           <Logo />
           <Button icon={'fa fa-plus'} text={'Lease something'} route={'/lease'} />
-          <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/adverts'} />
+          <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/listings'} />
         </div>
         <div className={Styling.navItemsContainer}>
           {status === 'authenticated' ? (

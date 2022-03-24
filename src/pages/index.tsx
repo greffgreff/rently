@@ -2,14 +2,14 @@ import Styling from './styles/index.module.css'
 import Head from 'next/head'
 import { Marquee, Meta, NavigationBar, SearchBar } from '../components'
 import { useRouter } from 'next/router'
-import { Advert } from '../types'
+import { Listing } from '../types'
 
 export default function Index({ data }) {
   if (data === 'Not found') {
     useRouter().push('/')
   }
 
-  const adverts: Advert[] = data
+  const listings: Listing[] = data
   const seconds = 1500
 
   return (
@@ -21,9 +21,9 @@ export default function Index({ data }) {
       <main>
         <Meta />
         <NavigationBar />
-        <Marquee adverts={adverts.reverse()} seconds={seconds} />
+        <Marquee listings={listings.reverse()} seconds={seconds} />
         <SearchBar />
-        <Marquee adverts={adverts} seconds={seconds} reversed={true} />
+        <Marquee listings={listings} seconds={seconds} reversed={true} />
       </main>
     </>
   )

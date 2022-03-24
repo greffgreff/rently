@@ -1,4 +1,4 @@
-export default interface Advert {
+export default interface Listing {
   id: string
   name: string
   desc: string

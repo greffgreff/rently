@@ -1,7 +1,7 @@
 // import Styling from './styles/lease.module.css';
 import Head from 'next/head'
 
-export default function Lease() {
+export default function LeasePage() {
   return (
     <>
       <Head>
