@@ -1,8 +1,9 @@
 import Styling from './styles/spoiler.module.css'
 import Link from 'next/link'
+import { ReactChild, ReactFragment, ReactPortal } from 'react';
 
 export default function Spoiler({ search } : { search : string | string[] | undefined }) {
-  var suggestions;
+  let suggestions : string[];
   if (!Array.isArray(search)) {
     suggestions = [search ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
   } else {
@@ -17,9 +18,9 @@ export default function Spoiler({ search } : { search : string | string[] | unde
       </label>
 
       <div className={Styling.spoilerContent}>
-        {suggestions.map((s) => (
-          <div className={Styling.suggestionLink}>
-            <Link href={`/adverts?search=${s}`}>{s}</Link>
+        {suggestions.map((suggestion) => (
+          <div key={suggestion} className={Styling.suggestionLink}>
+            <Link href={`/adverts?search=${suggestion}`}>{suggestion}</Link>
           </div>
         ))}
       </div>
