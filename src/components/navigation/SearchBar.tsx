@@ -6,7 +6,7 @@ export default function SearchBar({ prevSearch, width }: { prevSearch?: string |
 
   const handleClick = () => {
     const search = (document.getElementById('searchInput')! as HTMLInputElement).value
-    router.push(`/adverts${search != '' ? `?search=${search}` : ''}`)
+    router.push(`/listings${search != '' ? `?search=${search}` : ''}`)
   }
 
   return (

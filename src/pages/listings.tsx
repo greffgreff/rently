@@ -29,7 +29,7 @@ export default function Listings({ data }) {
           {search ? (
             <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
               <div>Showing results for "{search}"</div>
-              <div>{10} result(s)</div>
+              <div>{listings.length} result(s)</div>
             </div>
           ) : null}
 

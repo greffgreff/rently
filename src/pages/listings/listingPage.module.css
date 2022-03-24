@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--roundness)*2);
+  background-color: white;
+  padding: 0.1px 0;
+  margin-bottom: 1em;
+}
+
+.innerContainer {
+  margin: 20px;
+  border-radius: var(--roundness);
+}
+
+.descArea {
+  display: grid;
+  grid-template-columns: 7fr 10fr;
+  gap: 2em;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--roundness);
+}
+
+.title {
+  font-size: 220%;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.details {
+  font-size: 17px;
+}

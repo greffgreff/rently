@@ -1,15 +1,9 @@
 import Styling from './styles/navigationBar.module.css'
 import { Button, ButtonLink, ButtonSecondary, Logo } from '../index'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 
 export default function NavigationBar() {
   const { status } = useSession()
-
-  const logout = async () => {
-    await signOut()
-    useRouter().push('/')
-  }
 
   return (
     <div className={Styling.container}>
@@ -23,7 +17,7 @@ export default function NavigationBar() {
           {status === 'authenticated' ? (
             <>
               <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
-              <div onClick={logout}>
+              <div onClick={signOut}>
                 <ButtonSecondary text={'Sign out'} />
               </div>
             </>

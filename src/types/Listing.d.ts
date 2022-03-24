@@ -4,4 +4,7 @@ export default interface Listing {
   desc: string
   price: string
   image: string
+  createAt: number
+  lon: number
+  lat: number
 }
