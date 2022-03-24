@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 import { Advert } from '../types'
 
-export default function Adverts({ data }) {
+export default function Adverts({ data }: { data: Advert[] }) {
   const { search } = useRouter().query
 
   return (
