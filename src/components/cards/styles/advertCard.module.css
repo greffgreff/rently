@@ -15,8 +15,8 @@
 
 .image {
   max-width: 200px;
-  margin: auto;
-  object-fit: contain;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .meta {

@@ -1,8 +1,15 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { Meta, NavigationBar } from '../../components'
 import { Advert } from '../../types'
 
-export default function AdvertPage({ data }: { data: Advert }) {
+export default function AdvertPage({ data }) {
+  if (data === 'Not found') {
+    useRouter().push('/')
+  }
+
+  const advert: Advert = data
+
   return (
     <>
       <Head>
@@ -14,10 +21,11 @@ export default function AdvertPage({ data }: { data: Advert }) {
         <NavigationBar />
 
         <div>
-          <h1>{data.name}</h1>
-          <h1>{data.desc}</h1>
-          <h1>{data.price}</h1>
-          <h1>{data.id}</h1>
+          <h1>{advert.name}</h1>
+          <h1>{advert.desc}</h1>
+          <h1>{advert.price}</h1>
+          <h1>{advert.id}</h1>
+          <h1>{advert.image}</h1>
         </div>
       </main>
     </>

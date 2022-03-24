@@ -3,4 +3,5 @@ export default interface Advert {
   name: string
   desc: string
   price: string
+  image: string
 }

@@ -6,12 +6,13 @@
   border-radius: var(--roundness);
   overflow: hidden;
   transition: 0.1s;
-
+  background-color: white;
   opacity: 0.7;
 }
 
 .container:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 .image {
@@ -26,7 +27,7 @@
   width: 100%;
   bottom: 0;
   background-color: white;
-  box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%);
+  /* box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%); */
   z-index: 999;
 }
 

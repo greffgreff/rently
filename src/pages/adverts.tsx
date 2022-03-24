@@ -4,8 +4,13 @@ import { useRouter } from 'next/router'
 import { AdvertCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 import { Advert } from '../types'
 
-export default function Adverts({ data }: { data: Advert[] }) {
+export default function Adverts({ data }) {
+  if (data === 'Not found') {
+    useRouter().push('/')
+  }
+
   const { search } = useRouter().query
+  const adverts: Advert[] = data
 
   return (
     <>
@@ -29,7 +34,7 @@ export default function Adverts({ data }: { data: Advert[] }) {
           ) : null}
 
           <div className={Styling.results}>
-            {data.map((advert: Advert) => (
+            {adverts.map((advert) => (
               <AdvertCard key={advert.id} advert={advert} />
             ))}
           </div>

@@ -1,17 +1,19 @@
 import Styling from './styles/suggestionCard.module.css'
-import { v4 as uuidv4 } from 'uuid'
+import { Advert } from '../../types'
+import Link from 'next/link'
 
-export default function SuggestionCard() {
+export default function SuggestionCard(advert: Advert) {
   return (
-    // <div key={uuidv4()} className={`${Styling.container} ${HoverStyle.container}`}>
-    <div key={uuidv4()} className={Styling.container}>
-      <img className={Styling.image} src="https://img.leboncoin.fr/api/v1/lbcpb1/images/39/da/c9/39dac95eade62e4b0a28764429f4316eb42eefde.jpg?rule=ad-large" />
-      <div className={Styling.meta}>
-        <div className={Styling.innerMeta}>
-          <div className={Styling.price}>10€/day</div>
-          <div className={Styling.title}>DeWalt Generator 7000W</div>
+    <Link href={`/adverts/${advert.id}`}>
+      <div key={advert.id} className={Styling.container}>
+        <img className={Styling.image} src={advert.image} />
+        <div className={Styling.meta}>
+          <div className={Styling.innerMeta}>
+            <div className={Styling.price}>{advert.price}€/day</div>
+            <div className={Styling.title}>{advert.name}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
