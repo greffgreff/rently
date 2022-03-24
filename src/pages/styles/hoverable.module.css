@@ -1,9 +1,0 @@
-.container {
-  border: solid 1.5px rgb(235, 235, 235);
-  transition: 0.1s;
-}
-
-.container:hover {
-  cursor: pointer;
-  border: solid 1.5px var(--primary);
-}

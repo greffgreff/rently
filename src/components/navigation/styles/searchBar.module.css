@@ -46,7 +46,7 @@
 }
 
 .input:focus {
-  border: 1px solid rgb(206, 206, 206);
+  border: 1px solid rgb(199, 199, 199);
 }
 
 @media screen and (max-width: 800px) {

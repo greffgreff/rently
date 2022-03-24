@@ -5,6 +5,12 @@
   background-color: white;
   border-radius: var(--roundness);
   overflow: hidden;
+  transition: 0.15s;
+}
+
+.container:hover {
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 .imageContainer {
