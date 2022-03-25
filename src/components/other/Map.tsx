@@ -2,7 +2,7 @@ import React from 'react'
 import Styling from './styles/map.module.css'
 import { LoadScript, GoogleMap } from '@react-google-maps/api'
 
-export default function Map({ lat, lon }: { lat: number; lon: number }) {
+export default function Map({ lat, lon, options }: { lat: number; lon: number, options?: object }) {
   const containerStyle = {
     width: '100%',
     height: '100%',
@@ -15,8 +15,8 @@ export default function Map({ lat, lon }: { lat: number; lon: number }) {
 
   return (
     <div className={Styling.mapArea}>
-      <LoadScript googleMapsApiKey={process.env.GOOGLE_MAP_KEY}>
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10} />
+      <LoadScript googleMapsApiKey={process.env.GOOGLE_MAP_KEY ?? "AIzaSyCYm4sjNy3lfgfcfK7zV7e_G8sOVyHtpr0"}>
+        <GoogleMap options={options} mapContainerStyle={containerStyle} center={center} zoom={15} />
       </LoadScript>
     </div>
   )

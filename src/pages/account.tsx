@@ -11,7 +11,7 @@ export default function Account() {
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
-      router.back()
+      router.push('/login')
     },
   })
 

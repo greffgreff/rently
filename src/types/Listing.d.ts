@@ -1,3 +1,6 @@
+import Address from './Address'
+import Contact from './Contact'
+
 export default interface Listing {
   id: string
   name: string
@@ -5,6 +8,6 @@ export default interface Listing {
   price: string
   image: string
   createAt: number
-  lon: number
-  lat: number
+  address: Address
+  leaser: Contact
 }

@@ -1,3 +1,6 @@
 export type { default as Listing } from './Listing'
 export type { default as Session } from './Session'
 export type { default as Provider } from './Provider'
+export type { default as Contact } from './Contact'
+export type { default as Address } from './Address'
+export type { default as ProperAddress } from './ProperAddress'

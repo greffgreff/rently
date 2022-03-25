@@ -51,18 +51,22 @@ export default function ListingPage({ data }) {
 
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
-            {/* <h2>Who is leasing this</h2> */}
-
-            <div>{listing.lon}</div>
-            <div>{listing.lat}</div>
+            <h2>Who is leasing this</h2>
+            <p>{listing.leaser.name}</p>
+            <p>{listing.leaser.email}</p>
+            <p>{listing.leaser.phone}</p>
           </div>
         </div>
 
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
-              {/* <h2>Where can I find this</h2> */}
+            <h2>Where can I find this</h2>
+            <p>{listing.address.city}</p>
+            <p>{listing.address.country}</p>
+            <p>{listing.address.streetName}</p>
+            <p>{listing.address.zip}</p>
 
-              <Map lat={listing.lat} lon={listing.lon} />
+            {/* <Map lat={listing.lat} lon={listing.lon} width={'100%'} height={'100%'} /> */}
           </div>
         </div>
       </main>

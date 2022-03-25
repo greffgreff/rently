@@ -1,0 +1,1 @@
+export { getProperFromAddress as fetchAddress } from './googleApi'

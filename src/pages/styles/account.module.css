@@ -57,7 +57,7 @@
 }
 
 .input {
-  min-height: 37px;
+  height: 37px;
   --padding: 20px;
   width: calc(100% - var(--padding));
   font-family: Ubuntu, Segoe UI, Roboto;

@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"./**/*.js\" \"./**/*.css\""
+    "format": "prettier --write \"./src/**/*.js\" \"./src/**/*.css\""
   },
   "dependencies": {
     "@react-google-maps/api": "^2.7.0",

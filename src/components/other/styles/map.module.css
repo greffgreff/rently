@@ -1,6 +1,6 @@
 .mapArea {
   height: 300px;
-  width: 50%;
+  width: auto;
   background-color: #eee;
   z-index: -1;
   border-radius: var(--roundness);
