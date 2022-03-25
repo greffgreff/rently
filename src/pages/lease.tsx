@@ -63,6 +63,7 @@ export default function LeasePage() {
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h1 className={Styling.title}>About my lease</h1>
+            <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
             <div className={Styling.leasingContainer}>
               {/* <image className={Styling.image} /> */}
@@ -100,6 +101,7 @@ export default function LeasePage() {
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h1 className={Styling.title}>Where to pickup</h1>
+            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
 
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
@@ -127,7 +129,6 @@ export default function LeasePage() {
               <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
             </div>
 
-            {console.log(address)}
             <div id="map" className={Styling.map}>
               {address ? (
                 <>
@@ -147,7 +148,7 @@ export default function LeasePage() {
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h1 className={Styling.title}>Contact me</h1>
-
+            <h4 className={Styling.title}>Please note that your name and email address are linked to the provider you signed in with.</h4>
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
                 <p>Display name:</p>
