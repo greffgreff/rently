@@ -26,8 +26,8 @@
   border: none;
   font-size: 15px;
   box-sizing: border-box;
-  background-color: var(--secondary);
-  border: 1px solid rgb(235, 235, 235);
+  background-color: var(--innerColor);
+  border: 1px solid var(--innerColor);
   border-radius: var(--roundness);
 }
 
@@ -40,11 +40,6 @@
   font-size: 18px;
 }
 
-.dates {
-  display: flex;
-  gap: 1em;
-}
-
 .leasingContainer {
   display: grid;
   gap: 1em;
@@ -53,7 +48,7 @@
 .image {
   width: 50%;
   aspect-ratio: 1;
-  background-color: var(--secondary);
+  background-color: var(--innerColor);
   border-radius: var(--roundness);
 }
 
@@ -66,11 +61,14 @@
   height: auto;
 }
 
+.textArealabeledInput {
+  grid-row: 2 / 4;
+}
+
 .columnInputs .input {
   width: 100%;
 }
 
-.textArealabeledInput,
 .columnInputs .labeledInput {
   margin: 0;
 }
@@ -99,7 +97,7 @@
   padding-bottom: 0;
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 600px) {
   .columnInputs {
     grid-template-columns: 1fr;
   }
