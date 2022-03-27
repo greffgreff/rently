@@ -11,6 +11,9 @@
   "dependencies": {
     "@react-google-maps/api": "^2.7.0",
     "axios": "^0.26.1",
+    "cookie-cutter": "^0.2.0",
+    "cookies-next": "^2.0.4",
+    "dotenv": "^16.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "next": "^12.1.1",

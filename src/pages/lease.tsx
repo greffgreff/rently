@@ -2,16 +2,17 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { ProperAddress, Session } from '../types'
 import { fetchAddress, postListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { v4 as uuid } from 'uuid'
 import moment from 'moment'
+import { ServerResponse } from 'http'
+import jwt from 'jsonwebtoken'
+import { getToken } from 'next-auth/jwt'
 
-export default function LeasePage() {
-  const router = useRouter()
+export default function LeasePage({ _jwt }) {
   const { data: session } = useSession()
   const userData: Session = session
   const [address, setAddress] = useState<ProperAddress>(null)
@@ -55,29 +56,32 @@ export default function LeasePage() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    postListing({
-      id: uuid(),
-      name: title.current.value,
-      desc: desc.current.value,
-      price: price.current.value,
-      image: null,
-      startDate: start.current.value,
-      endDate: end.current.value,
-      createAt: moment().date(),
-      address: {
+    postListing(
+      {
         id: uuid(),
-        city: city.current.value,
-        zip: zip.current.value,
-        country: country.current.value,
+        name: title.current.value,
+        desc: desc.current.value,
+        price: price.current.value,
+        image: null,
+        startDate: start.current.value,
+        endDate: end.current.value,
+        createAt: moment().date(),
+        address: {
+          id: uuid(),
+          city: city.current.value,
+          zip: zip.current.value,
+          country: country.current.value,
+        },
+        leaser: {
+          id: uuid(),
+          name: userData.user.name,
+          email: userData.user.email,
+          phone: phone.current.value,
+        },
       },
-      leaser: {
-        id: uuid(),
-        name: userData.user.name,
-        email: userData.user.email,
-        phone: phone.current.value,
-      },
-    })
-    // router.push('/listings')
+      _jwt
+    )
+    // router.push('/listings/{id}')
   }
 
   return (
@@ -212,8 +216,8 @@ export default function LeasePage() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
-  const res = context.res
+  const session : Session = await getSession(context)
+  const res: ServerResponse = context.res
   const req = context.req
 
   if (!session) {
@@ -221,5 +225,14 @@ export async function getServerSideProps(context) {
     res.end()
   }
 
-  return { props: {} }
+  const secret = process.env.JWT_SECRET
+  const token = await getToken({ secret, req })
+  const payload = {
+    name: token.name,
+    email: token.email,
+    iat: token.iat,
+    exp: token.exp,
+  }
+  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+  return { props: { _jwt } }
 }
