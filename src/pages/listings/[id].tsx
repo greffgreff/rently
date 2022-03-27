@@ -42,7 +42,9 @@ export default function ListingPage({ data }) {
 
                 <div className={Styling.details}>
                   <h3>About this listing</h3>
-                  <div>{listing.desc}</div>
+                  <p>{listing.desc}</p>
+                  <p>{listing.startDate}</p>
+                  <p>{listing.endDate}</p>
                 </div>
               </div>
             </div>

@@ -5,15 +5,11 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Session } from '../types'
+import { getSession } from 'next-auth/react'
 
 export default function Account() {
   const router = useRouter()
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push('/login')
-    },
-  })
+  const { data: session } = useSession()
 
   // Tab redirection stuff
   useEffect(() => {
@@ -79,15 +75,15 @@ export default function Account() {
               <div className={Styling.settingsInputs}>
                 <div>
                   <p>Display name</p>
-                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={userData?.user.name ?? ""} disabled={true} />
+                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={userData?.user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Full name</p>
-                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={userData?.user.name ?? ""} disabled={true} />
+                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={userData?.user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Email address</p>
-                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user.email ?? ""} disabled={true} />
+                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user?.email ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Phone number</p>
@@ -133,4 +129,13 @@ export default function Account() {
       </main>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  if (!session) {
+    context.res.writeHead(302, { Location: '/login' })
+    context.res.end()
+  }
+  return { props: {} }
 }

@@ -3,24 +3,28 @@ import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { ProperAddress, Session } from '../types'
-import { fetchAddress } from '../api'
+import { fetchAddress, postListing } from '../api'
+import { getSession } from 'next-auth/react'
+import { v4 as uuid } from 'uuid'
+import moment from 'moment'
 
 export default function LeasePage() {
   const router = useRouter()
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push('/login')
-    },
-  })
+  const { data: session } = useSession()
   const userData: Session = session
   const [address, setAddress] = useState<ProperAddress>(null)
   const country = useRef(null)
   const city = useRef(null)
   const zip = useRef(null)
   const street = useRef(null)
+  const title = useRef(null)
+  const price = useRef(null)
+  const start = useRef(null)
+  const end = useRef(null)
+  const desc = useRef(null)
+  const phone = useRef(null)
   const mapOptions = {
     gestureHandling: 'none',
     fullscreenControl: false,
@@ -49,6 +53,33 @@ export default function LeasePage() {
     setAddress(result)
   }
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    postListing({
+      id: uuid(),
+      name: title.current.value,
+      desc: desc.current.value,
+      price: price.current.value,
+      image: null,
+      startDate: start.current.value,
+      endDate: end.current.value,
+      createAt: moment().date(),
+      address: {
+        id: uuid(),
+        city: city.current.value,
+        zip: zip.current.value,
+        country: country.current.value,
+      },
+      leaser: {
+        id: uuid(),
+        name: userData.user.name,
+        email: userData.user.email,
+        phone: phone.current.value,
+      },
+    })
+    // router.push('/listings')
+  }
+
   return (
     <>
       <Head>
@@ -59,7 +90,7 @@ export default function LeasePage() {
         <Meta />
         <NavigationBar />
 
-        <form method="post">
+        <form onSubmit={(event) => handleSubmit(event)}>
           <div className={Styling.container}>
             <div className={Styling.innerContainer}>
               <h1 className={Styling.title}>About my lease</h1>
@@ -72,27 +103,27 @@ export default function LeasePage() {
                   <div className={Styling.columnInputs}>
                     <div className={Styling.labeledInput}>
                       <p>Give your advert a name:</p>
-                      <input required className={Styling.input} placeholder="Title" />
+                      <input required className={Styling.input} ref={title} placeholder="Title" />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Daily charge:</p>
-                      <input required min="0" type="number" className={Styling.input} />
+                      <input required min="0" type="number" ref={price} className={Styling.input} />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Lease start date:</p>
-                      <input required type="date" className={Styling.input} />
+                      <input required type="date" className={Styling.input} ref={start} />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Lease end date:</p>
-                      <input required type="date" className={Styling.input} />
+                      <input required type="date" className={Styling.input} ref={end} />
                     </div>
 
                     <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
                       <p>Provide a description for renters:</p>
-                      <textarea required className={`${Styling.input} ${Styling.textarea}`} placeholder="I'm not going to use my trailer for a few days..." />
+                      <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." />
                     </div>
                   </div>
                 </div>
@@ -150,7 +181,7 @@ export default function LeasePage() {
           <div className={Styling.container}>
             <div className={Styling.innerContainer}>
               <h1 className={Styling.title}>Contact me</h1>
-              <h4 className={Styling.title}>Please note that your name and email address are linked to the provider you signed in with.</h4>
+              <h4 className={Styling.title}>How do we contact you? Please note that your name and email address are linked to the provider you signed in with.</h4>
               <div className={Styling.columnInputs}>
                 <div className={Styling.labeledInput}>
                   <p>Display name:</p>
@@ -164,18 +195,31 @@ export default function LeasePage() {
 
                 <div className={Styling.labeledInput}>
                   <p>Phone number:</p>
-                  <input required className={Styling.input} defaultValue="+1 06 12 34 56 67" />
+                  <input required className={Styling.input} ref={phone} defaultValue="+1 06 12 34 56 67" />
                 </div>
               </div>
             </div>
           </div>
 
           <div className={Styling.btns}>
-            <Button text="Place advert!" icon="fa fa-check" width="200px" />
+            <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
             <ButtonSecondary text="Cancel" route="/" width="200px" />
           </div>
         </form>
       </main>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  const res = context.res
+  const req = context.req
+
+  if (!session) {
+    res.writeHead(302, { Location: '/login' })
+    res.end()
+  }
+
+  return { props: {} }
 }

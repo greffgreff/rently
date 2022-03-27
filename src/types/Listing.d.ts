@@ -7,6 +7,8 @@ export default interface Listing {
   desc: string
   price: string
   image: string
+  startDate: string
+  endDate: string
   createAt: number
   address: Address
   leaser: Contact
