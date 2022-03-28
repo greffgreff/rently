@@ -1,5 +1,5 @@
 export default interface ProperAddress {
-    formaterAddress: string
+    formatedAddress: string
     geocode: {
         lat: number,
         lng: number,

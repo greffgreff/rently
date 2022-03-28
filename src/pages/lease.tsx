@@ -2,9 +2,9 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { ProperAddress, Session } from '../types'
-import { fetchAddress, postListing } from '../api'
+import { fetchAddressTomTom, postListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { v4 as uuid } from 'uuid'
 import moment from 'moment'
@@ -38,7 +38,7 @@ export default function LeasePage({ _jwt }) {
   }
 
   const checkAddress = async () => {
-    const result = await fetchAddress(country.current.value, city.current.value, zip.current.value, street.current.value)
+    const result = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
 
     document.getElementById('map')!.style.marginTop = '30px'
     document.getElementById('map')!.style.opacity = '1'
@@ -167,7 +167,7 @@ export default function LeasePage({ _jwt }) {
                   <>
                     <p>Is this address correct?</p>
                     <p>
-                      <b>{address.formaterAddress}</b>
+                      <b>{address.formatedAddress}</b>
                     </p>
                     <Map lat={address?.geocode.lat ?? 0.0} lon={address?.geocode.lng ?? 0.0} options={mapOptions} />
                   </>
