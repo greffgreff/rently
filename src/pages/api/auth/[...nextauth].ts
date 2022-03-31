@@ -2,8 +2,9 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
-import { Session } from '../../../types'
-import { fetchUser } from '../../../api'
+import { Session, User } from '../../../types'
+import { fetchUser, postUser, putUser } from '../../../api'
+import { v4 as uuid } from 'uuid'
 
 export default (req, res) => {
   return NextAuth(req, res, nextAuthOptions(req, res))
@@ -38,13 +39,36 @@ const nextAuthOptions = (req, res) => {
     },
     callbacks: {
       async jwt({ token, account }) {
+        // grab provider from token so available on session creation
         if (account) {
           token.origin = account.provider
         }
         return token
       },
-      async session({ session, token, user }) {
-        (session as Session).user = await fetchUser(token.origin, token.sub)
+      async session({ session, token }) {
+        const sessionUser: Session = session
+        const provider = token.provider
+        const providerId = token.providerId
+
+        // does user exist
+        const data = await fetchUser(provider, providerId)
+
+        if (data && (data.email != sessionUser.user.email || data.phone != sessionUser.user.phone)) {
+          // if user does exist, and email and phone number changed, update user information
+          putUser(sessionUser.user)
+        } else {
+          // if user does not exist, create one
+          const user: User = {
+            id: uuid(),
+            name: sessionUser.user.name,
+            email: sessionUser.user.email,
+            phone: sessionUser.user.phone,
+            provider: provider,
+            providerId: providerId,
+          }
+          postUser(user)
+        }
+
         return session
       },
     },
