@@ -5,4 +5,6 @@ export default interface User {
   phone: string
   provider: string
   providerId: string
+  createdAt: string,
+  updatedAt: string
 }

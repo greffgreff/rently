@@ -5,6 +5,7 @@ import TwitterProvider from 'next-auth/providers/twitter'
 import { Session, User } from '../../../types'
 import { fetchUser, postUser, putUser } from '../../../api'
 import { v4 as uuid } from 'uuid'
+import moment from 'moment'
 
 export default (req, res) => {
   return NextAuth(req, res, nextAuthOptions(req, res))
@@ -52,9 +53,11 @@ const nextAuthOptions = (req, res) => {
 
         // does user exist
         const data = await fetchUser(provider, providerId)
+        const currentTime = moment().format('X')
 
         if (data && (data.email != sessionUser.user.email || data.phone != sessionUser.user.phone)) {
           // if user does exist, and email and phone number changed, update user information
+          sessionUser.user.updatedAt = currentTime
           putUser(sessionUser.user)
         } else {
           // if user does not exist, create one
@@ -65,6 +68,8 @@ const nextAuthOptions = (req, res) => {
             phone: sessionUser.user.phone,
             provider: provider,
             providerId: providerId,
+            createdAt: currentTime,
+            updatedAt: currentTime,
           }
           postUser(user)
         }
