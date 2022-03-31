@@ -2,7 +2,8 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
-import jwt from 'jsonwebtoken'
+import { Session } from '../../../types'
+import { fetchUser } from '../../../api'
 
 export default (req, res) => {
   return NextAuth(req, res, nextAuthOptions(req, res))
@@ -35,23 +36,17 @@ const nextAuthOptions = (req, res) => {
     jwt: {
       secret: process.env.JWT_SECRET,
     },
-    // events: {
-    //   async session(session) {
-    //     const secret = process.env.JWT_SECRET
-    //     const token = session.token
-    //     const payload = {
-    //       id: token.id,
-    //       name: token.name,
-    //       email: token.email,
-    //       iat: token.iat,
-    //       exp: token.exp,
-    //     }
-    //     const postJwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
-    //     res.setHeader('Set-Cookie', ['_jwt =' + postJwt])
-    //   },
-    //   async signOut() {
-    //     res.setHeader('Set-Cookie', ['_jwt =; SECURE; EXPIRES=Thu, 01 Jan 1970 00:00:00 GMT'])
-    //   },
-    // },
+    callbacks: {
+      async jwt({ token, account }) {
+        if (account) {
+          token.origin = account.provider
+        }
+        return token
+      },
+      async session({ session, token, user }) {
+        (session as Session).user = await fetchUser(token.origin, token.sub)
+        return session
+      },
+    },
   }
 }

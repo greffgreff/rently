@@ -71,18 +71,13 @@ export default function LeasePage({ _jwt, maxAge }) {
         startDate: moment(start.current.value).format('X'),
         endDate: moment(end.current.value).format('X'),
         createAt: moment().format('X').toString(),
+        leaser: userData.user.id,
         address: {
           id: uuid(),
           street: street.current.value,
           city: country.current.value,
           zip: zip.current.value,
           country: country.current.value,
-        },
-        leaser: {
-          id: uuid(),
-          name: userData.user.name,
-          email: userData.user.email,
-          phone: phone.current.value,
         },
       },
       _jwt

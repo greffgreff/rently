@@ -1,6 +1,6 @@
 import Styling from './styles/account.module.css'
 import Head from 'next/head'
-import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
+import { Meta, NavigationBar, Button } from '../components'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
