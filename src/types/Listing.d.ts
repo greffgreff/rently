@@ -9,7 +9,7 @@ export default interface Listing {
   image: string
   startDate: string
   endDate: string
-  createAt: number
+  createAt: string
   address: Address
   leaser: Contact
 }

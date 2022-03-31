@@ -6,13 +6,13 @@ import { FormEvent, useRef, useState } from 'react'
 import { ProperAddress, Session } from '../types'
 import { fetchAddressTomTom, postListing } from '../api'
 import { getSession } from 'next-auth/react'
+import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
-import moment from 'moment'
 import { ServerResponse } from 'http'
 import jwt from 'jsonwebtoken'
-import { getToken } from 'next-auth/jwt'
+import moment from 'moment'
 
-export default function LeasePage({ _jwt }) {
+export default function LeasePage({ _jwt, maxAge }) {
   const { data: session } = useSession()
   const userData: Session = session
   const [address, setAddress] = useState<ProperAddress>(null)
@@ -54,8 +54,13 @@ export default function LeasePage({ _jwt }) {
     setAddress(result)
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    if (moment().format('X') > maxAge) {
+      document.location.reload()
+    }
+
     postListing(
       {
         id: uuid(),
@@ -63,12 +68,13 @@ export default function LeasePage({ _jwt }) {
         desc: desc.current.value,
         price: price.current.value,
         image: null,
-        startDate: start.current.value,
-        endDate: end.current.value,
-        createAt: moment().date(),
+        startDate: moment(start.current.value).format('X'),
+        endDate: moment(end.current.value).format('X'),
+        createAt: moment().format('X').toString(),
         address: {
           id: uuid(),
-          city: city.current.value,
+          street: street.current.value,
+          city: country.current.value,
           zip: zip.current.value,
           country: country.current.value,
         },
@@ -83,6 +89,11 @@ export default function LeasePage({ _jwt }) {
     )
     // router.push('/listings/{id}')
   }
+
+  const date = new Date()
+  const futureDate = date.getDate() + 3
+  date.setDate(futureDate)
+  const defaultValue = date.toLocaleDateString('en-CA')
 
   return (
     <>
@@ -101,33 +112,33 @@ export default function LeasePage({ _jwt }) {
               <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
               <div className={Styling.leasingContainer}>
-                <image className={Styling.image} />
+                <img className={Styling.image} />
 
                 <div>
                   <div className={Styling.columnInputs}>
                     <div className={Styling.labeledInput}>
                       <p>Give your advert a name:</p>
-                      <input required className={Styling.input} ref={title} placeholder="Title" />
+                      <input required className={Styling.input} ref={title} placeholder="Title" defaultValue="some title thing" />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Daily charge:</p>
-                      <input required min="0" type="number" ref={price} className={Styling.input} />
+                      <input required min="0" type="number" ref={price} className={Styling.input} defaultValue="123" />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Lease start date:</p>
-                      <input required type="date" className={Styling.input} ref={start} />
+                      <input required type="date" className={Styling.input} ref={start} defaultValue={defaultValue} />
                     </div>
 
                     <div className={Styling.labeledInput}>
                       <p>Lease end date:</p>
-                      <input required type="date" className={Styling.input} ref={end} />
+                      <input required type="date" className={Styling.input} ref={end} defaultValue={defaultValue} />
                     </div>
 
                     <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
                       <p>Provide a description for renters:</p>
-                      <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." />
+                      <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue="I'm not going to use my trailer for a few days..." />
                     </div>
                   </div>
                 </div>
@@ -143,22 +154,22 @@ export default function LeasePage({ _jwt }) {
               <div className={Styling.columnInputs}>
                 <div className={Styling.labeledInput}>
                   <p>Country:</p>
-                  <input required className={Styling.input} ref={country} placeholder="Netherlands" />
+                  <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue="France" />
                 </div>
 
                 <div className={Styling.labeledInput}>
                   <p>Zipcode:</p>
-                  <input required className={Styling.input} ref={zip} placeholder="BZ5600" />
+                  <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue="57200" />
                 </div>
 
                 <div className={Styling.labeledInput}>
                   <p>City:</p>
-                  <input required className={Styling.input} ref={city} placeholder="Eindhoven" />
+                  <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue="Remelfing" />
                 </div>
 
                 <div className={Styling.labeledInput}>
                   <p>Street name and number:</p>
-                  <input required className={Styling.input} ref={street} placeholder="123" />
+                  <input required className={Styling.input} ref={street} placeholder="123" defaultValue="5 rue des roses" />
                 </div>
               </div>
 
@@ -199,7 +210,7 @@ export default function LeasePage({ _jwt }) {
 
                 <div className={Styling.labeledInput}>
                   <p>Phone number:</p>
-                  <input required className={Styling.input} ref={phone} defaultValue="+1 06 12 34 56 67" />
+                  <input required className={Styling.input} ref={phone} defaultValue="07 49 42 17 17" />
                 </div>
               </div>
             </div>
@@ -216,7 +227,7 @@ export default function LeasePage({ _jwt }) {
 }
 
 export async function getServerSideProps(context) {
-  const session : Session = await getSession(context)
+  const session: Session = await getSession(context)
   const res: ServerResponse = context.res
   const req = context.req
 
@@ -234,5 +245,5 @@ export async function getServerSideProps(context) {
     exp: token.exp,
   }
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
-  return { props: { _jwt } }
+  return { props: { _jwt, maxAge: token.exp } }
 }
