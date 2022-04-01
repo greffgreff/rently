@@ -235,11 +235,12 @@ export async function getServerSideProps(context) {
   const secret = process.env.JWT_SECRET
   const token = await getToken({ secret, req })
   const payload = {
-    name: token.name,
-    email: token.email,
+    provider: token.provider,
+    providerId: token.providerId,
     iat: token.iat,
     exp: token.exp,
   }
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+  
   return { props: { _jwt, maxAge: token.exp } }
 }

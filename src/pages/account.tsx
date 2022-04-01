@@ -1,13 +1,19 @@
 import Styling from './styles/account.module.css'
 import Head from 'next/head'
-import { Meta, NavigationBar, Button } from '../components'
+import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Session } from '../types'
 import { getSession } from 'next-auth/react'
+import { deleteUser } from '../api'
+import { ServerResponse } from 'http'
+import { getToken } from 'next-auth/jwt'
+import { signOut } from 'next-auth/react'
+import jwt from 'jsonwebtoken'
+import moment from 'moment'
 
-export default function Account() {
+export default function Account({ _jwt, maxAge, provider, providerId }) {
   const router = useRouter()
   const { data: session } = useSession()
 
@@ -35,6 +41,15 @@ export default function Account() {
 
   // Account info
   const userData: Session = session
+
+  // Delete account
+  const handleDelete = async () => {
+    if (moment().format('X') > maxAge) {
+      document.location.reload()
+    }
+
+    await deleteUser(provider, providerId, _jwt).then(signOut)
+  }
 
   return (
     <>
@@ -69,7 +84,11 @@ export default function Account() {
             <div id="profile">
               <div className={Styling.header}>
                 <h1>My profile</h1>
-                <Button text={'Save changes'} />
+                <div>
+                  <div onClick={handleDelete}>
+                    <ButtonSecondary text={'Delete Account'} />
+                  </div>
+                </div>
               </div>
 
               <div className={Styling.settingsInputs}>
@@ -120,10 +139,24 @@ export default function Account() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
+  const session: Session = await getSession(context)
+  const res: ServerResponse = context.res
+  const req = context.req
+
   if (!session) {
-    context.res.writeHead(302, { Location: '/login' })
-    context.res.end()
+    res.writeHead(302, { Location: '/login' })
+    res.end()
   }
-  return { props: {} }
+
+  const secret = process.env.JWT_SECRET
+  const token = await getToken({ secret, req })
+  const payload = {
+    provider: token.provider,
+    providerId: token.providerId,
+    iat: token.iat,
+    exp: token.exp,
+  }
+  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+
+  return { props: { _jwt, maxAge: token.exp, provider: token.provider, providerId: token.providerId } }
 }

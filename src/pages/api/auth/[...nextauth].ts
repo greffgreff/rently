@@ -39,25 +39,37 @@ const nextAuthOptions = (req, res) => {
     jwt: {
       secret: process.env.JWT_SECRET,
     },
+    callbacks: {
+      async jwt({ token, account }) {
+        if (account) {
+          token.accessToken = account.access_token
+          token.provider = account.provider
+          token.providerId = account.providerAccountId
+        }
+        return token
+      }
+    },
     events: {
       async signIn(message) {
         const user = message.user
         const provider = message.account.provider
         const providerId = message.account.providerAccountId
 
-        // does user exist
-        const token_ = generateToken(user)
+        const token_ = generateToken(provider, providerId)
         const data = await fetchUser(provider, providerId, token_)
         const currentTime = moment().format('X')
 
         if (!!data && data.email != user.email) {
-          console.log('User exsits, info changed. Updating user.')
+
           // if user does exist and email number changed, update user information
+          console.log('User exsits, info changed. Updating user.')
           user.updatedAt = currentTime
           await putUser(user, token_)
+
         } else if (!data) {
-          console.log('User not found. Creating user.')
+
           // if user does not exist, create one
+          console.log('User not found. Creating user.')
           const user_: User = {
             id: uuid(),
             name: user.name,
@@ -68,20 +80,21 @@ const nextAuthOptions = (req, res) => {
             updatedAt: currentTime,
           }
           await postUser(user_, token_)
+
         } else {
-          console.log('User exists, info unchanged. Nothing occurred')
+          console.log('User exists, info unchanged. Nothing occurred.')
         }
       },
     },
   }
 }
 
-function generateToken(user) {
+function generateToken(provider: string, providerId: string) {
   const secret = process.env.JWT_SECRET
   const currentTime = parseInt(moment().format('X'))
   const payload = {
-    name: user.name,
-    email: user.email,
+    provider: provider,
+    providerId: providerId,
     iat: currentTime,
     exp: currentTime + 1000,
   }
