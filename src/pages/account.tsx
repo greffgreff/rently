@@ -85,18 +85,6 @@ export default function Account() {
                   <p>Email address</p>
                   <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user?.email ?? ''} disabled={true} />
                 </div>
-                <div>
-                  <p>Phone number</p>
-                  <input className={Styling.input} id="phone" placeholder="Phone" />
-                </div>
-                <div>
-                  <p>Password</p>
-                  <input className={Styling.input} id="email" placeholder="Email" />
-                </div>
-                <div>
-                  <p>Confirm password</p>
-                  <input className={Styling.input} id="phone" placeholder="Phone" />
-                </div>
               </div>
             </div>
 

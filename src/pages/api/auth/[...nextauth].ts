@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
-import { Session, User } from '../../../types'
+import { User } from '../../../types'
 import { fetchUser, postUser, putUser } from '../../../api'
 import { v4 as uuid } from 'uuid'
 import moment from 'moment'
@@ -39,60 +39,51 @@ const nextAuthOptions = (req, res) => {
     jwt: {
       secret: process.env.JWT_SECRET,
     },
-    callbacks: {
-      async jwt({ token, account }) {
-        // grab provider from token so available on session creation
-        if (account) {
-          token.origin = account.provider
-        }
-        return token
-      },
-      async session({ session, token }) {
-        const sessionUser: Session = session
-        const provider = token.provider
-        const providerId = token.providerId
+    events: {
+      async signIn(message) {
+        const user = message.user
+        const provider = message.account.provider
+        const providerId = message.account.providerAccountId
 
         // does user exist
-        const token_ = generateToken(token)
+        const token_ = generateToken(user)
         const data = await fetchUser(provider, providerId, token_)
         const currentTime = moment().format('X')
 
-        if (data && (data.email != sessionUser.user.email || data.phone != sessionUser.user.phone)) {
-          
-          // if user does exist, and email and phone number changed, update user information
-          sessionUser.user.updatedAt = currentTime
-          putUser(sessionUser.user, token_)
-
-        } else {
-
+        if (!!data && data.email != user.email) {
+          console.log('User exsits, info changed. Updating user.')
+          // if user does exist and email number changed, update user information
+          user.updatedAt = currentTime
+          await putUser(user, token_)
+        } else if (!data) {
+          console.log('User not found. Creating user.')
           // if user does not exist, create one
-          const user: User = {
+          const user_: User = {
             id: uuid(),
-            name: sessionUser.user.name,
-            email: sessionUser.user.email,
-            phone: sessionUser.user.phone,
+            name: user.name,
+            email: user.email,
             provider: provider,
             providerId: providerId,
             createdAt: currentTime,
             updatedAt: currentTime,
           }
-          postUser(user, token_)
-          
+          await postUser(user_, token_)
+        } else {
+          console.log('User exists, info unchanged. Nothing occurred')
         }
-
-        return session
       },
     },
   }
 }
 
-function generateToken(token) {
+function generateToken(user) {
   const secret = process.env.JWT_SECRET
+  const currentTime = parseInt(moment().format('X'))
   const payload = {
-    name: token.name,
-    email: token.email,
-    iat: token.iat,
-    exp: token.exp,
+    name: user.name,
+    email: user.email,
+    iat: currentTime,
+    exp: currentTime + 1000,
   }
   return jwt.sign(payload, secret, { algorithm: 'HS256' })
 }

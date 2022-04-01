@@ -4,11 +4,12 @@ import { User } from '../types'
 export async function fetchUser(provider: string, providerId: string, token: string): Promise<User> {
   return await axios
     .get('http://localhost:8080/api/v2/' + provider + '/' + providerId, getHeaders(token))
-    .then((res) => res.data)
+    .then((res) => res.data.content)
     .catch(console.log)
 }
 
 export async function postUser(user: User, token: string) {
+  console.log(user)
   await axios.post('http://localhost:8080/api/v2/', user, getHeaders(token)).catch(console.log)
 }
 

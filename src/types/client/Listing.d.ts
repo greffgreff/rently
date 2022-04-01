@@ -11,5 +11,6 @@ export default interface Listing {
   endDate: string
   createAt: string
   leaser: string
+  phone: string
   address: Address
 }
