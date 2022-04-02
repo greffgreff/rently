@@ -4,7 +4,6 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
 import { User } from '../../../types'
 import { fetchUser, postUser, putUser } from '../../../api'
-import { v4 as uuid } from 'uuid'
 import moment from 'moment'
 import jwt from 'jsonwebtoken'
 
@@ -62,7 +61,6 @@ const nextAuthOptions = (req, res) => {
           // if user does exist and email number changed, update user information
           console.log('User exsits, info changed. Updating user.')
           const user_: User = {
-            id: uuid(),
             name: userFromProvider.name,
             email: userFromProvider.email,
             provider: provider,
@@ -75,7 +73,6 @@ const nextAuthOptions = (req, res) => {
           // if user does not exist, create one
           console.log('User not found. Creating user.')
           const user_: User = {
-            id: uuid(),
             name: userFromProvider.name,
             email: userFromProvider.email,
             provider: provider,
