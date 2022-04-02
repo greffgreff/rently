@@ -2,8 +2,8 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { FormEvent, useRef, useState } from 'react'
-import { ProperAddress, Session } from '../types'
+import { FormEvent, useEffect, useRef, useState } from 'react'
+import { ProperAddress, Session, User } from '../types'
 import { fetchAddressTomTom, postListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
@@ -12,9 +12,9 @@ import { ServerResponse } from 'http'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 
-export default function LeasePage({ _jwt, maxAge }) {
+export default function LeasePage({ _jwt }) {
   const { data: session } = useSession()
-  const userData: Session = session
+  const [user, setUser] = useState<User>()
   const [address, setAddress] = useState<ProperAddress>(null)
   const country = useRef(null)
   const city = useRef(null)
@@ -36,6 +36,12 @@ export default function LeasePage({ _jwt, maxAge }) {
     keyboardShortcuts: false,
     clickableIcons: false,
   }
+    
+  useEffect(() => {
+    if (session) {
+      setUser(session.user)
+    }
+  }, [session])
 
   const checkAddress = async () => {
     const result = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
@@ -57,7 +63,7 @@ export default function LeasePage({ _jwt, maxAge }) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (moment().format('X') > maxAge) {
+    if (new Date() > session.expires) {
       document.location.reload()
     }
 
@@ -71,10 +77,9 @@ export default function LeasePage({ _jwt, maxAge }) {
         startDate: moment(start.current.value).format('X'),
         endDate: moment(end.current.value).format('X'),
         createAt: moment().format('X'),
-        leaser: userData.user.id,
+        leaser: user.id,
         phone: phone.current.value,
         address: {
-          id: uuid(),
           street: street.current.value,
           city: country.current.value,
           zip: zip.current.value,
@@ -196,17 +201,17 @@ export default function LeasePage({ _jwt, maxAge }) {
               <div className={Styling.columnInputs}>
                 <div className={Styling.labeledInput}>
                   <p>Display name:</p>
-                  <input className={Styling.input} defaultValue={userData?.user.name ?? ''} disabled />
+                  <input className={Styling.input} defaultValue={user?.name ?? ''} disabled />
                 </div>
 
                 <div className={Styling.labeledInput}>
                   <p>Email:</p>
-                  <input className={Styling.input} defaultValue={userData?.user.email ?? ''} disabled />
+                  <input className={Styling.input} defaultValue={user?.email ?? ''} disabled />
                 </div>
 
                 <div className={Styling.labeledInput}>
                   <p>Phone number:</p>
-                  <input required className={Styling.input} ref={phone} defaultValue="07 49 42 17 17" />
+                  <input required className={Styling.input} ref={phone} />
                 </div>
               </div>
             </div>
@@ -225,22 +230,16 @@ export default function LeasePage({ _jwt, maxAge }) {
 export async function getServerSideProps(context) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-  const req = context.req
-
+  
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
-
+  
+  const req = context.req
   const secret = process.env.JWT_SECRET
   const token = await getToken({ secret, req })
-  const payload = {
-    provider: token.provider,
-    providerId: token.providerId,
-    iat: token.iat,
-    exp: token.exp,
-  }
-  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
-  
-  return { props: { _jwt, maxAge: token.exp } }
+  const _jwt = jwt.sign(token, secret, { algorithm: 'HS256' })
+
+  return { props: { _jwt } }
 }

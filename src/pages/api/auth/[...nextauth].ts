@@ -3,9 +3,9 @@ import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
 import { User } from '../../../types'
-import { fetchUser, postUser, putUser } from '../../../api'
-import moment from 'moment'
+import { fetchUserByProvider, postUser, putUser } from '../../../api'
 import jwt from 'jsonwebtoken'
+import { randomUUID } from 'crypto'
 
 export default (req, res) => {
   return NextAuth(req, res, nextAuthOptions(req, res))
@@ -40,63 +40,84 @@ const nextAuthOptions = (req, res) => {
     },
     callbacks: {
       async jwt({ token, account }) {
+        const userFromProvider = token
+
         if (account) {
-          token.accessToken = account.access_token
-          token.provider = account.provider
-          token.providerId = account.providerAccountId
+          const provider = account.provider
+          const providerId = account.providerAccountId
+          const currentTime = new Date().getTime()
+          const token_ = generateToken(account.expires_at, currentTime)
+          let userFromDB: User
+          try {
+            userFromDB = await fetchUserByProvider(provider, providerId, token_)
+          } catch (e) {}
+
+          let user_: User
+
+          if (!!userFromDB && userFromDB.email != userFromProvider.email) {
+            console.log('User exsits, info changed. Updating user.')
+
+            user_ = {
+              id: userFromDB.id,
+              name: userFromProvider.name,
+              email: userFromProvider.email,
+              provider: provider,
+              providerId: providerId,
+              createdAt: userFromDB.createdAt,
+              updatedAt: currentTime.toString(),
+            }
+
+            await putUser(user_, token_)
+          } else if (!userFromDB) {
+            console.log('User not found. Creating user.')
+
+            user_ = {
+              id: randomUUID(),
+              name: userFromProvider.name,
+              email: userFromProvider.email,
+              provider: provider,
+              providerId: providerId,
+              createdAt: currentTime.toString(),
+              updatedAt: currentTime.toString(),
+            }
+
+            await postUser(user_, token_)
+          } else {
+            console.log('User exists, info unchanged. Nothing occurred.')
+
+            user_ = {
+              id: userFromDB.id,
+              name: userFromDB.name,
+              email: userFromDB.email,
+              provider: provider,
+              providerId: providerId,
+              createdAt: userFromDB.createdAt,
+              updatedAt: userFromDB.updatedAt,
+            }
+          }
+
+          delete token.name
+          delete token.email
+          delete token.picture
+          delete token.sub
+
+          token.user = user_
         }
         return token
       },
-    },
-    events: {
-      async signIn(message) {
-        const userFromProvider = message.user
-        const provider = message.account.provider
-        const providerId = message.account.providerAccountId
-        const token_ = generateToken(provider, providerId)
-        const userFromDB = await fetchUser(provider, providerId, token_)
-        const currentTime = moment().format('X')
-
-        if (!!userFromDB && userFromDB.email != userFromProvider.email) {
-          // if user does exist and email number changed, update user information
-          console.log('User exsits, info changed. Updating user.')
-          const user_: User = {
-            name: userFromProvider.name,
-            email: userFromProvider.email,
-            provider: provider,
-            providerId: providerId,
-            createdAt: userFromDB.createdAt,
-            updatedAt: currentTime,
-          }
-          await putUser(user_, token_)
-        } else if (!userFromDB) {
-          // if user does not exist, create one
-          console.log('User not found. Creating user.')
-          const user_: User = {
-            name: userFromProvider.name,
-            email: userFromProvider.email,
-            provider: provider,
-            providerId: providerId,
-            createdAt: currentTime,
-            updatedAt: currentTime,
-          }
-          await postUser(user_, token_)
-        } else {
-          console.log('User exists, info unchanged. Nothing occurred.')
-        }
+      async session({ session, token }) {
+        session.user = token.user
+        return session
       },
     },
   }
 }
 
-function generateToken(provider: string, providerId: string) {
+function generateToken(exp, iat) {
   const secret = process.env.JWT_SECRET
-  const currentTime = parseInt(moment().format('X'))
   const payload = {
-    provider: provider,
-    providerId: providerId,
-    iat: currentTime,
-    exp: currentTime + 1000,
+    iat: iat,
+    exp: exp,
   }
   return jwt.sign(payload, secret, { algorithm: 'HS256' })
 }

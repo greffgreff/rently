@@ -2,25 +2,39 @@ import Styling from './styles/account.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { Session } from '../types'
+import { Session, User } from '../types'
 import { getSession } from 'next-auth/react'
 import { deleteUser } from '../api'
 import { ServerResponse } from 'http'
 import { getToken } from 'next-auth/jwt'
 import { signOut } from 'next-auth/react'
 import jwt from 'jsonwebtoken'
-import moment from 'moment'
 
-export default function Account({ _jwt, maxAge, provider, providerId }) {
+export default function Account({ _jwt }) {
   const router = useRouter()
   const { data: session } = useSession()
+  const [user, setUser] = useState<User>()
+
+  // Account deletion
+  const handleDelete = async () => {
+    if (new Date() > session.expires) {
+      document.location.reload()
+    }
+    await deleteUser(user.id, _jwt).then(signOut)
+  }
 
   // Tab redirection stuff
   useEffect(() => {
     changeTab(tabSelect)
   }, [])
+
+  useEffect(() => {
+    if (session) {
+      setUser(session.user)
+    }
+  }, [session])
 
   const { tab } = router.query
   const tabs = ['profile', 'rentals', 'advert', 'messages', 'notifications']
@@ -37,18 +51,6 @@ export default function Account({ _jwt, maxAge, provider, providerId }) {
     hideAll()
     document.getElementById(name)!.style.display = ''
     document.getElementById(name + 'Tab')!.classList.add(Styling.mainTab)
-  }
-
-  // Account info
-  const userData: Session = session
-
-  // Delete account
-  const handleDelete = async () => {
-    if (moment().format('X') > maxAge) {
-      document.location.reload()
-    }
-
-    await deleteUser(provider, providerId, _jwt).then(signOut)
   }
 
   return (
@@ -94,15 +96,15 @@ export default function Account({ _jwt, maxAge, provider, providerId }) {
               <div className={Styling.settingsInputs}>
                 <div>
                   <p>Display name</p>
-                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={userData?.user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Full name</p>
-                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={userData?.user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Email address</p>
-                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user?.email ?? ''} disabled={true} />
+                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={user?.email ?? ''} disabled={true} />
                 </div>
               </div>
             </div>
@@ -141,22 +143,16 @@ export default function Account({ _jwt, maxAge, provider, providerId }) {
 export async function getServerSideProps(context) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-  const req = context.req
 
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
 
+  const req = context.req
   const secret = process.env.JWT_SECRET
   const token = await getToken({ secret, req })
-  const payload = {
-    provider: token.provider,
-    providerId: token.providerId,
-    iat: token.iat,
-    exp: token.exp,
-  }
-  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+  const _jwt = jwt.sign(token, secret, { algorithm: 'HS256' })
 
-  return { props: { _jwt, maxAge: token.exp, provider: token.provider, providerId: token.providerId } }
+  return { props: { _jwt } }
 }
