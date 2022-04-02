@@ -47,40 +47,43 @@ const nextAuthOptions = (req, res) => {
           token.providerId = account.providerAccountId
         }
         return token
-      }
+      },
     },
     events: {
       async signIn(message) {
-        const user = message.user
+        const userFromProvider = message.user
         const provider = message.account.provider
         const providerId = message.account.providerAccountId
-
         const token_ = generateToken(provider, providerId)
-        const data = await fetchUser(provider, providerId, token_)
+        const userFromDB = await fetchUser(provider, providerId, token_)
         const currentTime = moment().format('X')
 
-        if (!!data && data.email != user.email) {
-
+        if (!!userFromDB && userFromDB.email != userFromProvider.email) {
           // if user does exist and email number changed, update user information
           console.log('User exsits, info changed. Updating user.')
-          user.updatedAt = currentTime
-          await putUser(user, token_)
-
-        } else if (!data) {
-
+          const user_: User = {
+            id: uuid(),
+            name: userFromProvider.name,
+            email: userFromProvider.email,
+            provider: provider,
+            providerId: providerId,
+            createdAt: userFromDB.createdAt,
+            updatedAt: currentTime,
+          }
+          await putUser(user_, token_)
+        } else if (!userFromDB) {
           // if user does not exist, create one
           console.log('User not found. Creating user.')
           const user_: User = {
             id: uuid(),
-            name: user.name,
-            email: user.email,
+            name: userFromProvider.name,
+            email: userFromProvider.email,
             provider: provider,
             providerId: providerId,
             createdAt: currentTime,
             updatedAt: currentTime,
           }
           await postUser(user_, token_)
-
         } else {
           console.log('User exists, info unchanged. Nothing occurred.')
         }

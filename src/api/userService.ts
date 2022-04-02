@@ -9,7 +9,6 @@ export async function fetchUser(provider: string, providerId: string, token: str
 }
 
 export async function postUser(user: User, token: string) {
-  console.log(user)
   await axios.post('http://localhost:8080/api/v2/', user, getHeaders(token)).catch(console.log)
 }
 
