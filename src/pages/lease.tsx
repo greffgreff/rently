@@ -11,11 +11,13 @@ import { v4 as uuid } from 'uuid'
 import { ServerResponse } from 'http'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 export default function LeasePage({ _jwt }) {
   const { data: session } = useSession()
   const [user, setUser] = useState<User>()
   const [address, setAddress] = useState<ProperAddress>(null)
+  const router = useRouter()
   const country = useRef(null)
   const city = useRef(null)
   const zip = useRef(null)
@@ -36,7 +38,7 @@ export default function LeasePage({ _jwt }) {
     keyboardShortcuts: false,
     clickableIcons: false,
   }
-    
+
   useEffect(() => {
     if (session) {
       setUser(session.user)
@@ -67,28 +69,35 @@ export default function LeasePage({ _jwt }) {
       document.location.reload()
     }
 
-    postListing(
-      {
-        id: uuid(),
-        name: title.current.value,
-        desc: desc.current.value,
-        price: price.current.value,
-        image: null,
-        startDate: moment(start.current.value).format('X'),
-        endDate: moment(end.current.value).format('X'),
-        createAt: moment().format('X'),
-        leaser: user.id,
-        phone: phone.current.value,
-        address: {
-          street: street.current.value,
-          city: country.current.value,
-          zip: zip.current.value,
-          country: country.current.value,
+    const listingId = uuid()
+
+    try {
+      await postListing(
+        {
+          id: listingId,
+          name: title.current.value,
+          desc: desc.current.value,
+          price: price.current.value,
+          image: null,
+          startDate: moment(start.current.value).format('X'),
+          endDate: moment(end.current.value).format('X'),
+          createdAt: moment().format('X'),
+          updatedAt: moment().format('X'),
+          leaser: user.id,
+          phone: phone.current.value,
+          address: {
+            street: street.current.value,
+            city: city.current.value,
+            zip: zip.current.value,
+            country: country.current.value,
+          },
         },
-      },
-      _jwt
-    )
-    // router.push('/listings/{id}')
+        _jwt
+      )
+    } catch (e) {
+      router.push('/')
+    }
+    router.push('/listings/' + listingId)
   }
 
   const date = new Date()
@@ -230,12 +239,12 @@ export default function LeasePage({ _jwt }) {
 export async function getServerSideProps(context) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-  
+
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
-  
+
   const req = context.req
   const secret = process.env.JWT_SECRET
   const token = await getToken({ secret, req })

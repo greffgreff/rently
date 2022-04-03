@@ -1,16 +1,30 @@
 import Styling from './listingPage.module.css'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { Meta, NavigationBar, Map } from '../../components'
-import { Listing } from '../../types'
-import moment from 'moment'
+import { Listing, ProperAddress, Session, User } from '../../types'
+import { fetchAddressTomTom, fetchListingById, fetchUserById } from '../../api'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
-export default function ListingPage({ data }) {
-  if (data === 'Not found') {
-    useRouter().push('/')
-  }
+export default function ListingPage({ _jwt }) {
+  const [listing, setListing] = useState<Listing>(null)
+  const [properAddress, setProperAddress] = useState<ProperAddress>(null)
+  const [leaser, setLeaser] = useState<User>(null)
+  const router = useRouter()
+  const { id } = router.query
 
-  const listing: Listing = data
+  useEffect(() => {
+    if (id) {
+      fetchListingById(id.toString()).then(setListing)
+    }
+  }, [id])
+
+  useEffect(() => {
+    if (listing) {
+      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress)
+      fetchUserById(listing.leaser).then(setLeaser)
+    }
+  }, [listing])
 
   return (
     <>
@@ -22,63 +36,55 @@ export default function ListingPage({ data }) {
         <Meta />
         <NavigationBar />
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <div className={Styling.descArea}>
-              <img className={Styling.image} src={listing.image} />
+        {listing ? (
+          <>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <div className={Styling.descArea}>
+                  <img className={Styling.image} src={listing.image} />
 
-              <div>
-                <div className={Styling.title}>{listing.name}</div>
-                <div className={Styling.details}>
-                  <div className={Styling.price}>
-                    <b>Daily price </b>
-                    {listing.price}€
-                  </div>
-                  <div className={Styling.date}>
-                    <b>Available since </b>
-                    {moment.unix(listing.createAt).format('MM/DD/YYYY HH:mm:ss')}
-                  </div>
-                </div>
+                  <div>
+                    <div className={Styling.title}>{listing.name}</div>
+                    <div className={Styling.details}>
+                      <p>
+                        <b>Daily price </b>
+                        {listing.price}€
+                      </p>
+                      <p>
+                        <b>Available since </b>
+                        {listing.createdAt}
+                      </p>
+                    </div>
 
-                <div className={Styling.details}>
-                  <h3>About this listing</h3>
-                  <p>{listing.desc}</p>
-                  <p>{listing.startDate}</p>
-                  <p>{listing.endDate}</p>
+                    <div className={Styling.details}>
+                      <h3>About this listing</h3>
+                      <p>{listing.desc}</p>
+                      <p>{listing.startDate}</p>
+                      <p>{listing.endDate}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <h2>Who is leasing this</h2>
-            <p>{listing.leaser.name}</p>
-            <p>{listing.leaser.email}</p>
-            <p>{listing.leaser.phone}</p>
-          </div>
-        </div>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <h2>Who is leasing this</h2>
+                <p>{leaser?.name}</p>
+                <p>{leaser?.email}</p>
+              </div>
+            </div>
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <h2>Where can I find this</h2>
-            <p>{listing.address.city}</p>
-            <p>{listing.address.country}</p>
-            <p>{listing.address.streetName}</p>
-            <p>{listing.address.zip}</p>
-
-            {/* <Map lat={listing.lat} lon={listing.lon} width={'100%'} height={'100%'} /> */}
-          </div>
-        </div>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <h2>Where can I find this</h2>
+                <p>{properAddress?.formatedAddress}</p>
+                {properAddress ? <Map lat={properAddress.geocode.lat} lon={properAddress.geocode.lng} /> : null}
+              </div>
+            </div>
+          </>
+        ) : null}
       </main>
     </>
   )
-}
-
-export async function getServerSideProps({ query }) {
-  const { id } = query
-  const req = await fetch(`https://6219106881d4074e85a0b85e.mockapi.io/api/v1/advert/${id}`)
-  const data = await req.json()
-  return { props: { data } }
 }

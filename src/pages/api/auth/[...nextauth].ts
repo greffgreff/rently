@@ -54,9 +54,7 @@ const nextAuthOptions = (req, res) => {
 
           let user_: User
 
-          if (!!userFromDB && userFromDB.email != userFromProvider.email) {
-            console.log('User exsits, info changed. Updating user.')
-
+          if (!!userFromDB && (userFromDB.email != userFromProvider.email || userFromDB.name != userFromProvider.name)) {
             user_ = {
               id: userFromDB.id,
               name: userFromProvider.name,
@@ -69,8 +67,6 @@ const nextAuthOptions = (req, res) => {
 
             await putUser(user_, token_)
           } else if (!userFromDB) {
-            console.log('User not found. Creating user.')
-
             user_ = {
               id: randomUUID(),
               name: userFromProvider.name,
@@ -83,8 +79,6 @@ const nextAuthOptions = (req, res) => {
 
             await postUser(user_, token_)
           } else {
-            console.log('User exists, info unchanged. Nothing occurred.')
-
             user_ = {
               id: userFromDB.id,
               name: userFromDB.name,
