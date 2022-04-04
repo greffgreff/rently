@@ -1,4 +1,3 @@
-import React from 'react'
 import Styling from './styles/map.module.css'
 import { LoadScript, GoogleMap } from '@react-google-maps/api'
 

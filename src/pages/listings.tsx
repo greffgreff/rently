@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ListingCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 import { Listing } from '../types'
+import Loading from '../components/other/Loading'
 
 export default function Listings({ data }) {
   if (data === 'Not found') {
@@ -33,11 +34,15 @@ export default function Listings({ data }) {
             </div>
           ) : null}
 
-          <div className={Styling.results}>
-            {listings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
+          {listings ? (
+            <div className={Styling.results}>
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <Loading />
+          )}
         </div>
       </main>
     </>

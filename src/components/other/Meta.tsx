@@ -1,5 +1,4 @@
 import Styling from './styles/meta.module.css'
-import React from 'react'
 
 export default function Meta() {
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']

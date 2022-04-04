@@ -1,6 +1,6 @@
 import Styling from './listingPage.module.css'
 import Head from 'next/head'
-import { Meta, NavigationBar, Map } from '../../components'
+import { Meta, NavigationBar, Map, Loading } from '../../components'
 import { Listing, ProperAddress, Session, User } from '../../types'
 import { fetchAddressTomTom, fetchListingById, fetchUserById } from '../../api'
 import { useEffect, useState } from 'react'
@@ -83,7 +83,9 @@ export default function ListingPage({ _jwt }) {
               </div>
             </div>
           </>
-        ) : null}
+        ) : (
+          <Loading />
+        )}
       </main>
     </>
   )
