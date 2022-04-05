@@ -16,7 +16,7 @@ export default function Listings({ data }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Listings</title>
+        <title>Listings | Rently.io</title>
       </Head>
 
       <main>

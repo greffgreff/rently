@@ -33,7 +33,7 @@ export default function ListingPage({ _jwt }) {
   }, [listing])
 
   const showLeasePage = async () => {
-    
+    router.push('/lease?id=' + listing.id)
   }
 
   const deleteAd = async () => {
@@ -44,7 +44,7 @@ export default function ListingPage({ _jwt }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Listings</title>
+        <title>{listing?.name} | Rently.io</title>
       </Head>
 
       <main>

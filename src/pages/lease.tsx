@@ -3,8 +3,8 @@ import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
 import { FormEvent, useEffect, useRef, useState } from 'react'
-import { ProperAddress, Session, User } from '../types'
-import { fetchAddressTomTom, postListing } from '../api'
+import { Listing, ProperAddress, Session, User } from '../types'
+import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
@@ -13,10 +13,11 @@ import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
-export default function LeasePage({ _jwt }) {
+export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; listingToUpdate: Listing }) {
   const { data: session } = useSession()
   const [user, setUser] = useState<User>()
   const [address, setAddress] = useState<ProperAddress>(null)
+
   const router = useRouter()
   const country = useRef(null)
   const city = useRef(null)
@@ -62,9 +63,41 @@ export default function LeasePage({ _jwt }) {
     setAddress(result)
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handlePut = async () => {
+    if (new Date() > session.expires) {
+      document.location.reload()
+    }
 
+    try {
+      await putListing(
+        {
+          id: listingToUpdate.id,
+          name: title.current.value,
+          desc: desc.current.value,
+          price: price.current.value,
+          image: null,
+          startDate: moment(start.current.value).format('X'),
+          endDate: moment(end.current.value).format('X'),
+          createdAt: moment().format('X'),
+          updatedAt: moment().format('X'),
+          leaser: user.id,
+          phone: phone.current.value,
+          address: {
+            street: street.current.value,
+            city: city.current.value,
+            zip: zip.current.value,
+            country: country.current.value,
+          },
+        },
+        _jwt
+      )
+    } catch (e) {
+      router.push('/')
+    }
+    router.push('/listings/' + listingToUpdate.id)
+  }
+
+  const handlePosting = async () => {
     if (new Date() > session.expires) {
       document.location.reload()
     }
@@ -96,7 +129,7 @@ export default function LeasePage({ _jwt }) {
       )
     } catch (e) {
       router.push('/')
-      // router.push('/error?msg=' + 'An error occured while posting your advert.' + '&code=' + 500)
+      // router.push('/error?msg=' + 'An error occured while posting your advert' + '&code=' + 500)
     }
     router.push('/listings/' + listingId)
   }
@@ -109,129 +142,135 @@ export default function LeasePage({ _jwt }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Lease</title>
+        <title>Lease Something | Rently.io</title>
       </Head>
 
       <main>
         <Meta />
         <NavigationBar />
 
-        <form onSubmit={(event) => handleSubmit(event)}>
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>About my lease</h1>
-              <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>About my lease</h1>
+            <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
-              <div className={Styling.leasingContainer}>
-                <img className={Styling.image} />
+            <div className={Styling.leasingContainer}>
+              <img className={Styling.image} />
 
-                <div>
-                  <div className={Styling.columnInputs}>
-                    <div className={Styling.labeledInput}>
-                      <p>Give your advert a name:</p>
-                      <input required className={Styling.input} ref={title} placeholder="Title" defaultValue="some title thing" />
-                    </div>
+              <div>
+                <div className={Styling.columnInputs}>
+                  <div className={Styling.labeledInput}>
+                    <p>Give your advert a name:</p>
+                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Daily charge:</p>
-                      <input required min="0" type="number" ref={price} className={Styling.input} defaultValue="123" />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Daily charge:</p>
+                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Lease start date:</p>
-                      <input required type="date" className={Styling.input} ref={start} defaultValue={defaultValue} />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Lease start date:</p>
+                    <input required type="date" className={Styling.input} ref={start} defaultValue={listingToUpdate?.startDate ?? defaultValue} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Lease end date:</p>
-                      <input required type="date" className={Styling.input} ref={end} defaultValue={defaultValue} />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Lease end date:</p>
+                    <input required type="date" className={Styling.input} ref={end} defaultValue={listingToUpdate?.endDate ?? defaultValue} />
+                  </div>
 
-                    <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
-                      <p>Provide a description for renters:</p>
-                      <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue="I'm not going to use my trailer for a few days..." />
-                    </div>
+                  <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
+                    <p>Provide a description for renters:</p>
+                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>Where to pickup</h1>
-              <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>Where to pickup</h1>
+            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
 
-              <div className={Styling.columnInputs}>
-                <div className={Styling.labeledInput}>
-                  <p>Country:</p>
-                  <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue="France" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Zipcode:</p>
-                  <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue="57200" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>City:</p>
-                  <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue="Remelfing" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Street name and number:</p>
-                  <input required className={Styling.input} ref={street} placeholder="123" defaultValue="5 rue des roses" />
-                </div>
+            <div className={Styling.columnInputs}>
+              <div className={Styling.labeledInput}>
+                <p>Country:</p>
+                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country} />
               </div>
 
-              <div id="map" className={Styling.map}>
-                {address ? (
-                  <>
-                    <p>Is this address correct?</p>
-                    <p>
-                      <b>{address.formatedAddress}</b>
-                    </p>
-                    <Map lat={address?.geocode.lat ?? 0.0} lon={address?.geocode.lng ?? 0.0} options={mapOptions} />
-                  </>
-                ) : (
-                  <p>Could not find any corresponding address.</p>
-                )}
+              <div className={Styling.labeledInput}>
+                <p>Zipcode:</p>
+                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip} />
               </div>
 
-              <div className={Styling.btns} onClick={checkAddress}>
-                <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
+              <div className={Styling.labeledInput}>
+                <p>City:</p>
+                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city} />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Street name and number:</p>
+                <input required className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street} />
+              </div>
+            </div>
+
+            <div id="map" className={Styling.map}>
+              {address ? (
+                <>
+                  <p>Is this address correct?</p>
+                  <p>
+                    <b>{address.formatedAddress}</b>
+                  </p>
+                  <Map lat={address?.geocode.lat ?? 0.0} lon={address?.geocode.lng ?? 0.0} options={mapOptions} />
+                </>
+              ) : (
+                <p>Could not find any corresponding address.</p>
+              )}
+            </div>
+
+            <div className={Styling.btns} onClick={checkAddress}>
+              <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
+            </div>
+          </div>
+        </div>
+
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>Contact me</h1>
+            <h4 className={Styling.title}>How do we contact you? Please note that your name and email address are linked to the provider you signed in with.</h4>
+            <div className={Styling.columnInputs}>
+              <div className={Styling.labeledInput}>
+                <p>Display name:</p>
+                <input className={Styling.input} defaultValue={user?.name} disabled />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Email:</p>
+                <input className={Styling.input} defaultValue={user?.email} disabled />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Phone number:</p>
+                <input required className={Styling.input} ref={phone} placeholder='Renters can call me with...' defaultValue={listingToUpdate?.phone} />
               </div>
             </div>
           </div>
+        </div>
 
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>Contact me</h1>
-              <h4 className={Styling.title}>How do we contact you? Please note that your name and email address are linked to the provider you signed in with.</h4>
-              <div className={Styling.columnInputs}>
-                <div className={Styling.labeledInput}>
-                  <p>Display name:</p>
-                  <input className={Styling.input} defaultValue={user?.name ?? ''} disabled />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Email:</p>
-                  <input className={Styling.input} defaultValue={user?.email ?? ''} disabled />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Phone number:</p>
-                  <input required className={Styling.input} ref={phone} />
-                </div>
-              </div>
+        <div className={Styling.btns}>
+          {!listingToUpdate ? (
+            <div onClick={handlePosting}>
+              <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
             </div>
-          </div>
-
-          <div className={Styling.btns}>
-            <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
-            <ButtonSecondary text="Cancel" route="/" width="200px" />
-          </div>
-        </form>
+          ) : (
+            <div onClick={handlePut}>
+              <Button submit={true} text="Updated my listing" icon="fa fa-check" width="200px" />
+            </div>
+          )}
+          <ButtonSecondary text="Cancel" route={listingToUpdate ? '/listings/' + listingToUpdate.id : '/'} width="200px" />
+        </div>
       </main>
     </>
   )
@@ -257,5 +296,12 @@ export async function getServerSideProps(context) {
   }
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
-  return { props: { _jwt } }
+  const { id } = context.query
+  let listingToUpdate = null
+
+  if (id) {
+    listingToUpdate = await fetchListingById(id, _jwt)
+  }
+
+  return { props: { _jwt, listingToUpdate } }
 }

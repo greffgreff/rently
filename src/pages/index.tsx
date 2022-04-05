@@ -10,7 +10,7 @@ export default function Index({ data }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Rent what you need</title>
+        <title>Rent what you need on Rently.io</title>
       </Head>
 
       <main>

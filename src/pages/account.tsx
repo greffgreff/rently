@@ -56,7 +56,7 @@ export default function Account({ _jwt }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Account</title>
+        <title>Account | Rently.io</title>
       </Head>
 
       <main>
