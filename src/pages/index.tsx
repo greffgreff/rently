@@ -1,21 +1,16 @@
 import Styling from './styles/index.module.css'
 import Head from 'next/head'
 import { Marquee, Meta, NavigationBar, SearchBar } from '../components'
-import { useRouter } from 'next/router'
 import { Listing } from '../types'
 
 export default function Index({ data }) {
-  if (data === 'Not found') {
-    useRouter().push('/')
-  }
-
   const listings: Listing[] = data
   const seconds = 1500
 
   return (
     <>
       <Head>
-        <title>Rently.io - Rent what you need</title>
+        <title>Rent what you need on Rently.io</title>
       </Head>
 
       <main>

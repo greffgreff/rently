@@ -34,3 +34,11 @@
 .details {
   font-size: 17px;
 }
+
+.btns {
+  display: flex;
+}
+
+.btns * {
+  margin-right: 0.5em;
+}

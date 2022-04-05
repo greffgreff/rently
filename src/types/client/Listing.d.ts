@@ -1,5 +1,5 @@
 import Address from './Address'
-import Contact from './Contact'
+import User from '../server/User'
 
 export default interface Listing {
   id: string
@@ -9,7 +9,9 @@ export default interface Listing {
   image: string
   startDate: string
   endDate: string
-  createAt: string
+  createdAt: string
+  updatedAt: string
+  leaser: string
+  phone: string
   address: Address
-  leaser: Contact
 }

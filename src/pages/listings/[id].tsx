@@ -1,84 +1,142 @@
 import Styling from './listingPage.module.css'
 import Head from 'next/head'
+import { Meta, NavigationBar, Map, Loading, Button, ButtonSecondary } from '../../components'
+import { Listing, ProperAddress, Session, User } from '../../types'
+import { deleteListing, fetchAddressTomTom, fetchListingById, fetchUserById } from '../../api'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Meta, NavigationBar, Map } from '../../components'
-import { Listing } from '../../types'
-import moment from 'moment'
+import { useSession } from 'next-auth/react'
+import { ServerResponse } from 'http'
+import { getSession } from 'next-auth/react'
+import { getToken } from 'next-auth/jwt'
+import jwt from 'jsonwebtoken'
 
-export default function ListingPage({ data }) {
-  if (data === 'Not found') {
-    useRouter().push('/')
+export default function ListingPage({ _jwt }) {
+  const { data: session } = useSession()
+  const [listing, setListing] = useState<Listing>(null)
+  const [properAddress, setProperAddress] = useState<ProperAddress>(null)
+  const [leaser, setLeaser] = useState<User>(null)
+  const router = useRouter()
+  const { id } = router.query
+
+  useEffect(() => {
+    if (id) {
+      fetchListingById(id.toString(), _jwt).then(setListing)
+    }
+  }, [id])
+
+  useEffect(() => {
+    if (listing) {
+      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress)
+      fetchUserById(listing.leaser).then(setLeaser)
+    }
+  }, [listing])
+
+  const showLeasePage = async () => {
+    router.push('/lease?id=' + listing.id)
   }
 
-  const listing: Listing = data
+  const deleteAd = async () => {
+    await deleteListing(listing.id, _jwt)
+    router.push('/')
+  }
 
   return (
     <>
       <Head>
-        <title>Rently.io - Listings</title>
+        <title>{listing?.name} | Rently.io</title>
       </Head>
 
       <main>
         <Meta />
         <NavigationBar />
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <div className={Styling.descArea}>
-              <img className={Styling.image} src={listing.image} />
+        {listing ? (
+          <>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <div className={Styling.descArea}>
+                  <img className={Styling.image} src={listing.image} />
 
-              <div>
-                <div className={Styling.title}>{listing.name}</div>
-                <div className={Styling.details}>
-                  <div className={Styling.price}>
-                    <b>Daily price </b>
-                    {listing.price}€
-                  </div>
-                  <div className={Styling.date}>
-                    <b>Available since </b>
-                    {moment.unix(listing.createAt).format('MM/DD/YYYY HH:mm:ss')}
-                  </div>
-                </div>
+                  <div>
+                    <div className={Styling.title}>{listing.name}</div>
+                    <div className={Styling.details}>
+                      <p>
+                        <b>Daily price </b>
+                        {listing.price}€
+                      </p>
+                      <p>
+                        <b>Available since </b>
+                        {listing.createdAt}
+                      </p>
+                    </div>
 
-                <div className={Styling.details}>
-                  <h3>About this listing</h3>
-                  <p>{listing.desc}</p>
-                  <p>{listing.startDate}</p>
-                  <p>{listing.endDate}</p>
+                    <div className={Styling.details}>
+                      <h3>About this listing</h3>
+                      <p>{listing.desc}</p>
+                      <p>{listing.startDate}</p>
+                      <p>{listing.endDate}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <h2>Who is leasing this</h2>
-            <p>{listing.leaser.name}</p>
-            <p>{listing.leaser.email}</p>
-            <p>{listing.leaser.phone}</p>
-          </div>
-        </div>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <h2>About the leaser</h2>
+                <p><b>Name</b> {leaser?.name}</p>
+                {leaser?.email ? <p><b>Email</b> {leaser.email}</p> : null}
+                {listing?.phone ? <p><b>Phone</b> {listing.phone}</p> : null}
+              </div>
+            </div>
 
-        <div className={Styling.container}>
-          <div className={Styling.innerContainer}>
-            <h2>Where can I find this</h2>
-            <p>{listing.address.city}</p>
-            <p>{listing.address.country}</p>
-            <p>{listing.address.streetName}</p>
-            <p>{listing.address.zip}</p>
+            <div className={Styling.container}>
+              <div className={Styling.innerContainer}>
+                <h2>Where can I find this</h2>
+                <p>{properAddress?.formatedAddress}</p>
+                {properAddress ? <Map lat={properAddress.geocode.lat} lon={properAddress.geocode.lng} /> : null}
+              </div>
+            </div>
 
-            {/* <Map lat={listing.lat} lon={listing.lon} width={'100%'} height={'100%'} /> */}
-          </div>
-        </div>
+            {(session as Session)?.user?.id == listing.leaser ? (
+              <div className={Styling.btns}>
+                <div onClick={showLeasePage}>
+                  <Button text="Change something" />
+                </div>
+                <div onClick={deleteAd}>
+                  <ButtonSecondary text="Remove this listing" />
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <Loading />
+        )}
       </main>
     </>
   )
 }
 
-export async function getServerSideProps({ query }) {
-  const { id } = query
-  const req = await fetch(`https://6219106881d4074e85a0b85e.mockapi.io/api/v1/advert/${id}`)
-  const data = await req.json()
-  return { props: { data } }
+export async function getServerSideProps(context) {
+  const session: Session = await getSession(context)
+  const res: ServerResponse = context.res
+
+  if (!session) {
+    res.writeHead(302, { Location: '/login' })
+    res.end()
+  }
+
+  const req = context.req
+  const secret = process.env.JWT_SECRET
+  const token: any = await getToken({ secret, req })
+  const payload = {
+    sub: token.user.id,
+    iat: token.iat,
+    exp: token.exp,
+    jti: token.jti,
+  }
+  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+
+  return { props: { _jwt } }
 }
