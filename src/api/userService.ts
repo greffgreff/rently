@@ -2,15 +2,13 @@ import axios from 'axios'
 import { User } from '../types'
 
 export async function fetchUserByProvider(provider: string, providerId: string, token: string): Promise<User> {
-  return await axios
-    .get('http://localhost:8080/api/v2/' + provider + '/' + providerId, getHeaders(token))
-    .then((res) => res.data.content)
+  const res = await axios.get('http://localhost:8080/api/v2/' + provider + '/' + providerId, getHeaders(token))
+  return res.data.content
 }
 
 export async function fetchUserById(id: string, token?: string): Promise<User> {
-  return await axios
-    .get('http://localhost:8080/api/v2/' + id, getHeaders(token))
-    .then((res) => res.data.content)
+  const res = await axios.get('http://localhost:8080/api/v2/' + id, getHeaders(token))
+  return res.data.content
 }
 
 export async function postUser(user: User, token: string) {

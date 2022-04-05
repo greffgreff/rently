@@ -4,8 +4,9 @@ import { Meta, NavigationBar } from '../components'
 import { useRouter } from 'next/router'
 
 export default function Error() {
-  const { ex } = useRouter().query
-  const { status } = useRouter().query
+  const router = useRouter()
+  const { msg } = router.query
+  const { code } = router.query
 
   return (
     <>
@@ -18,10 +19,15 @@ export default function Error() {
         <NavigationBar />
 
         <div className={Styling.container}>
-          <h1 className={Styling.code}>{status ?? 404}</h1>
-          <h1 className={Styling.msg}>{ex ?? 'Not found...'}</h1>
+          <h1 className={Styling.code}>{code ?? 404}</h1>
+          <h1 className={Styling.msg}>{msg ?? 'Not found...'}</h1>
         </div>
       </main>
     </>
   )
+}
+
+Error.getInitialProps = ({ res, err }) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+  return { statusCode }
 }

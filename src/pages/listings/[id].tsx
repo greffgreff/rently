@@ -1,21 +1,32 @@
 import Styling from './listingPage.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Map, Loading } from '../../components'
-import { Listing, ProperAddress, Session, User } from '../../types'
+import { Listing, ProperAddress, User } from '../../types'
 import { fetchAddressTomTom, fetchListingById, fetchUserById } from '../../api'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { AxiosError } from 'axios'
 
-export default function ListingPage({ _jwt }) {
+export default function ListingPage() {
   const [listing, setListing] = useState<Listing>(null)
   const [properAddress, setProperAddress] = useState<ProperAddress>(null)
   const [leaser, setLeaser] = useState<User>(null)
   const router = useRouter()
   const { id } = router.query
 
+  // Cannot make request on server side due to still
+  // unfixed issue with NextJS making multiple calls
+  // on server side requests on dynamic routes in
+  // Chrome. The following have been moved to
+  // clientside unfrotunately
+
   useEffect(() => {
     if (id) {
-      fetchListingById(id.toString()).then(setListing)
+      fetchListingById(id.toString())
+        .then(setListing)
+        .catch((ex: AxiosError) => {
+          router.push('/error?msg=' + ex.response?.data?.message + '&code=' + ex.response?.status)
+        })
     }
   }, [id])
 
@@ -29,7 +40,8 @@ export default function ListingPage({ _jwt }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Listings</title>
+        {/* <link rel="icon" href="./public/favicon.svg" /> */}
+        <title>Rently.io - Listing</title>
       </Head>
 
       <main>
