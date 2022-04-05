@@ -25,15 +25,22 @@ export default function ListingPage() {
       fetchListingById(id.toString())
         .then(setListing)
         .catch((ex: AxiosError) => {
-          router.push('/error?msg=' + ex.response?.data?.message + '&code=' + ex.response?.status)
+          console.log(ex)
+          router.push('/error?msg=' + 'Listing not found.')
         })
     }
   }, [id])
 
   useEffect(() => {
     if (listing) {
-      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress)
-      fetchUserById(listing.leaser).then(setLeaser)
+      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress).catch(console.log)
+
+      fetchUserById(listing.leaser)
+        .then(setLeaser)
+        .catch((ex: AxiosError) => {
+          console.log(ex)
+          router.push('/error?msg=' + 'Leaser not found.')
+        })
     }
   }, [listing])
 
@@ -79,21 +86,25 @@ export default function ListingPage() {
               </div>
             </div>
 
-            <div className={Styling.container}>
-              <div className={Styling.innerContainer}>
-                <h2>Who is leasing this</h2>
-                <p>{leaser?.name}</p>
-                <p>{leaser?.email}</p>
+            {leaser ? (
+              <div className={Styling.container}>
+                <div className={Styling.innerContainer}>
+                  <h2>Who is leasing this</h2>
+                  <p>{leaser?.name}</p>
+                  <p>{leaser?.email}</p>
+                </div>
               </div>
-            </div>
+            ) : null}
 
-            <div className={Styling.container}>
-              <div className={Styling.innerContainer}>
-                <h2>Where can I find this</h2>
-                <p>{properAddress?.formatedAddress}</p>
-                {properAddress ? <Map lat={properAddress.geocode.lat} lon={properAddress.geocode.lng} /> : null}
+            {properAddress ? (
+              <div className={Styling.container}>
+                <div className={Styling.innerContainer}>
+                  <h2>Where can I find this</h2>
+                  <p>{properAddress?.formatedAddress}</p>
+                  <Map lat={properAddress.geocode.lat} lon={properAddress.geocode.lng} />
+                </div>
               </div>
-            </div>
+            ) : null}
           </>
         ) : (
           <Loading />
