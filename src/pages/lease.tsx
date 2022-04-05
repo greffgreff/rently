@@ -96,6 +96,7 @@ export default function LeasePage({ _jwt }) {
       )
     } catch (e) {
       router.push('/')
+      // router.push('/error?msg=' + 'An error occured while posting your advert.' + '&code=' + 500)
     }
     router.push('/listings/' + listingId)
   }
@@ -247,8 +248,14 @@ export async function getServerSideProps(context) {
 
   const req = context.req
   const secret = process.env.JWT_SECRET
-  const token = await getToken({ secret, req })
-  const _jwt = jwt.sign(token, secret, { algorithm: 'HS256' })
+  const token: any = await getToken({ secret, req })
+  const payload = {
+    sub: token.user.id,
+    iat: token.iat,
+    exp: token.exp,
+    jti: token.jti,
+  }
+  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
   return { props: { _jwt } }
 }

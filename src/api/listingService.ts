@@ -20,7 +20,6 @@ export async function putListing(listing: Listing, token: string) {
 }
 
 export async function deleteListing(id: string, token: string) {
-  console.log('Delete' + 'http://localhost:8081/api/v1/' + id)
   await axios.delete('http://localhost:8081/api/v1/' + id, getHeaders(token))
 }
 

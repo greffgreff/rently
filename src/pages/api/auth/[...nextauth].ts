@@ -101,6 +101,7 @@ const nextAuthOptions = (req, res) => {
       },
       async session({ session, token }) {
         session.user = token.user
+        session.sub = token.user.id
         return session
       },
     },
