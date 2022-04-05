@@ -6,10 +6,6 @@ import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 
 export default function Listings({ data }) {
-  if (data === 'Not found') {
-    useRouter().push('/')
-  }
-
   const { search } = useRouter().query
   const listings: Listing[] = data
 
