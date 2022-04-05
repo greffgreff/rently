@@ -296,7 +296,7 @@ export async function getServerSideProps(context) {
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
   const { id } = context.query
-  let listingToUpdate : Listing = null
+  let listingToUpdate: Listing = null
 
   if (id) {
     listingToUpdate = await fetchListingById(id)
