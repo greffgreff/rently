@@ -91,8 +91,8 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
         },
         _jwt
       )
-    } catch (e) {
-      router.push('/')
+    } catch (ex) {
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
   }
@@ -127,9 +127,8 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
         },
         _jwt
       )
-    } catch (e) {
-      router.push('/')
-      // router.push('/error?msg=' + 'An error occured while posting your advert' + '&code=' + 500)
+    } catch (ex) {
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)
   }
@@ -253,7 +252,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
               <div className={Styling.labeledInput}>
                 <p>Phone number:</p>
-                <input required className={Styling.input} ref={phone} placeholder='Renters can call me with...' defaultValue={listingToUpdate?.phone} />
+                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone} />
               </div>
             </div>
           </div>
@@ -297,10 +296,18 @@ export async function getServerSideProps(context) {
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
   const { id } = context.query
-  let listingToUpdate = null
+  let listingToUpdate : Listing = null
 
   if (id) {
-    listingToUpdate = await fetchListingById(id, _jwt)
+    listingToUpdate = await fetchListingById(id)
+
+    console.log(listingToUpdate.leaser)
+    console.log(token.user.id)
+
+    if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
+      res.writeHead(400)
+      res.end()
+    }
   }
 
   return { props: { _jwt, listingToUpdate } }

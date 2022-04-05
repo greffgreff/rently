@@ -1,13 +1,13 @@
 import axios from 'axios'
 import { Listing } from '../types'
 
-export async function fetchListings(token?: string) {
-  const res = await axios.get('http://localhost:8081/api/v1/', getHeaders(token))
+export async function fetchListings() {
+  const res = await axios.get('http://localhost:8081/api/v1/')
   return res.data.data
 }
 
-export async function fetchListingById(id: string, token: string): Promise<Listing> {
-  const res = await axios.get('http://localhost:8081/api/v1/' + id, getHeaders(token))
+export async function fetchListingById(id: string): Promise<Listing> {
+  const res = await axios.get('http://localhost:8081/api/v1/' + id)
   return res.data.data
 }
 

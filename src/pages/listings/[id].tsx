@@ -6,10 +6,9 @@ import { deleteListing, fetchAddressTomTom, fetchListingById, fetchUserById } fr
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { ServerResponse } from 'http'
-import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
+import { AxiosError } from 'axios'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
@@ -21,14 +20,22 @@ export default function ListingPage({ _jwt }) {
 
   useEffect(() => {
     if (id) {
-      fetchListingById(id.toString(), _jwt).then(setListing)
+      fetchListingById(id.toString())
+        .then(setListing)
+        .catch((ex: AxiosError) => {
+          router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+        })
     }
   }, [id])
 
   useEffect(() => {
     if (listing) {
-      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress)
-      fetchUserById(listing.leaser).then(setLeaser)
+      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress).catch(console.log)
+      fetchUserById(listing.leaser)
+        .then(setLeaser)
+        .catch((ex: AxiosError) => {
+          router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
+        })
     }
   }, [listing])
 
@@ -85,9 +92,19 @@ export default function ListingPage({ _jwt }) {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <h2>About the leaser</h2>
-                <p><b>Name</b> {leaser?.name}</p>
-                {leaser?.email ? <p><b>Email</b> {leaser.email}</p> : null}
-                {listing?.phone ? <p><b>Phone</b> {listing.phone}</p> : null}
+                <p>
+                  <b>Name</b> {leaser?.name}
+                </p>
+                {leaser?.email ? (
+                  <p>
+                    <b>Email</b> {leaser.email}
+                  </p>
+                ) : null}
+                {listing?.phone ? (
+                  <p>
+                    <b>Phone</b> {listing.phone}
+                  </p>
+                ) : null}
               </div>
             </div>
 
@@ -119,24 +136,20 @@ export default function ListingPage({ _jwt }) {
 }
 
 export async function getServerSideProps(context) {
-  const session: Session = await getSession(context)
-  const res: ServerResponse = context.res
-
-  if (!session) {
-    res.writeHead(302, { Location: '/login' })
-    res.end()
-  }
-
   const req = context.req
   const secret = process.env.JWT_SECRET
   const token: any = await getToken({ secret, req })
-  const payload = {
-    sub: token.user.id,
-    iat: token.iat,
-    exp: token.exp,
-    jti: token.jti,
+
+  let _jwt = null
+  if (token) {
+    const payload = {
+      sub: token.user.id,
+      iat: token.iat,
+      exp: token.exp,
+      jti: token.jti,
+    }
+    _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
   }
-  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
   return { props: { _jwt } }
 }
