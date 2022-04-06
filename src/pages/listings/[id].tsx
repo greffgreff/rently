@@ -119,10 +119,10 @@ export default function ListingPage({ _jwt }) {
             {(session as Session)?.user?.id == listing.leaser ? (
               <div className={Styling.btns}>
                 <div onClick={showLeasePage}>
-                  <Button text="Change something" />
+                  <Button text="Change something" width="200px" />
                 </div>
                 <div onClick={deleteAd}>
-                  <ButtonSecondary text="Remove this listing" />
+                  <ButtonSecondary text="Remove this listing" width="200px" />
                 </div>
               </div>
             ) : null}
@@ -143,10 +143,10 @@ export async function getServerSideProps(context) {
   let _jwt = null
   if (token) {
     const payload = {
-      sub: token.user.id,
-      iat: token.iat,
-      exp: token.exp,
-      jti: token.jti,
+      sub: token?.user.id,
+      iat: token?.iat,
+      exp: token?.exp,
+      jti: token?.jti,
     }
     _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
   }

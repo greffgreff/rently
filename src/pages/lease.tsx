@@ -265,7 +265,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             </div>
           ) : (
             <div onClick={handlePut}>
-              <Button submit={true} text="Updated my listing" icon="fa fa-check" width="200px" />
+              <Button submit={true} text="Updated listing" icon="fa fa-check" width="200px" />
             </div>
           )}
           <ButtonSecondary text="Cancel" route={listingToUpdate ? '/listings/' + listingToUpdate.id : '/'} width="200px" />
@@ -288,10 +288,10 @@ export async function getServerSideProps(context) {
   const secret = process.env.JWT_SECRET
   const token: any = await getToken({ secret, req })
   const payload = {
-    sub: token.user.id,
-    iat: token.iat,
-    exp: token.exp,
-    jti: token.jti,
+    sub: token?.user.id,
+    iat: token?.iat,
+    exp: token?.exp,
+    jti: token?.jti,
   }
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
