@@ -36,7 +36,7 @@ export default function ListingPage({ data }) {
                   </div>
                   <div className={Styling.date}>
                     <b>Available since </b>
-                    {moment.unix(listing.createAt).format('MM/DD/YYYY HH:mm:ss')}
+                    {moment.unix(listing.createAt as unknown as number).format('MM/DD/YYYY HH:mm:ss')}
                   </div>
                 </div>
 
@@ -63,12 +63,9 @@ export default function ListingPage({ data }) {
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h2>Where can I find this</h2>
-            <p>{listing.address.city}</p>
-            <p>{listing.address.country}</p>
-            <p>{listing.address.streetName}</p>
-            <p>{listing.address.zip}</p>
+            <p>{listing.address.formattedAddress}</p>
 
-            {/* <Map lat={listing.lat} lon={listing.lon} width={'100%'} height={'100%'} /> */}
+            <Map lat={listing.address.lat} lon={listing.address.lon} />
           </div>
         </div>
       </main>

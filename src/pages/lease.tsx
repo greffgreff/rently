@@ -77,6 +77,9 @@ export default function LeasePage({ _jwt, maxAge }) {
           city: country.current.value,
           zip: zip.current.value,
           country: country.current.value,
+          formattedAddress: address.formatedAddress,
+          lat: address.geocode.lat,
+          lon: address.geocode.lng,
         },
         leaser: {
           id: uuid(),
@@ -169,7 +172,7 @@ export default function LeasePage({ _jwt, maxAge }) {
 
                 <div className={Styling.labeledInput}>
                   <p>Street name and number:</p>
-                  <input required className={Styling.input} ref={street} placeholder="123" defaultValue="5 rue des roses" />
+                  <input className={Styling.input} ref={street} placeholder="123" defaultValue="5 rue des roses" />
                 </div>
               </div>
 

@@ -4,4 +4,7 @@ export default interface Address {
   city: string
   zip: string
   country: string
+  formattedAddress: string
+  lat: number
+  lon: number
 }
