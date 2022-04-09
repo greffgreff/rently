@@ -52,10 +52,10 @@ const nextAuthOptions = (req, res) => {
             userFromDB = await fetchUserByProvider(provider, providerId, token_)
           } catch (e) {}
 
-          let user_: User
+          let sessionUser: User
 
           if (!!userFromDB && (userFromDB.email != userFromProvider.email || userFromDB.name != userFromProvider.name)) {
-            user_ = {
+            sessionUser = {
               id: userFromDB.id,
               name: userFromProvider.name,
               email: userFromProvider.email,
@@ -65,9 +65,9 @@ const nextAuthOptions = (req, res) => {
               updatedAt: currentTime.toString(),
             }
 
-            await putUser(user_, token_)
+            await putUser(sessionUser, token_)
           } else if (!userFromDB) {
-            user_ = {
+            sessionUser = {
               id: randomUUID(),
               name: userFromProvider.name,
               email: userFromProvider.email,
@@ -76,10 +76,10 @@ const nextAuthOptions = (req, res) => {
               createdAt: currentTime.toString(),
               updatedAt: currentTime.toString(),
             }
-
-            await postUser(user_, token_)
+            
+            await postUser(sessionUser, token_)
           } else {
-            user_ = {
+            sessionUser = {
               id: userFromDB.id,
               name: userFromDB.name,
               email: userFromDB.email,
@@ -95,7 +95,7 @@ const nextAuthOptions = (req, res) => {
           delete token.picture
           delete token.sub
 
-          token.user = user_
+          token.user = sessionUser
         }
         return token
       },

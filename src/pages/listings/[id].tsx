@@ -1,8 +1,8 @@
 import Styling from './listingPage.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Map, Loading, Button, ButtonSecondary } from '../../components'
-import { Listing, ProperAddress, Session, User } from '../../types'
-import { deleteListing, fetchAddressTomTom, fetchListingById, fetchUserById } from '../../api'
+import { Listing, Session, User } from '../../types'
+import { deleteListing, fetchListingById, fetchUserById } from '../../api'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
@@ -13,7 +13,6 @@ import { AxiosError } from 'axios'
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
   const [listing, setListing] = useState<Listing>(null)
-  const [properAddress, setProperAddress] = useState<ProperAddress>(null)
   const [leaser, setLeaser] = useState<User>(null)
   const router = useRouter()
   const { id } = router.query
@@ -30,13 +29,13 @@ export default function ListingPage({ _jwt }) {
 
   useEffect(() => {
     if (listing) {
-      fetchAddressTomTom(listing.address.country, listing.address.city, listing.address.zip, listing.address.street).then(setProperAddress).catch(console.log)
       fetchUserById(listing.leaser)
         .then(setLeaser)
         .catch((ex: AxiosError) => {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
+    console.log(listing)
   }, [listing])
 
   const showLeasePage = async () => {
@@ -111,8 +110,8 @@ export default function ListingPage({ _jwt }) {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <h2>Where can I find this</h2>
-                <p>{properAddress?.formatedAddress}</p>
-                {properAddress ? <Map lat={properAddress.geocode.lat} lon={properAddress.geocode.lng} /> : null}
+                <p>{listing.address.formattedAddress}</p>
+                <Map lat={listing.address.lat} lon={listing.address.lon} />
               </div>
             </div>
 

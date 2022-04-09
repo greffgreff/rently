@@ -3,15 +3,16 @@ import { Listing } from '../types'
 
 export async function fetchListings() {
   const res = await axios.get('http://localhost:8081/api/v1/')
-  return res.data.data
+  return res.data.content
 }
 
 export async function fetchListingById(id: string): Promise<Listing> {
   const res = await axios.get('http://localhost:8081/api/v1/' + id)
-  return res.data.data
+  return res.data.content
 }
 
 export async function postListing(listing: Listing, token: string) {
+  console.log(listing)
   await axios.post('http://localhost:8081/api/v1/', listing, getHeaders(token))
 }
 

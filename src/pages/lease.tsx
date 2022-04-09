@@ -2,7 +2,7 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
 import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
@@ -17,7 +17,6 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
   const { data: session } = useSession()
   const [user, setUser] = useState<User>()
   const [address, setAddress] = useState<ProperAddress>(null)
-
   const router = useRouter()
   const country = useRef(null)
   const city = useRef(null)
@@ -68,6 +67,8 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       document.location.reload()
     }
 
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)    
+
     try {
       await putListing(
         {
@@ -84,9 +85,12 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
           phone: phone.current.value,
           address: {
             street: street.current.value,
-            city: city.current.value,
+            city: country.current.value,
             zip: zip.current.value,
             country: country.current.value,
+            formattedAddress: address?.formatedAddress,
+            lat: address?.geocode.lat,
+            lon: address?.geocode.lng,
           },
         },
         _jwt
@@ -102,6 +106,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       document.location.reload()
     }
 
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)    
     const listingId = uuid()
 
     try {
@@ -119,10 +124,13 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
           leaser: user.id,
           phone: phone.current.value,
           address: {
-            street: street.current.value,
-            city: city.current.value,
+            street: street.current.value ?? '',
+            city: country.current.value,
             zip: zip.current.value,
             country: country.current.value,
+            formattedAddress: address?.formatedAddress ?? '',
+            lat: address?.geocode.lat ?? 0,
+            lon: address?.geocode.lng ?? 0,
           },
         },
         _jwt
@@ -210,8 +218,8 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
               </div>
 
               <div className={Styling.labeledInput}>
-                <p>Street name and number:</p>
-                <input required className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street} />
+                <p>Street name and number (optional):</p>
+                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street} />
               </div>
             </div>
 
