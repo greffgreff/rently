@@ -1,5 +1,8 @@
 {
   "name": "rently",
+  "engines": {
+    "node": "16.11.1"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
