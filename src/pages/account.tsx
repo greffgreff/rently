@@ -25,11 +25,6 @@ export default function Account({ _jwt }) {
     await deleteUser(user.id, _jwt).then(signOut)
   }
 
-  // Tab redirection stuff
-  useEffect(() => {
-    changeTab(tabSelect)
-  }, [])
-
   useEffect(() => {
     if (session) {
       setUser(session.user)
@@ -52,6 +47,10 @@ export default function Account({ _jwt }) {
     document.getElementById(name)!.style.display = ''
     document.getElementById(name + 'Tab')!.classList.add(Styling.mainTab)
   }
+
+  useEffect(() => {
+    changeTab(tabSelect)
+  })
 
   return (
     <>
