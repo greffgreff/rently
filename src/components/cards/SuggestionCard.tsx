@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function SuggestionCard(listing: Listing) {
   return (
-    <Link href={`/listings/${listing.id}`}>
+    <Link href={`/listings/${listing.id}`} passHref>
       <div key={listing.id} className={Styling.container}>
         <img className={Styling.image} src={listing.image} />
         <div className={Styling.meta}>
