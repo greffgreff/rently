@@ -20,7 +20,6 @@ export async function putUser(user: User, token: string) {
 }
 
 export async function deleteUser(id: string, token: string) {
-  console.log(process.env.NEXT_PUBLIC_USER_SERVICE_BASE_URL)
   await axios.delete(process.env.NEXT_PUBLIC_USER_SERVICE_BASE_URL + 'api/v2/' + id, getHeaders(token))
 }
 

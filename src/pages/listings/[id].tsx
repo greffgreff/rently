@@ -35,7 +35,6 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
-    console.log(listing)
   }, [listing])
 
   const showLeasePage = async () => {
@@ -111,7 +110,7 @@ export default function ListingPage({ _jwt }) {
               <div className={Styling.innerContainer}>
                 <h2>Where can I find this</h2>
                 <p>{listing.address.formattedAddress}</p>
-                <Map lat={listing.address.lat} lon={listing.address.lon} />
+                <Map lat={listing.address.location.coordinates[0]} lon={listing.address.location.coordinates[1]} />
               </div>
             </div>
 

@@ -67,7 +67,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       document.location.reload()
     }
 
-    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)    
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
 
     try {
       await putListing(
@@ -89,8 +89,10 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             zip: zip.current.value,
             country: country.current.value,
             formattedAddress: address?.formatedAddress,
-            lat: address?.geocode.lat,
-            lon: address?.geocode.lng,
+            location: {
+              type: 'Point',
+              coordinates: [address?.geocode.lat ?? 0, address?.geocode.lng ?? 0],
+            },
           },
         },
         _jwt
@@ -106,7 +108,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       document.location.reload()
     }
 
-    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)    
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
     const listingId = uuid()
 
     try {
@@ -129,8 +131,10 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             zip: zip.current.value,
             country: country.current.value,
             formattedAddress: address?.formatedAddress ?? '',
-            lat: address?.geocode.lat ?? 0,
-            lon: address?.geocode.lng ?? 0,
+            location: {
+              type: 'Point',
+              coordinates: [address?.geocode.lat ?? 0, address?.geocode.lng ?? 0],
+            },
           },
         },
         _jwt
@@ -308,9 +312,6 @@ export async function getServerSideProps(context) {
 
   if (id) {
     listingToUpdate = await fetchListingById(id)
-
-    console.log(listingToUpdate.leaser)
-    console.log(token.user.id)
 
     if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
       res.writeHead(400)

@@ -12,7 +12,6 @@ export async function fetchListingById(id: string): Promise<Listing> {
 }
 
 export async function postListing(listing: Listing, token: string) {
-  console.log(listing)
   await axios.post(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/', listing, getHeaders(token))
 }
 

@@ -1,5 +1,4 @@
 import Address from './Address'
-import User from '../server/User'
 
 export default interface Listing {
   id: string
