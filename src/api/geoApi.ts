@@ -1,10 +1,8 @@
 import axios from 'axios'
 import { ProperAddress } from '../types'
 
-const GOOGLE = 'AIzaSyCYm4sjNy3lfgfcfK7zV7e_G8sOVyHtpr0'
-
 export async function getProperFromAddressGoogle(...addressString: string[]): Promise<ProperAddress> {
-  const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString.join('+')}&key=${process.env.GOOGLE_API_KEY ?? GOOGLE}`)
+  const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString.join('+')}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`)
   if (res.data.results.length) {
     return {
       geocode: res.data.results[0].geometry.location,
@@ -14,10 +12,8 @@ export async function getProperFromAddressGoogle(...addressString: string[]): Pr
   return null
 }
 
-const TOMTOM = 'r6SBW2lsmjrN88T2GgG7ddAwmtmJiwiC'
-
 export async function getProperFromAddressTomTom(...addressString: string[]): Promise<ProperAddress> {
-  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.TOMTOM_API_KEY ?? TOMTOM}`)
+  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
   if (res.data.results.length) {
     return {
       geocode: {
@@ -29,5 +25,3 @@ export async function getProperFromAddressTomTom(...addressString: string[]): Pr
   }
   return null
 }
-
-// https://developer.tomtom.com/search-api/api-explorer/

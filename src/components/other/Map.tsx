@@ -14,7 +14,7 @@ export default function Map({ lat, lon, options }: { lat: number; lon: number, o
 
   return (
     <div className={Styling.mapArea}>
-      <LoadScript googleMapsApiKey={process.env.GOOGLE_MAP_KEY}>
+      <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}>
         <GoogleMap options={options} mapContainerStyle={containerStyle} center={center} zoom={15} />
       </LoadScript>
     </div>
