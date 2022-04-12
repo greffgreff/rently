@@ -62,6 +62,32 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     setAddress(result)
   }
 
+  const constructListing = (id: string, address: ProperAddress): Listing => {
+    return {
+      id: id,
+      name: title.current.value,
+      desc: desc.current.value,
+      price: price.current.value,
+      image: null,
+      startDate: moment(start.current.value).format('X'),
+      endDate: moment(end.current.value).format('X'),
+      createdAt: moment().format('X'),
+      updatedAt: moment().format('X'),
+      leaser: user.id,
+      phone: phone.current.value,
+      address: {
+        street: street.current.value,
+        city: city.current.value,
+        zip: zip.current.value,
+        country: country.current.value,
+        formattedAddress: address?.formatedAddress,
+        location: { 
+          type: "Point",
+          coordinates: [address?.geocode.lng ?? 0, address?.geocode.lat ?? 0] },
+      },
+    }
+  }
+
   const handlePut = async () => {
     if (new Date() > session.expires) {
       document.location.reload()
@@ -70,33 +96,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
 
     try {
-      await putListing(
-        {
-          id: listingToUpdate.id,
-          name: title.current.value,
-          desc: desc.current.value,
-          price: price.current.value,
-          image: null,
-          startDate: moment(start.current.value).format('X'),
-          endDate: moment(end.current.value).format('X'),
-          createdAt: moment().format('X'),
-          updatedAt: moment().format('X'),
-          leaser: user.id,
-          phone: phone.current.value,
-          address: {
-            street: street.current.value,
-            city: city.current.value,
-            zip: zip.current.value,
-            country: country.current.value,
-            formattedAddress: address?.formatedAddress,
-            location: {
-              type: 'Point',
-              coordinates: [address?.geocode.lng ?? 0, address?.geocode.lat ?? 0],
-            },
-          },
-        },
-        _jwt
-      )
+      await putListing(constructListing(listingToUpdate.id, address), _jwt)
     } catch (ex) {
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
@@ -112,33 +112,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const listingId = uuid()
 
     try {
-      await postListing(
-        {
-          id: listingId,
-          name: title.current.value,
-          desc: desc.current.value,
-          price: price.current.value,
-          image: null,
-          startDate: moment(start.current.value).format('X'),
-          endDate: moment(end.current.value).format('X'),
-          createdAt: moment().format('X'),
-          updatedAt: moment().format('X'),
-          leaser: user.id,
-          phone: phone.current.value,
-          address: {
-            street: street.current.value ?? '',
-            city: city.current.value,
-            zip: zip.current.value,
-            country: country.current.value,
-            formattedAddress: address?.formatedAddress ?? '',
-            location: {
-              type: 'Point',
-              coordinates: [address?.geocode.lng ?? 0, address?.geocode.lat ?? 0],
-            },
-          },
-        },
-        _jwt
-      )
+      await postListing(constructListing(listingId, address), _jwt)
     } catch (ex) {
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
@@ -172,12 +146,12 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
                 <div className={Styling.columnInputs}>
                   <div className={Styling.labeledInput}>
                     <p>Give your advert a name:</p>
-                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name} />
+                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name ?? 'wefhewiufh'} />
                   </div>
 
                   <div className={Styling.labeledInput}>
                     <p>Daily charge:</p>
-                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price} />
+                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price ?? 123} />
                   </div>
 
                   <div className={Styling.labeledInput}>
@@ -192,7 +166,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
                   <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
                     <p>Provide a description for renters:</p>
-                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc} />
+                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc ?? 'my desc'} />
                   </div>
                 </div>
               </div>
@@ -208,22 +182,22 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
                 <p>Country:</p>
-                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country} />
+                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country ?? 'France'} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>Zipcode:</p>
-                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip} />
+                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip ?? '57200'} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>City:</p>
-                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city} />
+                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city ?? 'Remelfing'} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>Street name and number (optional):</p>
-                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street} />
+                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street ?? '5 ru des roses'} />
               </div>
             </div>
 
@@ -264,7 +238,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
               <div className={Styling.labeledInput}>
                 <p>Phone number:</p>
-                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone} />
+                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone ?? '123123123'} />
               </div>
             </div>
           </div>
