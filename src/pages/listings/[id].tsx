@@ -110,7 +110,7 @@ export default function ListingPage({ _jwt }) {
               <div className={Styling.innerContainer}>
                 <h2>Where can I find this</h2>
                 <p>{listing.address.formattedAddress}</p>
-                <Map lat={listing.address.location.coordinates[0]} lon={listing.address.location.coordinates[1]} />
+                <Map lat={listing.address.location.coordinates[1]} lon={listing.address.location.coordinates[0]} />
               </div>
             </div>
 
