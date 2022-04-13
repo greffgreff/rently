@@ -76,14 +76,14 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       leaser: user.id,
       phone: phone.current.value,
       address: {
-        street: street.current.value,
-        city: city.current.value,
-        zip: zip.current.value,
-        country: country.current.value,
-        formattedAddress: address?.formatedAddress,
+        street: address.address.street,
+        city: address.address.city,
+        zip: address.address.zip,
+        country: address.address.country,
+        formattedAddress: address.formatedAddress,
         location: {
           type: 'Point',
-          coordinates: [address?.geocode.lng ?? 0, address?.geocode.lat ?? 0],
+          coordinates: [address.geocode.lng ?? 0, address.geocode.lat ?? 0],
         },
       },
     }
