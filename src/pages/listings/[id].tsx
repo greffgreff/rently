@@ -9,6 +9,8 @@ import { useSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
+import { ServerResponse } from 'http'
+import { getSession } from 'next-auth/react'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
@@ -137,6 +139,14 @@ export async function getServerSideProps(context) {
   const req = context.req
   const secret = process.env.JWT_SECRET
   const token: any = await getToken({ secret, req })
+
+  const session: Session = await getSession(context)
+  const res: ServerResponse = context.res
+
+  if (!session) {
+    res.writeHead(302, { Location: '/login' })
+    res.end()
+  }
 
   let _jwt = null
   if (token) {
