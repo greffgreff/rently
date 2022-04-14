@@ -5,7 +5,7 @@ export default interface Listing {
   name: string
   desc: string
   price: number
-  image: any
+  image: string
   startDate: string
   endDate: string
   createdAt: string

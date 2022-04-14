@@ -1,6 +1,5 @@
 import Styling from './styles/map.module.css'
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api'
-import { useEffect, useState } from 'react'
 
 export default function Map({ lat, lon, options }: { lat: number; lon: number; options?: object }) {
   const containerStyle = {

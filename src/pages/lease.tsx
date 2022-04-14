@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; listingToUpdate: Listing }) {
   const { data: session } = useSession()
   const [user, setUser] = useState<User>()
-  const [imageFile, setImage] = useState<any>()
+  const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
   const router = useRouter()
   const image = useRef(null)
@@ -70,7 +70,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: image.current.files[0],
+      image: imageFile,
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -115,21 +115,25 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const listingId = uuid()
 
     try {
-      console.log(constructListing(listingId, address))
       await postListing(constructListing(listingId, address), _jwt)
     } catch (ex) {
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    // router.push('/listings/' + listingId)
+    router.push('/listings/' + listingId)
   }
 
   const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files[0]) {
-      const fileSize = event.target.files[0].size / 1024 / 1024 // in MiB
+    const file = event.target.files[0]
+    if (file) {
+      const fileSize = file.size / 1024 / 1024 // in MiB
       if (fileSize > 2) {
-        alert('File size exceeds 2 MiB')
+        alert('Image size exceeds 2 MiB')
       } else {
-        setImage(URL.createObjectURL(event.target.files[0]))
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          setImage(event.target.result as string)
+        }
+        reader.readAsDataURL(file)
       }
     }
   }
@@ -150,16 +154,16 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
             <div className={Styling.leasingContainer}>
-              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile})` }}>
-                Chose an image
+              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile ?? ''})` }}>
+                Choose an image
               </label>
-              <input required ref={image} onChange={(event) => displayImg(event)} accept="image/*" id="file" type="file" className={Styling.fileInput} />
+              <input required ref={image} onChange={(event) => displayImg(event)} accept="image/png, image/jpeg" id="file" type="file" className={Styling.fileInput} />
 
               <div>
                 <div className={Styling.columnInputs}>
                   <div className={Styling.labeledInput}>
                     <p>Give your advert a name:</p>
-                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name ?? 'wefhewiufh'} />
+                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name ?? 'My new listing'} />
                   </div>
 
                   <div className={Styling.labeledInput}>
@@ -210,7 +214,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
               <div className={Styling.labeledInput}>
                 <p>Street name and number (optional):</p>
-                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street ?? '5 ru des roses'} />
+                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street ?? '5 rue des roses'} />
               </div>
             </div>
 
