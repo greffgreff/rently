@@ -154,7 +154,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
             <div className={Styling.leasingContainer}>
-              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile ?? ''})` }}>
+              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile ?? listingToUpdate?.image ?? ''})` }}>
                 Choose an image
               </label>
               <input required ref={image} onChange={(event) => displayImg(event)} accept="image/png, image/jpeg" id="file" type="file" className={Styling.fileInput} />
