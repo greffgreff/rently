@@ -4,8 +4,8 @@ export default interface Listing {
   id: string
   name: string
   desc: string
-  price: string
-  image: string
+  price: number
+  image: any
   startDate: string
   endDate: string
   createdAt: string

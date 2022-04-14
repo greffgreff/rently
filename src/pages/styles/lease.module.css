@@ -45,11 +45,28 @@
   gap: 1em;
 }
 
-.image {
-  width: 30%;
+.fileLabel {
+  width: 40%;
   aspect-ratio: 1;
+  font-size: 20px;
   background-color: var(--innerColor);
   border-radius: var(--roundness);
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.fileLabel:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
 }
 
 .textarea {
@@ -101,7 +118,7 @@
     grid-template-columns: 1fr;
   }
 
-  .image {
+  .fileLabel {
     width: 100%;
   }
 }

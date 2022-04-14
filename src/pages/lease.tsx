@@ -2,7 +2,7 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
 import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
@@ -16,8 +16,10 @@ import { useRouter } from 'next/router'
 export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; listingToUpdate: Listing }) {
   const { data: session } = useSession()
   const [user, setUser] = useState<User>()
+  const [imageFile, setImage] = useState<any>()
   const [address, setAddress] = useState<ProperAddress>(null)
   const router = useRouter()
+  const image = useRef(null)
   const country = useRef(null)
   const city = useRef(null)
   const zip = useRef(null)
@@ -68,7 +70,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: null,
+      image: image.current.files[0],
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -104,7 +106,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     router.push('/listings/' + listingToUpdate.id)
   }
 
-  const handlePosting = async () => {
+  const handlePost = async () => {
     if (new Date() > session.expires) {
       document.location.reload()
     }
@@ -113,17 +115,24 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const listingId = uuid()
 
     try {
+      console.log(constructListing(listingId, address))
       await postListing(constructListing(listingId, address), _jwt)
     } catch (ex) {
-      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    router.push('/listings/' + listingId)
+    // router.push('/listings/' + listingId)
   }
 
-  const date = new Date()
-  const futureDate = date.getDate() + 3
-  date.setDate(futureDate)
-  const defaultValue = date.toLocaleDateString('en-CA')
+  const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files[0]) {
+      const fileSize = event.target.files[0].size / 1024 / 1024 // in MiB
+      if (fileSize > 2) {
+        alert('File size exceeds 2 MiB')
+      } else {
+        setImage(URL.createObjectURL(event.target.files[0]))
+      }
+    }
+  }
 
   return (
     <>
@@ -141,7 +150,10 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
             <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
             <div className={Styling.leasingContainer}>
-              <img className={Styling.image} />
+              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile})` }}>
+                Chose an image
+              </label>
+              <input required ref={image} onChange={(event) => displayImg(event)} accept="image/*" id="file" type="file" className={Styling.fileInput} />
 
               <div>
                 <div className={Styling.columnInputs}>
@@ -157,12 +169,12 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
                   <div className={Styling.labeledInput}>
                     <p>Lease start date:</p>
-                    <input required type="date" className={Styling.input} ref={start} defaultValue={listingToUpdate?.startDate ?? defaultValue} />
+                    <input required type="date" className={Styling.input} ref={start} defaultValue={listingToUpdate?.startDate ? new Date(parseInt(listingToUpdate.startDate) * 1000).toLocaleDateString('en-CA') : new Date().toLocaleDateString('en-CA')} />
                   </div>
 
                   <div className={Styling.labeledInput}>
                     <p>Lease end date:</p>
-                    <input required type="date" className={Styling.input} ref={end} defaultValue={listingToUpdate?.endDate ?? defaultValue} />
+                    <input required type="date" className={Styling.input} ref={end} defaultValue={listingToUpdate?.endDate ? new Date(parseInt(listingToUpdate.endDate) * 1000).toLocaleDateString('en-CA') : new Date().toLocaleDateString('en-CA')} />
                   </div>
 
                   <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
@@ -247,7 +259,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
         <div className={Styling.btns}>
           {!listingToUpdate ? (
-            <div onClick={handlePosting}>
+            <div onClick={handlePost}>
               <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
             </div>
           ) : (
