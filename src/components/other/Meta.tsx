@@ -8,15 +8,17 @@ export default function Meta() {
   const current = new Date()
   const date = `${months[current.getMonth()]} ${current.getDate()}`
   const [locale, setLocale] = useState(null)
+  const [language, setLanguage] = useState(null)
 
   useEffect(() => {
     if (typeof window.navigator !== 'undefined') {
       navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
         try {
           fetchAddressByGeoTomTom(pos.coords.latitude, pos.coords.longitude).then((address: ProperAddress) => setLocale(address?.address?.city))
-        } catch(_) {}
+        } catch (_) {}
         console.log(pos)
       })
+      setLanguage(navigator.languages[1].toUpperCase())
     }
   }, [])
 
@@ -25,13 +27,13 @@ export default function Meta() {
       <div className={Styling.left}>
         <div className={Styling.locale}>
           <i className="fa fa-location-arrow" />
-          {locale ? locale : 'Worldwide'}
+          {locale ?? 'Worldwide'}
         </div>
         <div>{date}</div>
       </div>
       <div className={Styling.locale}>
         <i className="fa fa-globe" />
-        <b>EN</b>
+        {language ?? <b>EN</b>}
       </div>
     </div>
   )
