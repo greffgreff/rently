@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { ListingCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
+import { aggregatedListingsSearch } from '../api'
 
-export default function Listings({ data }) {
+export default function Listings({ listings }: { listings: Listing[] }) {
   const { search } = useRouter().query
-  const listings: Listing[] = data
 
   return (
     <>
@@ -47,7 +47,11 @@ export default function Listings({ data }) {
 
 export async function getServerSideProps({ query }) {
   const { search } = query
-  const req = await fetch(`https://6219106881d4074e85a0b85e.mockapi.io/api/v1/advert/`)
-  const data = await req.json()
-  return { props: { data } }
+  let listings: Listing[] = []
+  try {
+    listings = (await aggregatedListingsSearch(search ?? "")).results
+  } catch (e) {
+    console.log(e)
+  }
+  return { props: { listings } }
 }

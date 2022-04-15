@@ -4,7 +4,7 @@ import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
-import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
+import { fetchAddressTomTom, getListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
@@ -302,7 +302,7 @@ export async function getServerSideProps(context) {
   let listingToUpdate: Listing = null
 
   if (id) {
-    listingToUpdate = await fetchListingById(id)
+    listingToUpdate = await getListingById(id)
 
     if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
       res.writeHead(400)

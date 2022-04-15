@@ -1,11 +1,6 @@
 import axios from 'axios'
 import { Listing } from '../types'
 
-export async function fetchListings() {
-  const res = await axios.get(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/')
-  return res.data.content
-}
-
 export async function fetchListingById(id: string): Promise<Listing> {
   const res = await axios.get(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/' + id)
   return res.data.content

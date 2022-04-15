@@ -24,6 +24,7 @@ export default function ListingPage({ _jwt }) {
       fetchListingById(id.toString())
         .then(setListing)
         .catch((ex: AxiosError) => {
+          console.log(ex)
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
         })
     }

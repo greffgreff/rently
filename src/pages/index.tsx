@@ -2,10 +2,10 @@ import Styling from './styles/index.module.css'
 import Head from 'next/head'
 import { Marquee, Meta, NavigationBar, SearchBar } from '../components'
 import { Listing } from '../types'
+import { getRandomListings } from '../api'
 
-export default function Index({ data }) {
-  const listings: Listing[] = data
-  const seconds = 1500
+export default function Index({ listings }: { listings: Listing[] }) {
+  const seconds = 100
 
   return (
     <>
@@ -16,16 +16,20 @@ export default function Index({ data }) {
       <main>
         <Meta />
         <NavigationBar />
-        <Marquee listings={listings.reverse()} seconds={seconds} />
+        {listings ? <Marquee listings={listings.reverse()} seconds={seconds} /> : null}
         <SearchBar />
-        <Marquee listings={listings} seconds={seconds} reversed={true} />
+        {listings ? <Marquee listings={listings} seconds={seconds} reversed /> : null}
       </main>
     </>
   )
 }
 
 export async function getServerSideProps() {
-  const req = await fetch(`https://6219106881d4074e85a0b85e.mockapi.io/api/v1/advert/`)
-  const data = await req.json()
-  return { props: { data } }
+  let listings = null
+  try {
+    listings = await getRandomListings(100)
+  } catch (e) {
+    console.log(e)
+  }
+  return { props: { listings } }
 }

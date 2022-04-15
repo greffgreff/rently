@@ -20,9 +20,11 @@
 
 .image {
   width: 100%;
-  aspect-ratio: 1;
+  min-height: 1fr;
+  /* aspect-ratio: 1; */
   object-fit: cover;
   border-radius: var(--roundness);
+  background-color: #eee;
 }
 
 .title {
@@ -38,4 +40,11 @@
 .btns {
   display: flex;
   gap: 1em;
+}
+
+@media screen and (max-width: 500px) {
+  .descArea {
+    grid-auto-flow: row;
+    grid-template-columns: unset;
+  }
 }
