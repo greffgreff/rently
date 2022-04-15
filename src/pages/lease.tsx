@@ -70,7 +70,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: imageFile,
+      image: imageFile.replace(/^[^,]*,/, ''),
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -125,7 +125,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
   const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0]
     if (file) {
-      const fileSize = file.size / 1024 / 1024 // in MiB
+      const fileSize = file.size / 1024 / 1024
       if (fileSize > 2) {
         alert('Image size exceeds 2 MiB')
       } else {

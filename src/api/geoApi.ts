@@ -20,7 +20,6 @@ export async function getProperFromAddressTomTom(...addressString: string[]): Pr
 }
 
 export async function getProperFromGeoTomTom(lat: number, lon: number): Promise<ProperAddress> {
-  console.log(`https://api.tomtom.com/search/2/reverseGeocode/${lat},${lon}.json?key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
   const res = await axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${lat},${lon}.json?key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
   const firstResult = res.data?.addresses[0]
   return {

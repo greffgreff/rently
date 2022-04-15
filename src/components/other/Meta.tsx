@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchAddressByGeoTomTom, fetchAddressTomTom } from '../../api'
+import { fetchAddressByGeoTomTom } from '../../api'
 import { ProperAddress } from '../../types'
 import Styling from './styles/meta.module.css'
 
@@ -16,7 +16,6 @@ export default function Meta() {
         try {
           fetchAddressByGeoTomTom(pos.coords.latitude, pos.coords.longitude).then((address: ProperAddress) => setLocale(address?.address?.city))
         } catch (_) {}
-        console.log(pos)
       })
       setLanguage(navigator.languages[1].toUpperCase())
     }
