@@ -20,7 +20,8 @@ export default function Listings({ listings }: { listings: Listing[] }) {
         <NavigationBar />
         <SearchBar prevSearch={search} />
         <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-        {search ? <Spoiler search={search} /> : null}
+        {search ? <Spoiler search={search.toString()} /> : null}
+        {console.log(search)}
 
         <div className={Styling.resultsContainer}>
           {search ? (
@@ -39,6 +40,8 @@ export default function Listings({ listings }: { listings: Listing[] }) {
           ) : (
             <Loading />
           )}
+
+          {listings.length == 0 ? <img className={Styling.nothing} src="nothing.svg" /> : null}
         </div>
       </main>
     </>
@@ -49,7 +52,7 @@ export async function getServerSideProps({ query }) {
   const { search } = query
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(search ?? "")).results
+    listings = (await aggregatedListingsSearch(search ?? '')).results
   } catch (e) {
     console.log(e)
   }

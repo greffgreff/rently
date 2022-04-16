@@ -2,3 +2,4 @@ export { getProperFromAddressTomTom as fetchAddressTomTom, getProperFromGeoTomTo
 export { fetchListingById, postListing, putListing, deleteListing } from './listingService'
 export { fetchUserByProvider, fetchUserById, postUser, putUser, deleteUser } from './userService'
 export { aggregatedListingsSearch, getRandomListings } from './searchService'
+export { getTopSuggestions } from './suggestionsApi'

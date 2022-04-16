@@ -1,14 +1,24 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { getTopSuggestions } from '../../api'
 import Styling from './styles/spoiler.module.css'
-import Link from 'next/link'
-import { ReactChild, ReactFragment, ReactPortal } from 'react';
 
-export default function Spoiler({ search } : { search : string | string[] | undefined }) {
-  let suggestions : string[];
-  if (!Array.isArray(search)) {
-    suggestions = [search ?? '', 'rx 6800', 'rx 6800 xt', 'rtx 3080', 'rtx 3090', 'rx 6900 xt']
-  } else {
-    suggestions = search;
-  }
+type Suggestion = {
+  word: string
+  score: number
+  tags: string[]
+}
+
+export default function Spoiler({ search }: { search: string }) {
+  const [suggestions, setSuggestions] = useState<string[]>([])
+
+  useEffect(() => {
+    getTopSuggestions(search).then((suggestions: Suggestion[]) => {
+      suggestions.slice(0, 10).forEach((suggestion) => {
+        setSuggestions((w) => [...w, suggestion.word])
+      })
+    })
+  }, [])
 
   return (
     <div className={Styling.spoiler}>
@@ -20,7 +30,7 @@ export default function Spoiler({ search } : { search : string | string[] | unde
       <div className={Styling.spoilerContent}>
         {suggestions.map((suggestion) => (
           <div key={suggestion} className={Styling.suggestionLink}>
-            <Link href={`/adverts?search=${suggestion}`}>{suggestion}</Link>
+            <a href={`/listings?search=${suggestion}`}>{suggestion}</a>
           </div>
         ))}
       </div>

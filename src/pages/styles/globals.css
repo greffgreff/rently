@@ -1,13 +1,13 @@
 :root {
   --content: 50%;
   --roundness: 7px;
-  --bg: rgb(245, 247, 252);
-  --innerColor: rgb(243, 246, 255);
-  --secondary: rgb(220, 227, 241);
+  --bg: #f5f7fc;
+  --innerColor: #f3f6ff;
+  --secondary: #dce3f1;
   --primary: rgb(255, 123, 0);
   --primary: rgb(0, 128, 202);
   --primary: rgb(231, 62, 76);
-  --primary: rgb(0, 143, 71);
+  --primary: #008f47;
 }
 
 @media screen and (max-width: 1300px) {
