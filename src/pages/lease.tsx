@@ -4,7 +4,7 @@ import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
-import { fetchAddressTomTom, getListingById, postListing, putListing } from '../api'
+import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
@@ -70,7 +70,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: imageFile.replace(/^[^,]*,/, ''),
+      image: imageFile?.replace(/^[^,]*,/, '') ?? listingToUpdate.image,
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -302,7 +302,7 @@ export async function getServerSideProps(context) {
   let listingToUpdate: Listing = null
 
   if (id) {
-    listingToUpdate = await getListingById(id)
+    listingToUpdate = await fetchListingById(id)
 
     if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
       res.writeHead(400)
