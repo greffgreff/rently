@@ -43,7 +43,7 @@ input:disabled {
 }
 
 main {
-  margin: 30px auto 400px auto;
+  margin: 30px auto 200px auto;
   width: var(--content);
 }
 
