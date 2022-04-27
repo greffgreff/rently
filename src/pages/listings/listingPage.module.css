@@ -21,15 +21,14 @@
 .image {
   width: 100%;
   min-height: 1fr;
-  /* aspect-ratio: 1; */
   object-fit: cover;
   border-radius: var(--roundness);
   background-color: rgb(245, 245, 245);
 }
 
 .description {
-  margin-top: 30px;
-  margin-bottom: 50px;
+  width: 90%;
+  line-height: 30px;
 }
 
 .title {
