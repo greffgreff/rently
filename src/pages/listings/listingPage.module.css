@@ -27,10 +27,16 @@
   background-color: rgb(245, 245, 245);
 }
 
+.description {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
 .title {
   font-size: 220%;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 23px;
+  margin-top: 10px;
 }
 
 .details {

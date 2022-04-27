@@ -70,24 +70,20 @@ export default function ListingPage({ _jwt }) {
                   <img className={Styling.image} src={listing.image} onError={(event) => useFallbackImage(event)} />
 
                   <div>
-                    <div className={Styling.title}>{listing.name}</div>
-                    <div className={Styling.details}>
-                      <p>
-                        <b>Daily price </b>
-                        {listing.price}€
-                      </p>
-                      <p>
-                        <b>Available since </b>
-                        {listing.createdAt}
-                      </p>
-                    </div>
-
-                    <div className={Styling.details}>
-                      <h3>About this listing</h3>
-                      <p>{listing.desc}</p>
-                      <p>{listing.startDate}</p>
-                      <p>{listing.endDate}</p>
-                    </div>
+                    <p className={Styling.title}>{listing.name}</p>
+                    <p className={Styling.details}>
+                      <b>Daily price </b> &nbsp; {listing.price}€
+                    </p>
+                    <p className={Styling.details}>
+                      <b>Available since </b> &nbsp; {new Date(parseInt(listing.createdAt) * 1000).toLocaleString()}
+                    </p>
+                    <p className={Styling.details}>
+                      <b>Rental start</b> &nbsp; {new Date(parseInt(listing.startDate) * 1000).toLocaleDateString()}
+                    </p>
+                    <p className={Styling.details}>
+                      <b>Rental end</b> &nbsp; {new Date(parseInt(listing.endDate) * 1000).toLocaleDateString()}
+                    </p>
+                    <p className={`${Styling.details} ${Styling.description}`}>{listing.desc}</p>
                   </div>
                 </div>
               </div>
@@ -99,16 +95,11 @@ export default function ListingPage({ _jwt }) {
                 <p>
                   <b>Name</b> &nbsp; {leaser?.name}
                 </p>
-                {leaser?.email ? (
-                  <p>
-                    <b>Email</b> &nbsp; {leaser.email}
-                  </p>
-                ) : null}
-                {listing?.phone ? (
+                {listing?.phone && (
                   <p>
                     <b>Phone</b> &nbsp; {listing.phone}
                   </p>
-                ) : null}
+                )}
               </div>
             </div>
 
