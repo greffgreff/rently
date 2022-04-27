@@ -18,7 +18,7 @@ export default function Listings({ listings }: { listings: Listing[] }) {
       <main>
         <Meta />
         <NavigationBar />
-        <SearchBar prevSearch={search} />
+        <SearchBar prevSearch={search} dynamic={true} />
         <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
         {search ? <Spoiler search={search.toString()} /> : null}
 
