@@ -36,3 +36,17 @@ export async function getProperFromGeoTomTom(lat: number, lon: number): Promise<
     formatedAddress: firstResult.address.freeformAddress + ', ' + firstResult.address.country,
   }
 }
+
+export async function getTopsFromAddress(...addressString: string[]): Promise<string[]> {
+  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
+  const results = res.data?.results
+  const parseResults: string[] = []
+
+  results.forEach((result) => {
+    if (result.type === 'Street' || result.type === 'Cross Street') {
+      parseResults.push(result.address.freeformAddress + ', ' + result.address.country)
+    }
+  })
+
+  return parseResults
+}

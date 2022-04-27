@@ -8,6 +8,17 @@
   overflow: hidden;
 }
 
+.searchBarAlt {
+  margin: unset;
+  margin-bottom: 5px;
+  width: 100% !important;
+}
+
+.searchBarAlt .input {
+  background-color: var(--bg);
+  border-color: var(--bg);
+}
+
 .searchBtn {
   display: table;
   margin-right: 1em;

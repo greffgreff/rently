@@ -1,7 +1,7 @@
 import Styling from './styles/listings.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ListingCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
+import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../components'
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 import { aggregatedListingsSearch } from '../api'
@@ -18,9 +18,7 @@ export default function Listings({ listings }: { listings: Listing[] }) {
       <main>
         <Meta />
         <NavigationBar />
-        <SearchBar prevSearch={search} dynamic={true} />
-        <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-        {search ? <Spoiler search={search.toString()} /> : null}
+        <RefinedSearchBar search={search} />
 
         <div className={Styling.resultsContainer}>
           {search ? (
@@ -49,9 +47,11 @@ export default function Listings({ listings }: { listings: Listing[] }) {
 
 export async function getServerSideProps({ query }) {
   const { search } = query
+  const { range } = query
+  const { address } = query
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(search ?? '')).results
+    listings = (await aggregatedListingsSearch(search + '?range=' + parseInt(range ?? 0)*1000 + '&address=' + address  ?? '')).results
   } catch (e) {
     console.log(e)
   }

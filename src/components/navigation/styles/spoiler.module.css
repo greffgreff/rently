@@ -47,7 +47,7 @@
 }
 
 .spoilerInput:checked ~ .spoilerContent {
-  margin: 23px 0 23px 0;
+  margin: 23px 0;
   height: auto;
 }
 

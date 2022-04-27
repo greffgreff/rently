@@ -1,0 +1,77 @@
+.refinedInputs {
+  display: grid;
+  gap: 1em;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 25px;
+  background-color: white;
+  border-radius: var(--roundness);
+  box-shadow: 0 -1px 4px 0 rgba(173, 173, 173, 0.08), 0 4px 8px 0 rgba(196, 196, 196, 0.12);
+}
+
+.addressInput {
+  width: 100%;
+  min-height: 37px;
+  min-width: 230px;
+  font-family: Ubuntu, Segoe UI, Roboto;
+  border-radius: var(--roundness);
+  border: none;
+  padding: 0 20px;
+  margin: auto;
+  transition: 0.2s;
+  font-size: 15px;
+  background-color: #f5f7fc;
+  border: 1.5px solid #f5f7fc;
+}
+
+.addressInput:focus {
+  border: 1.5px solid var(--primary);
+  outline: unset;
+}
+
+.extraInputsContent {
+  display: flex;
+  gap: 1em;
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.extraInputsInput {
+  display: none;
+}
+
+.arrow {
+  transition: 0.2s;
+  margin-right: 10px;
+}
+
+.extraInputsInput + label::after {
+  content: 'More options';
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+.extraInputsInput + label:hover {
+  text-decoration: underline;
+}
+
+.extraInputsInput:checked + label {
+  color: var(--primary);
+}
+
+.extraInputsInput:checked + label::after {
+  content: 'Hide options';
+}
+
+.extraInputsInput:checked ~ .extraInputsContent {
+  margin: 23px 0;
+  height: auto;
+}
+
+.extraInputsInput:checked + label .arrow {
+  transform: rotate(90deg);
+}
