@@ -9,8 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
-import { ServerResponse } from 'http'
-import { getSession } from 'next-auth/react'
+import { url } from 'inspector'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
@@ -49,6 +48,10 @@ export default function ListingPage({ _jwt }) {
     router.push('/')
   }
 
+  const useFallbackImage = (event) => {
+    event.target.src = '/noimage.svg'
+  }
+
   return (
     <>
       <Head>
@@ -64,7 +67,7 @@ export default function ListingPage({ _jwt }) {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <div className={Styling.descArea}>
-                  <img className={Styling.image} src={listing.image} />
+                  <img className={Styling.image} src={listing.image} onError={(event) => useFallbackImage(event)} />
 
                   <div>
                     <div className={Styling.title}>{listing.name}</div>
@@ -94,16 +97,16 @@ export default function ListingPage({ _jwt }) {
               <div className={Styling.innerContainer}>
                 <h2>About the leaser</h2>
                 <p>
-                  <b>Name</b> {leaser?.name}
+                  <b>Name</b> &nbsp; {leaser?.name}
                 </p>
                 {leaser?.email ? (
                   <p>
-                    <b>Email</b> {leaser.email}
+                    <b>Email</b> &nbsp; {leaser.email}
                   </p>
                 ) : null}
                 {listing?.phone ? (
                   <p>
-                    <b>Phone</b> {listing.phone}
+                    <b>Phone</b> &nbsp; {listing.phone}
                   </p>
                 ) : null}
               </div>
@@ -140,14 +143,6 @@ export async function getServerSideProps(context) {
   const req = context.req
   const secret = process.env.JWT_SECRET
   const token: any = await getToken({ secret, req })
-
-  const session: Session = await getSession(context)
-  const res: ServerResponse = context.res
-
-  if (!session) {
-    res.writeHead(302, { Location: '/login' })
-    res.end()
-  }
 
   let _jwt = null
   if (token) {

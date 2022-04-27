@@ -21,7 +21,6 @@ export default function Listings({ listings }: { listings: Listing[] }) {
         <SearchBar prevSearch={search} />
         <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
         {search ? <Spoiler search={search.toString()} /> : null}
-        {console.log(search)}
 
         <div className={Styling.resultsContainer}>
           {search ? (

@@ -41,12 +41,12 @@
   font-size: 15px;
   box-sizing: border-box;
   background-color: white;
-  border: 1px solid rgb(235, 235, 235);
+  border: 1.7px solid white;
   border-radius: var(--roundness);
 }
 
 .input:focus {
-  border: 1px solid var(--primary);
+  border: 1.7px solid var(--primary);
 }
 
 @media screen and (max-width: 800px) {
