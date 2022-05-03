@@ -65,12 +65,17 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
   }
 
   const constructListing = (id: string, address: ProperAddress): Listing => {
+    let image: string = null
+    if (imageFile.match(/^[^,]*,/)) {
+      image = imageFile?.replace(/^[^,]*,/, '') // FIXME check this thing
+    }
+
     return {
       id: id,
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: imageFile?.replace(/^[^,]*,/, '') ?? listingToUpdate?.image,
+      image: image ?? listingToUpdate?.image,
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),

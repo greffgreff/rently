@@ -3,6 +3,7 @@ import Select from '../controls/Select'
 import SearchBarAlt from './SearchBarAlt'
 import Styling from './styles/refinedSearchBar.module.css'
 import Router from 'next/router'
+import Button from '../controls/Button'
 
 export default function RefinedSearchBar({ search }: { search: string | string[] }) {
   const [range, setRange] = useState<string>(null)
@@ -23,6 +24,7 @@ export default function RefinedSearchBar({ search }: { search: string | string[]
         </label>
 
         <div className={Styling.extraInputsContent}>
+          <Button text="Nearby" />
           <input ref={address} className={Styling.addressInput} placeholder={'Enter an address...'} />
           <Select onSelect={setRange} options={['1 km', '2 km', '5 km', '10 km', '15 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km']} />
         </div>

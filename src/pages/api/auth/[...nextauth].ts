@@ -7,10 +7,6 @@ import { fetchUserByProvider, postUser, putUser } from '../../../api'
 import jwt from 'jsonwebtoken'
 import { randomUUID } from 'crypto'
 
-export default (req, res) => {
-  return NextAuth(req, res, nextAuthOptions(req, res))
-}
-
 const nextAuthOptions = (req, res) => {
   return {
     providers: [
@@ -115,4 +111,8 @@ function generateToken(exp, iat) {
     exp: exp,
   }
   return jwt.sign(payload, secret, { algorithm: 'HS256' })
+}
+
+export default (req, res) => {
+  return NextAuth(req, res, nextAuthOptions(req, res))
 }

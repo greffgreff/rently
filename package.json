@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prod": "next build && npm start",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

@@ -11,8 +11,8 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         </div>
         <div className={Styling.meta}>
           <div className={Styling.innerMeta}>
-            <div className={Styling.price}>{listing.price}€/day</div>
-            <div className={Styling.title}>{listing.name}</div>
+            <div className={Styling.price}>{listing.name}</div>
+            <div className={Styling.title}>{listing.price}€/day</div>
             <div className={Styling.date}>{listing.createdAt}</div>
           </div>
         </div>

@@ -23,7 +23,7 @@ export default function NavigationBar() {
             </>
           ) : (
             <div onClick={signIn}>
-              <Button text={'Login'} />
+              <Button text={'Sign in'} />
             </div>
           )}
         </div>

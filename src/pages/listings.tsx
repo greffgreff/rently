@@ -45,13 +45,13 @@ export default function Listings({ listings }: { listings: Listing[] }) {
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }) { // FIXME move this to client side to prevent websocket thing
   const { search } = query
   const { range } = query
   const { address } = query
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(search + '?range=' + parseInt(range ?? 0)*1000 + '&address=' + address  ?? '')).results
+    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0)*1000 + '&address=' + address  ?? '' : ''))).results
   } catch (e) {
     console.log(e)
   }

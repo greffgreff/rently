@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
-import { url } from 'inspector'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()

@@ -19,8 +19,7 @@
 body {
   padding: 0;
   margin: 0;
-  /* needs to use shipped font */
-  font-family: Ubuntu, Segoe UI, Roboto;
+  font-family: Ubuntu, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--bg);
   color: var(--alt-text);
 }
