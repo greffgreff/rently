@@ -19,7 +19,7 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  z-index: -999;
+  /* z-index: -999; */
   background-color: #eee;
 }
 
@@ -28,7 +28,6 @@
   width: 100%;
   bottom: 0;
   background-color: white;
-  /* box-shadow: 0 -1px 4px 0 rgb(26 26 26 / 8%), 0 4px 8px 0 rgb(26 26 26 / 12%); */
   z-index: 999;
 }
 
