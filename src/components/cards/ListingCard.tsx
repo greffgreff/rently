@@ -1,13 +1,14 @@
 import Styling from './styles/listingCard.module.css'
 import Link from 'next/link'
 import { Listing } from '../../types'
+import Image from 'next/image'
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   return (
     <Link href={`/listings/${listing.id}`} passHref>
       <div className={Styling.container}>
         <div className={Styling.imageContainer}>
-          <img className={Styling.image} src={listing.image} />
+          <Image className={Styling.image} alt={listing?.name} src={listing.image ? listing.image : '/noimage.svg'} layout="fill" />
         </div>
         <div className={Styling.meta}>
           <div className={Styling.innerMeta}>
