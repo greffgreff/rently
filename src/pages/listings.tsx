@@ -39,7 +39,7 @@ export default function Listings({ listings }: { listings: Listing[] }) {
             <Loading />
           )}
 
-          {listings.length == 0 ? <Image className={Styling.nothing} alt="What did the ocean say to the beach? Nothing, it just waved." src="nothing.svg" /> : null}
+          {listings.length == 0 ? <Image className={Styling.nothing} alt="What did the ocean say to the beach? Nothing, it just waved." src="/nothing.svg" layout="fill" /> : null}
         </div>
       </main>
     </>
