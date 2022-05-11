@@ -107,7 +107,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       await putListing(constructListing(listingToUpdate.id, address), _jwt)
     } catch (ex) {
       console.log(ex)
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
   }
@@ -124,7 +124,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
       await postListing(constructListing(listingId, address), _jwt)
     } catch (ex) {
       console.log(ex)
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)
   }

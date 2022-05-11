@@ -18,7 +18,7 @@ export default function InputAddress() {
       <div>
         {addresses &&
           addresses.map((address) => {
-            return <p>{address}</p>
+            return <p key={address}>{address}</p>
           })}
       </div>
     </div>

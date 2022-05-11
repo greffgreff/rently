@@ -5,6 +5,7 @@ import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../component
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 import { aggregatedListingsSearch } from '../api'
+import Image from 'next/image'
 
 export default function Listings({ listings }: { listings: Listing[] }) {
   const { search } = useRouter().query
@@ -38,20 +39,21 @@ export default function Listings({ listings }: { listings: Listing[] }) {
             <Loading />
           )}
 
-          {listings.length == 0 ? <img className={Styling.nothing} src="nothing.svg" /> : null}
+          {listings.length == 0 ? <Image alt="What did the ocean say to the beach? Nothing, it just waved." src={'/nothing.svg'} width={'1000'} height={'200'} /> : null}
         </div>
       </main>
     </>
   )
 }
 
-export async function getServerSideProps({ query }) { // FIXME move this to client side to prevent websocket thing
+export async function getServerSideProps({ query }) {
+  // FIXME move this to client side to prevent websocket thing
   const { search } = query
   const { range } = query
   const { address } = query
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0)*1000 + '&address=' + address  ?? '' : ''))).results
+    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0) * 1000 + '&address=' + address ?? '' : ''))).results
   } catch (e) {
     console.log(e)
   }

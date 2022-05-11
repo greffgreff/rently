@@ -17,6 +17,7 @@ export default function Spoiler({ search }: { search: string }) {
         setSuggestions((w) => [...w, suggestion.word])
       })
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

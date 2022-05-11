@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
+import Image from 'next/image'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
@@ -26,6 +27,7 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing])
 
   const showLeasePage = async () => {
@@ -45,10 +48,6 @@ export default function ListingPage({ _jwt }) {
   const deleteAd = async () => {
     await deleteListing(listing.id, _jwt)
     router.push('/')
-  }
-
-  const useFallbackImage = (event) => {
-    event.target.src = '/noimage.svg'
   }
 
   return (
@@ -66,7 +65,7 @@ export default function ListingPage({ _jwt }) {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <div className={Styling.descArea}>
-                  <img className={Styling.image} src={listing.image} onError={(event) => useFallbackImage(event)} />
+                  <Image className={Styling.image} alt={listing?.name} src={listing.image ? listing.image : '/noimage.svg'} layout="fill" />
 
                   <div>
                     <p className={Styling.title}>{listing.name}</p>
