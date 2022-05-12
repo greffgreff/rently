@@ -12,12 +12,14 @@ export default function Meta() {
 
   useEffect(() => {
     if (typeof window.navigator !== 'undefined') {
-      navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+      navigator?.geolocation?.getCurrentPosition((pos: GeolocationPosition) => {
         try {
           fetchAddressByGeoTomTom(pos.coords.latitude, pos.coords.longitude).then((address: ProperAddress) => setLocale(address?.address?.city))
         } catch (_) {}
       })
-      setLanguage(navigator.languages[1].toUpperCase())
+      if (navigator.languages?.length >= 2) {
+        setLanguage(navigator.languages[1]!.toUpperCase())
+      }
     }
   }, [])
 

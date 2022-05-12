@@ -66,7 +66,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 
   const constructListing = (id: string, address: ProperAddress): Listing => {
     let image: string = null
-    if (imageFile.match(/^[^,]*,/)) {
+    if (imageFile?.match(/^[^,]*,/)) {
       image = imageFile?.replace(/^[^,]*,/, '') // FIXME check this thing
     }
 
@@ -106,6 +106,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     try {
       await putListing(constructListing(listingToUpdate.id, address), _jwt)
     } catch (ex) {
+      console.log(ex)
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
@@ -122,6 +123,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     try {
       await postListing(constructListing(listingId, address), _jwt)
     } catch (ex) {
+      console.log(ex)
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)

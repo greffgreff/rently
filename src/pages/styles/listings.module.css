@@ -17,11 +17,3 @@
   grid-auto-flow: column;
   justify-content: space-between;
 }
-
-.nothing {
-  position: relative;
-  width: 20%;
-  top: 50px;
-  left: 53%;
-  transform: translateX(-50%);
-}

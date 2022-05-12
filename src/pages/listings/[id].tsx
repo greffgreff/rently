@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
+import Image from 'next/image'
 
 export default function ListingPage({ _jwt }) {
   const { data: session } = useSession()
@@ -26,6 +27,7 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing])
 
   const showLeasePage = async () => {
@@ -50,7 +53,7 @@ export default function ListingPage({ _jwt }) {
   const displayFallbackImage = (event) => {
     event.target.src = '/noimage.svg'
   }
-
+    
   return (
     <>
       <Head>
