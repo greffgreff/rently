@@ -47,7 +47,7 @@ export default function ListingPage({ _jwt }) {
     router.push('/')
   }
 
-  const useFallbackImage = (event) => {
+  const displayFallbackImage = (event) => {
     event.target.src = '/noimage.svg'
   }
 
@@ -66,7 +66,7 @@ export default function ListingPage({ _jwt }) {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <div className={Styling.descArea}>
-                  <img className={Styling.image} src={listing.image} onError={(event) => useFallbackImage(event)} />
+                  <img className={Styling.image} src={listing.image} onError={(event) => displayFallbackImage(event)} />
 
                   <div>
                     <p className={Styling.title}>{listing.name}</p>
