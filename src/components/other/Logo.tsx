@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Logo() {
   return (
-    <Link href="/">
+    <Link href="/" passHref>
       <div className={Styling.logo}>
         <div className={Styling.text}>Rently.io</div>
       </div>

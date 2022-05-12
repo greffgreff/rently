@@ -1,52 +1,59 @@
 import Styling from './styles/listings.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ListingCard, NavigationBar, SearchBar, Select, Spoiler, Meta } from '../components'
+import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../components'
 import { Listing } from '../types'
+import Loading from '../components/other/Loading'
+import { aggregatedListingsSearch } from '../api'
 
-export default function Listings({ data }) {
-  if (data === 'Not found') {
-    useRouter().push('/')
-  }
-
+export default function Listings({ listings }: { listings: Listing[] }) {
   const { search } = useRouter().query
-  const listings: Listing[] = data
 
   return (
     <>
       <Head>
-        <title>Rently.io - Listings</title>
+        <title>Listings | Rently.io</title>
       </Head>
 
       <main>
         <Meta />
         <NavigationBar />
-        <SearchBar prevSearch={search} />
-        <Select options={['Sarreguemines', 'Remelfing', 'Hambach', 'Zetting']} />
-        {search ? <Spoiler search={search} /> : null}
+        <RefinedSearchBar search={search} />
 
         <div className={Styling.resultsContainer}>
           {search ? (
             <div className={Styling.resultsMeta} style={{ display: search ? '' : 'none !important' }}>
-              <div>Showing results for "{search}"</div>
+              <div>Showing results for &quot;{search}&quot;</div>
               <div>{listings.length} result(s)</div>
             </div>
           ) : null}
 
-          <div className={Styling.results}>
-            {listings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
+          {listings ? (
+            <div className={Styling.results}>
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <Loading />
+          )}
+
+          {listings.length == 0 ? <img className={Styling.nothing} src="nothing.svg" /> : null}
         </div>
       </main>
     </>
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }) { // FIXME move this to client side to prevent websocket thing
   const { search } = query
-  const req = await fetch(`https://6219106881d4074e85a0b85e.mockapi.io/api/v1/advert/`)
-  const data = await req.json()
-  return { props: { data } }
+  const { range } = query
+  const { address } = query
+  let listings: Listing[] = []
+  try {
+    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0)*1000 + '&address=' + address  ?? '' : ''))).results
+  } catch (e) {
+    console.log(e)
+  }
+  return { props: { listings } }
 }

@@ -1,13 +1,13 @@
 :root {
   --content: 50%;
   --roundness: 7px;
-  --bg: rgb(245, 247, 252);
-  --innerColor: rgb(243, 246, 255);
-  --secondary: rgb(220, 227, 241);
-  --primary: rgb(255, 123, 0);
-  --primary: rgb(0, 128, 202);
-  --primary: rgb(231, 62, 76);
-  --primary: rgb(0, 143, 71);
+  --bg: #f5f7fc;
+  --innerColor: #f3f6ff;
+  --secondary: #dce3f1;
+  --primary: #ff7b00;
+  --primary: #0080ca;
+  --primary: #008f47;
+  --primary: #e73e4c;
 }
 
 @media screen and (max-width: 1300px) {
@@ -19,8 +19,7 @@
 body {
   padding: 0;
   margin: 0;
-  /* needs to use shipped font */
-  font-family: Ubuntu, Segoe UI, Roboto;
+  font-family: Ubuntu, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--bg);
   color: var(--alt-text);
 }
@@ -35,7 +34,7 @@ a {
 }
 
 input {
-  font-family: Ubuntu, Segoe UI, Roboto;
+  font-family: inherit;
 }
 
 input:disabled {
@@ -43,7 +42,7 @@ input:disabled {
 }
 
 main {
-  margin: 30px auto 400px auto;
+  margin: 30px auto 200px auto;
   width: var(--content);
 }
 

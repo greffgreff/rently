@@ -9,7 +9,7 @@ export default function Login({ providers }) {
   return (
     <>
       <Head>
-        <title>Rently.io - Login</title>
+        <title>Login | Rently.io</title>
       </Head>
 
       <main>

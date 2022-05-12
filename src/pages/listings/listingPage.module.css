@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   height: auto;
-  border-radius: calc(var(--roundness)*2);
+  border-radius: calc(var(--roundness) * 2);
   background-color: white;
   padding: 0.1px 0;
   margin-bottom: 2em;
@@ -20,17 +20,36 @@
 
 .image {
   width: 100%;
-  aspect-ratio: 1;
+  min-height: 1fr;
   object-fit: cover;
   border-radius: var(--roundness);
+  background-color: rgb(245, 245, 245);
+}
+
+.description {
+  width: 90%;
+  line-height: 30px;
 }
 
 .title {
   font-size: 220%;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 23px;
+  margin-top: 10px;
 }
 
 .details {
   font-size: 17px;
+}
+
+.btns {
+  display: flex;
+  gap: 1em;
+}
+
+@media screen and (max-width: 500px) {
+  .descArea {
+    grid-auto-flow: row;
+    grid-template-columns: unset;
+  }
 }

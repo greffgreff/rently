@@ -9,6 +9,14 @@
   margin: auto;
   transition: 0.2s;
   font-size: 15px;
-  font-weight: 500;
-  background-color: var(--secondary);
+  background-color: #f5f7fc;
+}
+
+.rangeInput {
+  height: fit-content;
+  min-height: unset;
+}
+
+.withSuggestions {
+  display: grid;
 }

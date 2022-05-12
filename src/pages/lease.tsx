@@ -2,20 +2,24 @@ import Styling from './styles/lease.module.css'
 import Head from 'next/head'
 import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
 import { useSession } from 'next-auth/react'
-import { FormEvent, useRef, useState } from 'react'
-import { ProperAddress, Session } from '../types'
-import { fetchAddressTomTom, postListing } from '../api'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { Listing, ProperAddress, Session, User } from '../types'
+import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
 import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
 import { ServerResponse } from 'http'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
-export default function LeasePage({ _jwt, maxAge }) {
+export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; listingToUpdate: Listing }) {
   const { data: session } = useSession()
-  const userData: Session = session
+  const [user, setUser] = useState<User>()
+  const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
+  const router = useRouter()
+  const image = useRef(null)
   const country = useRef(null)
   const city = useRef(null)
   const zip = useRef(null)
@@ -37,6 +41,12 @@ export default function LeasePage({ _jwt, maxAge }) {
     clickableIcons: false,
   }
 
+  useEffect(() => {
+    if (session) {
+      setUser(session.user)
+    }
+  }, [session])
+
   const checkAddress = async () => {
     const result = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
 
@@ -54,176 +64,220 @@ export default function LeasePage({ _jwt, maxAge }) {
     setAddress(result)
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const constructListing = (id: string, address: ProperAddress): Listing => {
+    let image: string = null
+    if (imageFile.match(/^[^,]*,/)) {
+      image = imageFile?.replace(/^[^,]*,/, '') // FIXME check this thing
+    }
 
-    if (moment().format('X') > maxAge) {
+    return {
+      id: id,
+      name: title.current.value,
+      desc: desc.current.value,
+      price: price.current.value,
+      image: image ?? listingToUpdate?.image,
+      startDate: moment(start.current.value).format('X'),
+      endDate: moment(end.current.value).format('X'),
+      createdAt: moment().format('X'),
+      updatedAt: moment().format('X'),
+      leaser: user.id,
+      phone: phone.current.value,
+      address: {
+        street: address.address.street,
+        city: address.address.city,
+        zip: address.address.zip,
+        country: address.address.country,
+        formattedAddress: address.formatedAddress,
+        location: {
+          type: 'Point',
+          coordinates: [address.geocode.lng ?? 0, address.geocode.lat ?? 0],
+        },
+      },
+    }
+  }
+
+  const handlePut = async () => {
+    if (new Date() > session.expires) {
       document.location.reload()
     }
 
-    postListing(
-      {
-        id: uuid(),
-        name: title.current.value,
-        desc: desc.current.value,
-        price: price.current.value,
-        image: null,
-        startDate: moment(start.current.value).format('X'),
-        endDate: moment(end.current.value).format('X'),
-        createAt: moment().format('X').toString(),
-        address: {
-          id: uuid(),
-          street: street.current.value,
-          city: country.current.value,
-          zip: zip.current.value,
-          country: country.current.value,
-          formattedAddress: address.formatedAddress,
-          lat: address.geocode.lat,
-          lon: address.geocode.lng,
-        },
-        leaser: {
-          id: uuid(),
-          name: userData.user.name,
-          email: userData.user.email,
-          phone: phone.current.value,
-        },
-      },
-      _jwt
-    )
-    // router.push('/listings/{id}')
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
+
+    try {
+      await putListing(constructListing(listingToUpdate.id, address), _jwt)
+    } catch (ex) {
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+    }
+    router.push('/listings/' + listingToUpdate.id)
   }
 
-  const date = new Date()
-  const futureDate = date.getDate() + 3
-  date.setDate(futureDate)
-  const defaultValue = date.toLocaleDateString('en-CA')
+  const handlePost = async () => {
+    if (new Date() > session.expires) {
+      document.location.reload()
+    }
+
+    const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
+    const listingId = uuid()
+
+    try {
+      await postListing(constructListing(listingId, address), _jwt)
+    } catch (ex) {
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+    }
+    router.push('/listings/' + listingId)
+  }
+
+  const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0]
+    if (file) {
+      const fileSize = file.size / 1024 / 1024
+      if (fileSize > 2) {
+        alert('Image size exceeds 2 MiB')
+      } else {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          setImage(event.target.result as string)
+        }
+        reader.readAsDataURL(file)
+      }
+    }
+  }
 
   return (
     <>
       <Head>
-        <title>Rently.io - Lease</title>
+        <title>Lease Something | Rently.io</title>
       </Head>
 
       <main>
         <Meta />
         <NavigationBar />
 
-        <form onSubmit={(event) => handleSubmit(event)}>
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>About my lease</h1>
-              <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>About my lease</h1>
+            <h4 className={Styling.title}>Give some basic information about the item. Make it exciting!</h4>
 
-              <div className={Styling.leasingContainer}>
-                <img className={Styling.image} />
+            <div className={Styling.leasingContainer}>
+              <label htmlFor="file" className={Styling.fileLabel} style={{ backgroundImage: `url(${imageFile ?? listingToUpdate?.image ?? ''})` }}>
+                Choose an image
+              </label>
+              <input required ref={image} onChange={(event) => displayImg(event)} accept="image/png, image/jpeg" id="file" type="file" className={Styling.fileInput} />
 
-                <div>
-                  <div className={Styling.columnInputs}>
-                    <div className={Styling.labeledInput}>
-                      <p>Give your advert a name:</p>
-                      <input required className={Styling.input} ref={title} placeholder="Title" defaultValue="some title thing" />
-                    </div>
+              <div>
+                <div className={Styling.columnInputs}>
+                  <div className={Styling.labeledInput}>
+                    <p>Give your advert a name:</p>
+                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name ?? 'My new listing'} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Daily charge:</p>
-                      <input required min="0" type="number" ref={price} className={Styling.input} defaultValue="123" />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Daily charge:</p>
+                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price ?? 123} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Lease start date:</p>
-                      <input required type="date" className={Styling.input} ref={start} defaultValue={defaultValue} />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Lease start date:</p>
+                    <input required type="date" className={Styling.input} ref={start} defaultValue={listingToUpdate?.startDate ? new Date(parseInt(listingToUpdate.startDate) * 1000).toLocaleDateString('en-CA') : new Date().toLocaleDateString('en-CA')} />
+                  </div>
 
-                    <div className={Styling.labeledInput}>
-                      <p>Lease end date:</p>
-                      <input required type="date" className={Styling.input} ref={end} defaultValue={defaultValue} />
-                    </div>
+                  <div className={Styling.labeledInput}>
+                    <p>Lease end date:</p>
+                    <input required type="date" className={Styling.input} ref={end} defaultValue={listingToUpdate?.endDate ? new Date(parseInt(listingToUpdate.endDate) * 1000).toLocaleDateString('en-CA') : new Date().toLocaleDateString('en-CA')} />
+                  </div>
 
-                    <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
-                      <p>Provide a description for renters:</p>
-                      <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue="I'm not going to use my trailer for a few days..." />
-                    </div>
+                  <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
+                    <p>Provide a description for renters:</p>
+                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc ?? 'my desc'} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>Where to pickup</h1>
-              <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>Where to pickup</h1>
+            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
 
-              <div className={Styling.columnInputs}>
-                <div className={Styling.labeledInput}>
-                  <p>Country:</p>
-                  <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue="France" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Zipcode:</p>
-                  <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue="57200" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>City:</p>
-                  <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue="Remelfing" />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Street name and number:</p>
-                  <input className={Styling.input} ref={street} placeholder="123" defaultValue="5 rue des roses" />
-                </div>
+            <div className={Styling.columnInputs}>
+              <div className={Styling.labeledInput}>
+                <p>Country:</p>
+                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country ?? 'France'} />
               </div>
 
-              <div id="map" className={Styling.map}>
-                {address ? (
-                  <>
-                    <p>Is this address correct?</p>
-                    <p>
-                      <b>{address.formatedAddress}</b>
-                    </p>
-                    <Map lat={address?.geocode.lat ?? 0.0} lon={address?.geocode.lng ?? 0.0} options={mapOptions} />
-                  </>
-                ) : (
-                  <p>Could not find any corresponding address.</p>
-                )}
+              <div className={Styling.labeledInput}>
+                <p>Zipcode:</p>
+                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip ?? '57200'} />
               </div>
 
-              <div className={Styling.btns} onClick={checkAddress}>
-                <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
+              <div className={Styling.labeledInput}>
+                <p>City:</p>
+                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city ?? 'Remelfing'} />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Street name and number (optional):</p>
+                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street ?? '5 rue des roses'} />
+              </div>
+            </div>
+
+            <div id="map" className={Styling.map}>
+              {address ? (
+                <>
+                  <p>Is this address correct?</p>
+                  <p>
+                    <b>{address.formatedAddress}</b>
+                  </p>
+                  <Map lat={address?.geocode.lat ?? 0.0} lon={address?.geocode.lng ?? 0.0} options={mapOptions} />
+                </>
+              ) : (
+                <p>Could not find any corresponding address.</p>
+              )}
+            </div>
+
+            <div className={Styling.btns} onClick={checkAddress}>
+              <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
+            </div>
+          </div>
+        </div>
+
+        <div className={Styling.container}>
+          <div className={Styling.innerContainer}>
+            <h1 className={Styling.title}>Contact me</h1>
+            <h4 className={Styling.title}>How do we contact you? Please note that your name and email address are linked to the provider you signed in with.</h4>
+            <div className={Styling.columnInputs}>
+              <div className={Styling.labeledInput}>
+                <p>Display name:</p>
+                <input className={Styling.input} defaultValue={user?.name} disabled />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Email:</p>
+                <input className={Styling.input} defaultValue={user?.email} disabled />
+              </div>
+
+              <div className={Styling.labeledInput}>
+                <p>Phone number:</p>
+                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone ?? '123123123'} />
               </div>
             </div>
           </div>
+        </div>
 
-          <div className={Styling.container}>
-            <div className={Styling.innerContainer}>
-              <h1 className={Styling.title}>Contact me</h1>
-              <h4 className={Styling.title}>How do we contact you? Please note that your name and email address are linked to the provider you signed in with.</h4>
-              <div className={Styling.columnInputs}>
-                <div className={Styling.labeledInput}>
-                  <p>Display name:</p>
-                  <input className={Styling.input} defaultValue={userData?.user.name ?? ''} disabled />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Email:</p>
-                  <input className={Styling.input} defaultValue={userData?.user.email ?? ''} disabled />
-                </div>
-
-                <div className={Styling.labeledInput}>
-                  <p>Phone number:</p>
-                  <input required className={Styling.input} ref={phone} defaultValue="07 49 42 17 17" />
-                </div>
-              </div>
+        <div className={Styling.btns}>
+          {!listingToUpdate ? (
+            <div onClick={handlePost}>
+              <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
             </div>
-          </div>
-
-          <div className={Styling.btns}>
-            <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
-            <ButtonSecondary text="Cancel" route="/" width="200px" />
-          </div>
-        </form>
+          ) : (
+            <div onClick={handlePut}>
+              <Button submit={true} text="Updated listing" icon="fa fa-check" width="200px" />
+            </div>
+          )}
+          <ButtonSecondary text="Cancel" route={listingToUpdate ? '/listings/' + listingToUpdate.id : '/'} width="200px" />
+        </div>
       </main>
     </>
   )
@@ -232,21 +286,34 @@ export default function LeasePage({ _jwt, maxAge }) {
 export async function getServerSideProps(context) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-  const req = context.req
 
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
 
+  const req = context.req
   const secret = process.env.JWT_SECRET
-  const token = await getToken({ secret, req })
+  const token: any = await getToken({ secret, req })
   const payload = {
-    name: token.name,
-    email: token.email,
-    iat: token.iat,
-    exp: token.exp,
+    sub: token?.user.id,
+    iat: token?.iat,
+    exp: token?.exp,
+    jti: token?.jti,
   }
   const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
-  return { props: { _jwt, maxAge: token.exp } }
+
+  const { id } = context.query
+  let listingToUpdate: Listing = null
+
+  if (id) {
+    listingToUpdate = await fetchListingById(id)
+
+    if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
+      res.writeHead(400)
+      res.end()
+    }
+  }
+
+  return { props: { _jwt, listingToUpdate } }
 }

@@ -1,33 +1,52 @@
 import axios from 'axios'
 import { ProperAddress } from '../types'
 
-const GOOGLE = 'AIzaSyCYm4sjNy3lfgfcfK7zV7e_G8sOVyHtpr0'
-
-export async function getProperFromAddressGoogle(...addressString: string[]): Promise<ProperAddress> {
-  const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString.join('+')}&key=${process.env.GOOGLE_API_KEY ?? GOOGLE}`)
-  if (res.data.results.length) {
-    return {
-      geocode: res.data.results[0].geometry.location,
-      formatedAddress: res.data.results[0].formatted_address,
-    }
-  }
-  return null
-}
-
-const TOMTOM = 'r6SBW2lsmjrN88T2GgG7ddAwmtmJiwiC'
-
 export async function getProperFromAddressTomTom(...addressString: string[]): Promise<ProperAddress> {
-  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.TOMTOM_API_KEY ?? TOMTOM}`)
-  if (res.data.results.length) {
-    return {
-      geocode: {
-        lat: res.data.results[0].position.lat,
-        lng: res.data.results[0].position.lon,
-      },
-      formatedAddress: res.data.results[0].address.freeformAddress + ', ' + res.data.results[0].address.country,
-    }
+  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
+  const firstResult = res.data?.results[0]
+  return {
+    address: {
+      street: firstResult.address.streetName,
+      city: firstResult.address?.municipality ?? firstResult.address?.city ?? firstResult.address?.localName,
+      zip: firstResult.address.postalCode,
+      country: firstResult.address.country,
+    },
+    geocode: {
+      lat: firstResult.position.lat,
+      lng: firstResult.position.lon,
+    },
+    formatedAddress: firstResult.address.freeformAddress + ', ' + firstResult.address.country,
   }
-  return null
 }
 
-// https://developer.tomtom.com/search-api/api-explorer/
+export async function getProperFromGeoTomTom(lat: number, lon: number): Promise<ProperAddress> {
+  const res = await axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${lat},${lon}.json?key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
+  const firstResult = res.data?.addresses[0]
+  return {
+    address: {
+      street: firstResult.address.streetName,
+      city: firstResult.address?.municipality ?? firstResult.address?.city ?? firstResult.address?.localName,
+      zip: firstResult.address.postalCode,
+      country: firstResult.address.country,
+    },
+    geocode: {
+      lat: firstResult.position.lat,
+      lng: firstResult.position.lon,
+    },
+    formatedAddress: firstResult.address.freeformAddress + ', ' + firstResult.address.country,
+  }
+}
+
+export async function getTopsFromAddress(...addressString: string[]): Promise<string[]> {
+  const res = await axios.get(`https://api.tomtom.com/search/2/geocode/${addressString.join('%20')}.json?storeResult=false&view=Unified&key=${process.env.NEXT_PUBLIC_TOMTOM_API_KEY}`)
+  const results = res.data?.results
+  const parseResults: string[] = []
+
+  results.forEach((result) => {
+    if (result.type === 'Street' || result.type === 'Cross Street') {
+      parseResults.push(result.address.freeformAddress + ', ' + result.address.country)
+    }
+  })
+
+  return parseResults
+}

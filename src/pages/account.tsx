@@ -2,19 +2,34 @@ import Styling from './styles/account.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { Session } from '../types'
+import { Session, User } from '../types'
 import { getSession } from 'next-auth/react'
+import { deleteUser } from '../api'
+import { ServerResponse } from 'http'
+import { getToken } from 'next-auth/jwt'
+import { signOut } from 'next-auth/react'
+import jwt from 'jsonwebtoken'
 
-export default function Account() {
+export default function Account({ _jwt }) {
   const router = useRouter()
   const { data: session } = useSession()
+  const [user, setUser] = useState<User>()
 
-  // Tab redirection stuff
+  // Account deletion
+  const handleDelete = async () => {
+    if (new Date() > session.expires) {
+      document.location.reload()
+    }
+    await deleteUser(user.id, _jwt).then(signOut)
+  }
+
   useEffect(() => {
-    changeTab(tabSelect)
-  }, [])
+    if (session) {
+      setUser(session.user)
+    }
+  }, [session])
 
   const { tab } = router.query
   const tabs = ['profile', 'rentals', 'advert', 'messages', 'notifications']
@@ -33,13 +48,14 @@ export default function Account() {
     document.getElementById(name + 'Tab')!.classList.add(Styling.mainTab)
   }
 
-  // Account info
-  const userData: Session = session
+  useEffect(() => {
+    changeTab(tabSelect)
+  })
 
   return (
     <>
       <Head>
-        <title>Rently.io - Account</title>
+        <title>Account | Rently.io</title>
       </Head>
 
       <main>
@@ -69,33 +85,25 @@ export default function Account() {
             <div id="profile">
               <div className={Styling.header}>
                 <h1>My profile</h1>
-                <Button text={'Save changes'} />
+                <div>
+                  <div onClick={handleDelete}>
+                    <ButtonSecondary text={'Delete Account'} />
+                  </div>
+                </div>
               </div>
 
               <div className={Styling.settingsInputs}>
                 <div>
                   <p>Display name</p>
-                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={userData?.user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Full name</p>
-                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={userData?.user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={user?.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Email address</p>
-                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={userData?.user?.email ?? ''} disabled={true} />
-                </div>
-                <div>
-                  <p>Phone number</p>
-                  <input className={Styling.input} id="phone" placeholder="Phone" />
-                </div>
-                <div>
-                  <p>Password</p>
-                  <input className={Styling.input} id="email" placeholder="Email" />
-                </div>
-                <div>
-                  <p>Confirm password</p>
-                  <input className={Styling.input} id="phone" placeholder="Phone" />
+                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={user?.email ?? ''} disabled={true} />
                 </div>
               </div>
             </div>
@@ -132,10 +140,24 @@ export default function Account() {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context)
+  const session: Session = await getSession(context)
+  const res: ServerResponse = context.res
+
   if (!session) {
-    context.res.writeHead(302, { Location: '/login' })
-    context.res.end()
+    res.writeHead(302, { Location: '/login' })
+    res.end()
   }
-  return { props: {} }
+
+  const req = context.req
+  const secret = process.env.JWT_SECRET
+  const token: any = await getToken({ secret, req })
+  const payload = {
+    sub: token?.user.id,
+    iat: token?.iat,
+    exp: token?.exp,
+    jti: token?.jti,
+  }
+  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+
+  return { props: { _jwt } }
 }
