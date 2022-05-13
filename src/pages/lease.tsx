@@ -6,15 +6,15 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
 import { fetchAddressTomTom, fetchListingById, postListing, putListing } from '../api'
 import { getSession } from 'next-auth/react'
-import { getToken } from 'next-auth/jwt'
 import { v4 as uuid } from 'uuid'
 import { ServerResponse } from 'http'
-import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 
-export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; listingToUpdate: Listing }) {
-  const { data: session } = useSession()
+export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listing }) {
+  const { data } = useSession()
+  const session : Session = data
+  const dateOnLoad = new Date()
   const [user, setUser] = useState<User>()
   const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
@@ -65,17 +65,12 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
   }
 
   const constructListing = (id: string, address: ProperAddress): Listing => {
-    let image: string = null
-    if (imageFile?.match(/^[^,]*,/)) {
-      image = imageFile?.replace(/^[^,]*,/, '') // FIXME check this thing
-    }
-
     return {
       id: id,
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: image ?? listingToUpdate?.image,
+      image: imageFile?.replace(/^[^,]*,/, ''),
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -104,7 +99,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
 
     try {
-      await putListing(constructListing(listingToUpdate.id, address), _jwt)
+      await putListing(constructListing(listingToUpdate.id, address), session.sessionToken)
     } catch (ex) {
       console.log(ex)
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
@@ -121,7 +116,7 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
     const listingId = uuid()
 
     try {
-      await postListing(constructListing(listingId, address), _jwt)
+      await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
       console.log(ex)
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
@@ -288,22 +283,10 @@ export default function LeasePage({ _jwt, listingToUpdate }: { _jwt: string; lis
 export async function getServerSideProps(context) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
-
-  const req = context.req
-  const secret = process.env.JWT_SECRET
-  const token: any = await getToken({ secret, req })
-  const payload = {
-    sub: token?.user.id,
-    iat: token?.iat,
-    exp: token?.exp,
-    jti: token?.jti,
-  }
-  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
 
   const { id } = context.query
   let listingToUpdate: Listing = null
@@ -311,11 +294,11 @@ export async function getServerSideProps(context) {
   if (id) {
     listingToUpdate = await fetchListingById(id)
 
-    if (listingToUpdate && listingToUpdate.leaser != token.user.id) {
+    if (listingToUpdate && listingToUpdate.leaser != session.user.id) {
       res.writeHead(400)
       res.end()
     }
   }
 
-  return { props: { _jwt, listingToUpdate } }
+  return { props: { listingToUpdate } }
 }
