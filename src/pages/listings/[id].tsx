@@ -35,7 +35,6 @@ export default function ListingPage() {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, listing])
 
   const showLeasePage = async () => {
