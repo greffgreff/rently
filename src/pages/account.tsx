@@ -14,10 +14,9 @@ export default function Account() {
   const router = useRouter()
   const { data } = useSession()
   const session : Session = data
-  const dateOnLoad = new Date()
 
   const handleDelete = async () => {
-    if (dateOnLoad > session.expires) {
+    if (new Date() > session.expires) {
       document.location.reload()
     }
     await deleteUser(session.user.id, session.sessionToken).then(signOut)
