@@ -50,15 +50,17 @@ export default function Listings({ listings }: { listings: Listing[] }) {
 export async function getServerSideProps({ query }) {
   const { search, range, address } = query
 
-  const queryBuilder = QueryBuilder.of('')
-  queryBuilder.addPathVar(search).addParam('range', range).addParam('address', address)
-  console.log(queryBuilder.create())
+  const uri: QueryBuilder = QueryBuilder.of('').addPathVar(search)
+
+  if (address) {
+    uri.addParam('range', range).addParam('address', address)
+  }
 
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(queryBuilder.create())).results
-  } catch (e) {
-    console.log(e)
+    listings = (await aggregatedListingsSearch(uri.createURLencoded())).results
+  } catch (ex) {
+    console.log(ex)
   }
 
   return { props: { listings } }
