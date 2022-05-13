@@ -3,9 +3,12 @@ export default class QueryBuilder {
   private queryParameters: Map<string, any> = new Map()
   private pathVariables: string[] = []
 
-  public of(base: string): QueryBuilder {
+  private constructor(base: string) {
     this.base = base
-    return this
+  }
+
+  public static of(base: string): QueryBuilder {
+    return new QueryBuilder(base)
   }
 
   public addParam(key: string, value: any): QueryBuilder {
@@ -20,7 +23,7 @@ export default class QueryBuilder {
   }
 
   public addParams(queryParameters: Map<string, any>): QueryBuilder {
-    this.queryParameters.forEach((param) => {
+    queryParameters.forEach((param) => {
       this.addParam(param.getKey(), param.getValue())
     })
     return this
@@ -32,8 +35,7 @@ export default class QueryBuilder {
   }
 
   public create(): string {
-    let uri: string
-    uri += this.base
+    let uri: string = this.base
 
     this.pathVariables.forEach((path) => {
       if (path !== '' || path != null) uri += '/' + path
