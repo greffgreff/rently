@@ -134,11 +134,9 @@ export default function Account() {
 export async function getServerSideProps(context: { res: ServerResponse }) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
-
   if (!session) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
-
   return { props: { } }
 }
