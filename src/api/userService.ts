@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { User } from '../types'
 
-export async function fetchUserByProvider(provider: string, providerId: string, token: string): Promise<User> {
+export async function fetchUserByProvider(provider: string, providerId: string, token?: string): Promise<User> {
   const res = await axios.get(process.env.NEXT_PUBLIC_USER_SERVICE_BASE_URL + 'api/v2/users/' + provider + '/' + providerId, getHeaders(token))
   return res.data.content
 }

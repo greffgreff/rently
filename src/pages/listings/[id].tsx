@@ -6,13 +6,14 @@ import { deleteListing, fetchListingById, fetchUserById } from '../../api'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import { getToken } from 'next-auth/jwt'
-import jwt from 'jsonwebtoken'
 import { AxiosError } from 'axios'
 import Image from 'next/image'
+import { getSession } from 'next-auth/react'
+import { ServerResponse } from 'http'
 
-export default function ListingPage({ _jwt }) {
-  const { data: session } = useSession()
+export default function ListingPage() {
+  const { data } = useSession()
+  const session : Session = data
   const [listing, setListing] = useState<Listing>(null)
   const [leaser, setLeaser] = useState<User>(null)
   const router = useRouter()
@@ -27,10 +28,6 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
         })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
-
-  useEffect(() => {
     if (listing) {
       fetchUserById(listing.leaser)
         .then(setLeaser)
@@ -38,15 +35,14 @@ export default function ListingPage({ _jwt }) {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listing])
+  }, [id, listing])
 
   const showLeasePage = async () => {
     router.push('/lease?id=' + listing.id)
   }
 
   const deleteAd = async () => {
-    await deleteListing(listing.id, _jwt)
+    await deleteListing(listing.id, session.sessionToken)
     router.push('/')
   }
 
@@ -132,21 +128,12 @@ export default function ListingPage({ _jwt }) {
   )
 }
 
-export async function getServerSideProps(context) {
-  const req = context.req
-  const secret = process.env.JWT_SECRET
-  const token: any = await getToken({ secret, req })
-
-  let _jwt = null
-  if (token) {
-    const payload = {
-      sub: token?.user.id,
-      iat: token?.iat,
-      exp: token?.exp,
-      jti: token?.jti,
-    }
-    _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
+export async function getServerSideProps(context: { res: ServerResponse }) {
+  const session: Session = await getSession(context)
+  const res: ServerResponse = context.res
+  if (!session) {
+    res.writeHead(302, { Location: '/login' })
+    res.end()
   }
-
-  return { props: { _jwt } }
+  return { props: { } }
 }
