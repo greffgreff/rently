@@ -6,6 +6,7 @@ import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 import { aggregatedListingsSearch } from '../api'
 import Image from 'next/image'
+import QueryBuilder from '../utils/QueryBuilder'
 
 export default function Listings({ listings }: { listings: Listing[] }) {
   const { search } = useRouter().query
@@ -47,15 +48,18 @@ export default function Listings({ listings }: { listings: Listing[] }) {
 }
 
 export async function getServerSideProps({ query }) {
-  // FIXME move this to client side to prevent websocket thing
-  const { search } = query
-  const { range } = query
-  const { address } = query
+  const { search, range, address } = query
+
+  const queryBuilder = QueryBuilder.of('')
+  queryBuilder.addPathVar(search).addParam('range', range).addParam('address', address)
+  console.log(queryBuilder.create())
+
   let listings: Listing[] = []
   try {
-    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0) * 1000 + '&address=' + address ?? '' : ''))).results
+    listings = (await aggregatedListingsSearch(queryBuilder.create())).results
   } catch (e) {
     console.log(e)
   }
+
   return { props: { listings } }
 }
