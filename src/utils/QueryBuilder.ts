@@ -26,7 +26,7 @@ export default class QueryBuilder {
   }
 
   public addParams(queryParameters: Map<string, any>): QueryBuilder {
-    for(let [key, value] of queryParameters.entries()) {
+    for (let [key, value] of queryParameters.entries()) {
       this.addParam(key, value)
     }
     return this
@@ -37,7 +37,7 @@ export default class QueryBuilder {
     return this
   }
 
-  public create(): string {
+  public createURLencoded(): string {
     let uri: string = this.base
 
     this.pathVariables.forEach((path) => {
@@ -46,8 +46,8 @@ export default class QueryBuilder {
 
     if (!!this.queryParameters.size) {
       let parsedParams: string[] = []
-      for(let [key, value] of this.queryParameters.entries()) {
-        parsedParams.push(key + '=' + value)
+      for (let [key, value] of this.queryParameters.entries()) {
+        parsedParams.push(key + '=' + (value as string).replaceAll(' ', '%20'))
       }
       uri += '?' + parsedParams.join('&')
     }
