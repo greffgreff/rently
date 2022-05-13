@@ -16,7 +16,9 @@
 .imageContainer {
   width: 200px;
   height: 200px;
-  background-color: rgb(231, 231, 231);
+  background-color: #eee;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .image {
