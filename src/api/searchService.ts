@@ -13,7 +13,7 @@ export async function getListingById(id: string): Promise<Listing> {
   return res.data.results
 }
 
-export async function getRandomListings(count: number): Promise<Listing[]> {
+export async function getRandomListings(count?: number): Promise<Listing[]> {
   console.log(process.env.NEXT_PUBLIC_SEARCH_SERVICE_BASE_URL + 'api/v1/listings/random' + (count ? '?count=' + count : null))
   const res = await axios.get(process.env.NEXT_PUBLIC_SEARCH_SERVICE_BASE_URL + 'api/v1/listings/random' + (count ? '?count=' + count : null))
   return res.data.results
