@@ -36,19 +36,19 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, account }) {
       const userFromProvider = token
-
       if (account) {
         const provider = account.provider
         const providerId = account.providerAccountId
-        const currentTime = new Date().getTime()
-        const token_ = generateToken(account.expires_at, currentTime)
+        const currentTimeInMills = new Date().getTime()
+
         let userFromDB: User
         try {
-          userFromDB = await fetchUserByProvider(provider, providerId, token_)
+          userFromDB = await fetchUserByProvider(provider, providerId)
         } catch (e) {}
-
+        
+        let sessionToken : string
         let sessionUser: User
-
+        
         if (!!userFromDB && (userFromDB.email != userFromProvider.email || userFromDB.name != userFromProvider.name)) {
           sessionUser = {
             id: userFromDB.id,
@@ -57,22 +57,23 @@ export default NextAuth({
             provider: provider,
             providerId: providerId,
             createdAt: userFromDB.createdAt,
-            updatedAt: currentTime.toString(),
+            updatedAt: currentTimeInMills.toString(),
           }
-
-          await putUser(sessionUser, token_)
+          sessionToken = generateToken(userFromDB.id, account.expires_at, currentTimeInMills)
+          await putUser(sessionUser, sessionToken)
         } else if (!userFromDB) {
+          let newUserId = randomUUID()
           sessionUser = {
-            id: randomUUID(),
+            id: newUserId,
             name: userFromProvider.name,
             email: userFromProvider.email,
             provider: provider,
             providerId: providerId,
-            createdAt: currentTime.toString(),
-            updatedAt: currentTime.toString(),
+            createdAt: currentTimeInMills.toString(),
+            updatedAt: currentTimeInMills.toString(),
           }
-
-          await postUser(sessionUser, token_)
+          sessionToken = generateToken(newUserId, account.expires_at, currentTimeInMills)
+          await postUser(sessionUser, sessionToken)
         } else {
           sessionUser = {
             id: userFromDB.id,
@@ -83,30 +84,28 @@ export default NextAuth({
             createdAt: userFromDB.createdAt,
             updatedAt: userFromDB.updatedAt,
           }
+          sessionToken = generateToken(userFromDB.id, account.expires_at, currentTimeInMills)
         }
 
-        delete token.name
-        delete token.email
-        delete token.picture
-        delete token.sub
-
         token.user = sessionUser
+        token.jwt = sessionToken
       }
       return token
     },
     async session({ session, token }) {
       session.user = token.user
-      session.sub = token.user.id
+      session.sessionToken = token.jwt
       return session
     },
   },
 })
 
-function generateToken(exp, iat) {
+function generateToken(subject: string, exp: number, iat: number) {
   const secret = process.env.JWT_SECRET
   const payload = {
-    iat: iat,
+    sub: subject,
     exp: exp,
+    iat: iat,
   }
   return jwt.sign(payload, secret, { algorithm: 'HS256' })
 }
