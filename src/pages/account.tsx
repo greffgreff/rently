@@ -2,34 +2,26 @@ import Styling from './styles/account.module.css'
 import Head from 'next/head'
 import { Meta, NavigationBar, Button, ButtonSecondary } from '../components'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { Session, User } from '../types'
+import { Session } from '../types'
 import { getSession } from 'next-auth/react'
 import { deleteUser } from '../api'
 import { ServerResponse } from 'http'
-import { getToken } from 'next-auth/jwt'
 import { signOut } from 'next-auth/react'
-import jwt from 'jsonwebtoken'
 
-export default function Account({ _jwt }) {
+export default function Account() {
   const router = useRouter()
-  const { data: session } = useSession()
-  const [user, setUser] = useState<User>()
+  const { data } = useSession()
+  const session : Session = data
+  const dateOnLoad = new Date()
 
-  // Account deletion
   const handleDelete = async () => {
-    if (new Date() > session.expires) {
+    if (dateOnLoad > session.expires) {
       document.location.reload()
     }
-    await deleteUser(user.id, _jwt).then(signOut)
+    await deleteUser(session.user.id, session.sessionToken).then(signOut)
   }
-
-  useEffect(() => {
-    if (session) {
-      setUser(session.user)
-    }
-  }, [session])
 
   const { tab } = router.query
   const tabs = ['profile', 'rentals', 'advert', 'messages', 'notifications']
@@ -95,15 +87,15 @@ export default function Account({ _jwt }) {
               <div className={Styling.settingsInputs}>
                 <div>
                   <p>Display name</p>
-                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="username" placeholder="Username" defaultValue={session?.user.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Full name</p>
-                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={user?.name ?? ''} disabled={true} />
+                  <input className={Styling.input} id="fullname" placeholder="Full name" defaultValue={session?.user.name ?? ''} disabled={true} />
                 </div>
                 <div>
                   <p>Email address</p>
-                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={user?.email ?? ''} disabled={true} />
+                  <input className={Styling.input} id="email" placeholder="Email" defaultValue={session?.user.email ?? ''} disabled={true} />
                 </div>
               </div>
             </div>
@@ -139,7 +131,7 @@ export default function Account({ _jwt }) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: { res: ServerResponse }) {
   const session: Session = await getSession(context)
   const res: ServerResponse = context.res
 
@@ -148,16 +140,5 @@ export async function getServerSideProps(context) {
     res.end()
   }
 
-  const req = context.req
-  const secret = process.env.JWT_SECRET
-  const token: any = await getToken({ secret, req })
-  const payload = {
-    sub: token?.user.id,
-    iat: token?.iat,
-    exp: token?.exp,
-    jti: token?.jti,
-  }
-  const _jwt = jwt.sign(payload, secret, { algorithm: 'HS256' })
-
-  return { props: { _jwt } }
+  return { props: { } }
 }
