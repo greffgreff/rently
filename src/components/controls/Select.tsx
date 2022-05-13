@@ -6,7 +6,7 @@ export default function Select({ options, onSelect }: { options: any[]; onSelect
   const select = useRef(null)
 
   const handleSelect = () => {
-    if (select.current.value) {
+    if (select.current.value && onSelect) {
       onSelect(select.current.value)
     }
   }
