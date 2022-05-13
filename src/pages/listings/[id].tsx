@@ -7,9 +7,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { AxiosError } from 'axios'
-import Image from 'next/image'
-import { getSession } from 'next-auth/react'
-import { ServerResponse } from 'http'
 
 export default function ListingPage() {
   const { data } = useSession()
@@ -126,14 +123,4 @@ export default function ListingPage() {
       </main>
     </>
   )
-}
-
-export async function getServerSideProps(context: { res: ServerResponse }) {
-  const session: Session = await getSession(context)
-  const res: ServerResponse = context.res
-  if (!session) {
-    res.writeHead(302, { Location: '/login' })
-    res.end()
-  }
-  return { props: { } }
 }
