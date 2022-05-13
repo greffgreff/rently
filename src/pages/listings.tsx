@@ -4,11 +4,12 @@ import { useRouter } from 'next/router'
 import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../components'
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
-import { aggregatedListingsSearch } from '../api'
+import { aggregatedListingsSearch, getRandomListings } from '../api'
 import Image from 'next/image'
+import QueryBuilder from '../utils/QueryBuilder'
 
 export default function Listings({ listings }: { listings: Listing[] }) {
-  const { search } = useRouter().query
+  const { search, address, range } = useRouter().query
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function Listings({ listings }: { listings: Listing[] }) {
       <main>
         <Meta />
         <NavigationBar />
-        <RefinedSearchBar search={search} />
+        <RefinedSearchBar prevSearch={search} prevAddress={address} prevRange={range} />
 
         <div className={Styling.resultsContainer}>
           {search ? (
@@ -47,15 +48,27 @@ export default function Listings({ listings }: { listings: Listing[] }) {
 }
 
 export async function getServerSideProps({ query }) {
-  // FIXME move this to client side to prevent websocket thing
-  const { search } = query
-  const { range } = query
-  const { address } = query
+  const { search, range, address } = query
+
   let listings: Listing[] = []
-  try {
-    listings = (await aggregatedListingsSearch(search + (address ? '?range=' + parseInt(range ?? 0) * 1000 + '&address=' + address ?? '' : ''))).results
-  } catch (e) {
-    console.log(e)
+
+  if (search == null && address == null) {
+    try {
+      listings = (await getRandomListings(20))
+    } catch (ex) {
+      console.log(ex)
+    }
+  } else {
+    const uri: QueryBuilder = QueryBuilder.of('').addPathVar(search)
+    if (address) {
+      uri.addParam('range', range).addParam('address', address)
+    }
+    try {
+      listings = (await aggregatedListingsSearch(uri.createURLencoded())).results
+    } catch (ex) {
+      console.log(ex)
+    }
   }
+
   return { props: { listings } }
 }

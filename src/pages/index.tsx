@@ -16,7 +16,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Rent what you need on Rently.io</title>
+        <title>All you can rent!</title>
       </Head>
 
       <main>
@@ -25,8 +25,6 @@ export default function Index() {
         {listings && <Marquee listings={listings.reverse()} seconds={seconds} />}
         <SearchBar />
         {listings && <Marquee listings={listings} seconds={seconds} reversed />}
-        
-        <SuggestionCard id={'1'} name={'Listing'} desc={'Description'} price={10.2} image={''} startDate={'01/11/21'} endDate={'30/11/21'} createdAt={'01/01/12'} updatedAt={''} leaser={''} phone={''} address={undefined}  />
       </main>
     </>
   )

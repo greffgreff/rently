@@ -9,10 +9,6 @@
   box-shadow: 0 -1px 4px 0 rgba(173, 173, 173, 0.08), 0 4px 8px 0 rgba(196, 196, 196, 0.12);
 }
 
-.refinedInputs button {
-  height: 41px;
-}
-
 .addressInput {
   width: 100%;
   min-height: 37px;
@@ -34,11 +30,15 @@
 }
 
 .extraInputsContent {
-  display: flex;
-  gap: 1em;
   height: 0;
   overflow: hidden;
   transition: 0.2s;
+}
+
+.extraInputsContent .extraInputsContentLayer {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1em;
 }
 
 .extraInputsInput {
@@ -72,7 +72,7 @@
 }
 
 .extraInputsInput:checked ~ .extraInputsContent {
-  margin: 23px 0;
+  margin-top: 25px;
   height: auto;
 }
 

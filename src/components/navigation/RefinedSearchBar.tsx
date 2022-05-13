@@ -3,19 +3,20 @@ import Select from '../controls/Select'
 import SearchBarAlt from './SearchBarAlt'
 import Styling from './styles/refinedSearchBar.module.css'
 import Router from 'next/router'
-import Button from '../controls/Button'
+import QueryBuilder from '../../utils/QueryBuilder'
 
-export default function RefinedSearchBar({ search }: { search: string | string[] }) {
-  const [range, setRange] = useState<string>(null)
-  const address = useRef(null)
+export default function RefinedSearchBar({ prevSearch, prevAddress, prevRange }: { prevSearch?: string | string[]; prevAddress?: string | string[]; prevRange?: string | string[] }) {
+  const [range, setRange] = useState<string>()
+  const [address, setAddress] = useState<string>()
 
-  const makeSearch = (search: string) => {
-    Router.push('/listings?search=' + search + '&address=' + address?.current?.value + '&range=' + range?.slice(0, -3))
+  const makeSearch = (search?: string) => {
+    const uri = QueryBuilder.of('/listings').addParam('search', search).addParam('address', address).addParam('range', range?.slice(0, -3))
+    Router.push(uri.createURLencoded())
   }
 
   return (
     <div className={Styling.refinedInputs}>
-      <SearchBarAlt onClick={makeSearch} prevSearch={search} dynamic={false} />
+      <SearchBarAlt onClick={makeSearch} prevSearch={prevSearch} dynamic={false} />
 
       <div>
         <input type="checkbox" id="extraOptions" className={Styling.extraInputsInput} />
@@ -24,9 +25,10 @@ export default function RefinedSearchBar({ search }: { search: string | string[]
         </label>
 
         <div className={Styling.extraInputsContent}>
-          <Button text="Nearby" />
-          <input ref={address} className={Styling.addressInput} placeholder={'Enter an address...'} />
-          <Select onSelect={setRange} options={['1 km', '2 km', '5 km', '10 km', '15 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km']} />
+          <div className={Styling.extraInputsContentLayer}>
+            <input defaultValue={prevAddress} onChange={(event) => setAddress(event.target.value)} className={Styling.addressInput} placeholder={'Enter an address...'} />
+            <Select prevValue={prevRange?.toString()} onSelect={setRange} options={['1 km', '2 km', '5 km', '10 km', '15 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '200 km']} />
+          </div>
         </div>
       </div>
 

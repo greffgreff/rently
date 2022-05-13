@@ -5,8 +5,8 @@ export default function SearchBarAlt({ prevSearch = '', dynamic = false, onClick
   const input = useRef(null)
 
   const handleOnClick = () => {
-    if (input.current.value) {
-      onClick(input.current.value)
+    if (onClick) {
+      onClick(input.current?.value)
     }
   }
 

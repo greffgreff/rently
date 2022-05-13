@@ -8,7 +8,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
     <Link href={`/listings/${listing.id}`} passHref>
       <div className={Styling.container}>
         <div className={Styling.imageContainer}>
-          <Image className={Styling.image} alt={listing?.name} src={listing.image ? listing.image : '/noimage.svg'} layout="fill" />
+          <Image className={Styling.image} alt={listing?.name} src={listing.image ? listing.image : '/noimage.svg'} width={200} height={200} />
         </div>
         <div className={Styling.meta}>
           <div className={Styling.innerMeta}>
