@@ -12,8 +12,11 @@ export default class QueryBuilder {
   }
 
   public addParam(key: string, value: any): QueryBuilder {
-    if (key === '' || key == null) {
+    if (key === '' || key == null || key == undefined) {
       throw new Error('Query parameter cannot be null or an empty string.')
+    }
+    if (value === '' || value == null || value == undefined || value === 'undefined') {
+      return this
     }
     if (this.queryParameters.has(key)) {
       this.queryParameters.delete(key)
@@ -23,9 +26,9 @@ export default class QueryBuilder {
   }
 
   public addParams(queryParameters: Map<string, any>): QueryBuilder {
-    queryParameters.forEach((param) => {
-      this.addParam(param.getKey(), param.getValue())
-    })
+    for(let [key, value] of queryParameters.entries()) {
+      this.addParam(key, value)
+    }
     return this
   }
 
@@ -41,15 +44,11 @@ export default class QueryBuilder {
       if (path !== '' || path != null) uri += '/' + path
     })
 
-    if (!this.queryParameters.size) {
+    if (!!this.queryParameters.size) {
       let parsedParams: string[] = []
-
-      this.queryParameters.forEach((param) => {
-        if (param[1] != null) {
-          parsedParams.push(param[0] + '=' + param[1])
-        }
-      })
-
+      for(let [key, value] of this.queryParameters.entries()) {
+        parsedParams.push(key + '=' + value)
+      }
       uri += '?' + parsedParams.join('&')
     }
 
