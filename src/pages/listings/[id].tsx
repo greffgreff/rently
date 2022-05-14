@@ -17,7 +17,7 @@ export default function ListingPage() {
   const { id } = router.query
 
   useEffect(() => {
-    if (id) {
+    if (id && !listing) {
       fetchListingById(id.toString())
         .then(setListing)
         .catch((ex: AxiosError) => {
@@ -29,7 +29,7 @@ export default function ListingPage() {
   }, [id])
 
   useEffect(() => {
-    if (listing) {
+    if (listing && !leaser) {
       fetchUserById(listing.leaser)
         .then(setLeaser)
         .catch((ex: AxiosError) => {
@@ -106,8 +106,8 @@ export default function ListingPage() {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <h2>Where can I find this</h2>
-                <p>{listing.address.formattedAddress}</p>
-                <Map lat={listing.address.location.coordinates[1]} lon={listing.address.location.coordinates[0]} />
+                {/* <p>{listing.address.formattedAddress}</p> */}
+                {/* <Map lat={listing.address.location.coordinates[1]} lon={listing.address.location.coordinates[0]} /> */}
               </div>
             </div>
 
