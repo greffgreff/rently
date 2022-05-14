@@ -10,7 +10,7 @@ import { AxiosError } from 'axios'
 
 export default function ListingPage() {
   const { data } = useSession()
-  const session : Session = data
+  const session: Session = data
   const [listing, setListing] = useState<Listing>(null)
   const [leaser, setLeaser] = useState<User>(null)
   const router = useRouter()
@@ -25,6 +25,10 @@ export default function ListingPage() {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
+
+  useEffect(() => {
     if (listing) {
       fetchUserById(listing.leaser)
         .then(setLeaser)
@@ -32,7 +36,8 @@ export default function ListingPage() {
           router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.code)
         })
     }
-  }, [id, listing])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listing])
 
   const showLeasePage = async () => {
     router.push('/lease?id=' + listing.id)
@@ -46,7 +51,7 @@ export default function ListingPage() {
   const displayFallbackImage = (event) => {
     event.target.src = '/noimage.svg'
   }
-    
+
   return (
     <>
       <Head>
