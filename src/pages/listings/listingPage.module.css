@@ -9,7 +9,6 @@
 
 .innerContainer {
   margin: 20px;
-  border-radius: var(--roundness);
 }
 
 .descArea {
