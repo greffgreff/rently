@@ -71,19 +71,17 @@ export default function ListingPage() {
 
                   <div>
                     <p className={Styling.title}>{listing.name}</p>
-                    <p className={Styling.details}>
-                      <b>Daily price </b> &nbsp; {listing.price}€
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Available since </b> &nbsp; {new Date(parseInt(listing.createdAt) * 1000).toLocaleString()}
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Rental start</b> &nbsp; {new Date(parseInt(listing.startDate) * 1000).toLocaleDateString()}
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Rental end</b> &nbsp; {new Date(parseInt(listing.endDate) * 1000).toLocaleDateString()}
-                    </p>
-                    <p className={`${Styling.details} ${Styling.description}`}>{listing.desc}</p>
+                    <div className={Styling.details}>
+                      <b>Daily price </b>
+                      {listing.price}€<b>Available since </b>
+                      {new Date(parseInt(listing.createdAt) * 1000).toLocaleString()}
+                      <b>Rental start</b>
+                      {new Date(parseInt(listing.startDate) * 1000).toLocaleDateString()}
+                      <b>Rental end</b>
+                      {new Date(parseInt(listing.endDate) * 1000).toLocaleDateString()}
+                    </div>
+
+                    <p className={Styling.description}>{listing.desc}</p>
                   </div>
                 </div>
               </div>
