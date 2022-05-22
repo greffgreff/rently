@@ -71,19 +71,17 @@ export default function ListingPage() {
 
                   <div>
                     <p className={Styling.title}>{listing.name}</p>
-                    <p className={Styling.details}>
-                      <b>Daily price </b> &nbsp; {listing.price}€
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Available since </b> &nbsp; {new Date(parseInt(listing.createdAt) * 1000).toLocaleString()}
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Rental start</b> &nbsp; {new Date(parseInt(listing.startDate) * 1000).toLocaleDateString()}
-                    </p>
-                    <p className={Styling.details}>
-                      <b>Rental end</b> &nbsp; {new Date(parseInt(listing.endDate) * 1000).toLocaleDateString()}
-                    </p>
-                    <p className={`${Styling.details} ${Styling.description}`}>{listing.desc}</p>
+                    <div className={Styling.details}>
+                      <b>Daily price </b>
+                      {listing.price}€<b>Available since </b>
+                      {new Date(parseInt(listing.createdAt) * 1000).toLocaleString()}
+                      <b>Rental start</b>
+                      {new Date(parseInt(listing.startDate) * 1000).toLocaleDateString()}
+                      <b>Rental end</b>
+                      {new Date(parseInt(listing.endDate) * 1000).toLocaleDateString()}
+                    </div>
+
+                    <p className={Styling.description}>{listing.desc}</p>
                   </div>
                 </div>
               </div>
@@ -92,12 +90,25 @@ export default function ListingPage() {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <h2>About the leaser</h2>
-                <p>
-                  <b>Name</b> &nbsp; {leaser?.name}
-                </p>
-                {listing?.phone && (
+                {session?.user ? (
+                  <>
+                    <p>
+                      <b>Name</b> &nbsp; {leaser?.name}
+                    </p>
+                    {listing?.phone && (
+                      <p>
+                        <b>Phone</b> &nbsp; {listing.phone}
+                      </p>
+                    )}
+                  </>
+                ) : (
                   <p>
-                    <b>Phone</b> &nbsp; {listing.phone}
+                    You need to be logged in to see this leaser's contact information. &nbsp;
+                    <a href="/login">
+                      <b>
+                        <u>Sign in here</u>
+                      </b>
+                    </a>
                   </p>
                 )}
               </div>
@@ -106,8 +117,24 @@ export default function ListingPage() {
             <div className={Styling.container}>
               <div className={Styling.innerContainer}>
                 <h2>Where can I find this</h2>
-                <p>{listing.address.formattedAddress}</p>
-                <Map lat={listing.address.location.coordinates[1]} lon={listing.address.location.coordinates[0]} />
+                {session?.user ? (
+                  <>
+                    <p>{listing.address.formattedAddress}</p>
+                    <Map lat={listing.address.location.coordinates[1]} lon={listing.address.location.coordinates[0]} />
+                  </>
+                ) : (
+                  <>
+                    <p>{listing.address.country + ', ' + listing.address.city + '.'}</p>
+                    <p>
+                      You need to be logged in to see a more precise location. &nbsp;
+                      <a href="/login">
+                        <b>
+                          <u>Sign in here</u>
+                        </b>
+                      </a>
+                    </p>
+                  </>
+                )}
               </div>
             </div>
 

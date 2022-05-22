@@ -69,7 +69,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       name: title.current.value,
       desc: desc.current.value,
       price: price.current.value,
-      image: imageFile?.replace(/^[^,]*,/, '') ?? listingToUpdate.image,
+      image: imageFile?.replace(/^[^,]*,/, '') ?? listingToUpdate?.image,
       startDate: moment(start.current.value).format('X'),
       endDate: moment(end.current.value).format('X'),
       createdAt: moment().format('X'),
@@ -103,9 +103,9 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       console.log(ex)
       console.log(session.sessionToken)
       console.log(constructListing(listingToUpdate.id, address))
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    // router.push('/listings/' + listingToUpdate.id)
+    router.push('/listings/' + listingToUpdate.id)
   }
 
   const handlePost = async () => {
@@ -120,9 +120,9 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
       console.log(ex)
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    // router.push('/listings/' + listingId)
+    router.push('/listings/' + listingId)
   }
 
   const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
