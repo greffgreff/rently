@@ -166,12 +166,12 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
                 <div className={Styling.columnInputs}>
                   <div className={Styling.labeledInput}>
                     <p>Give your advert a name:</p>
-                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name ?? 'My new listing'} />
+                    <input required className={Styling.input} ref={title} placeholder="Title" defaultValue={listingToUpdate?.name} />
                   </div>
 
                   <div className={Styling.labeledInput}>
                     <p>Daily charge:</p>
-                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price ?? 123} />
+                    <input required min="0" type="number" ref={price} className={Styling.input} defaultValue={listingToUpdate?.price} />
                   </div>
 
                   <div className={Styling.labeledInput}>
@@ -186,7 +186,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
 
                   <div className={`${Styling.labeledInput} ${Styling.textArealabeledInput}`}>
                     <p>Provide a description for renters:</p>
-                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc ?? 'my desc'} />
+                    <textarea required className={`${Styling.input} ${Styling.textarea}`} ref={desc} placeholder="I'm not going to use my trailer for a few days..." defaultValue={listingToUpdate?.desc} />
                   </div>
                 </div>
               </div>
@@ -202,22 +202,22 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
                 <p>Country:</p>
-                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country ?? 'France'} />
+                <input required className={Styling.input} ref={country} placeholder="Netherlands" defaultValue={listingToUpdate?.address?.country} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>Zipcode:</p>
-                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip ?? '57200'} />
+                <input required className={Styling.input} ref={zip} placeholder="BZ5600" defaultValue={listingToUpdate?.address?.zip} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>City:</p>
-                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city ?? 'Remelfing'} />
+                <input required className={Styling.input} ref={city} placeholder="Eindhoven" defaultValue={listingToUpdate?.address?.city} />
               </div>
 
               <div className={Styling.labeledInput}>
                 <p>Street name and number (optional):</p>
-                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street ?? '5 rue des roses'} />
+                <input className={Styling.input} ref={street} placeholder="123" defaultValue={listingToUpdate?.address?.street} />
               </div>
             </div>
 
@@ -258,7 +258,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
 
               <div className={Styling.labeledInput}>
                 <p>Phone number:</p>
-                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone ?? '123123123'} />
+                <input required className={Styling.input} ref={phone} placeholder="Renters can call me with..." defaultValue={listingToUpdate?.phone} />
               </div>
             </div>
           </div>
