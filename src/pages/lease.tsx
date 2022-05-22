@@ -103,9 +103,9 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       console.log(ex)
       console.log(session.sessionToken)
       console.log(constructListing(listingToUpdate.id, address))
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    // router.push('/listings/' + listingToUpdate.id)
+    router.push('/listings/' + listingToUpdate.id)
   }
 
   const handlePost = async () => {
@@ -120,9 +120,9 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
       console.log(ex)
-      // router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
+      router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
-    // router.push('/listings/' + listingId)
+    router.push('/listings/' + listingId)
   }
 
   const displayImg = (event: ChangeEvent<HTMLInputElement>) => {
