@@ -5,9 +5,8 @@
   gap: var(--gap-width);
   justify-content: space-between;
   grid-auto-flow: dense;
-
   border-radius: var(--roundness);
-  overflow: scroll;
+  overflow: hidden !important;
 }
 
 .suggestions .marqueeContainer:nth-child(2n + 1) {
