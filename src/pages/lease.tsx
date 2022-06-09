@@ -10,6 +10,7 @@ import { v4 as uuid } from 'uuid'
 import { ServerResponse } from 'http'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 
 export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listing }) {
   const { data } = useSession()
@@ -100,9 +101,10 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await putListing(constructListing(listingToUpdate.id, address), session.sessionToken)
     } catch (ex) {
-      console.log(ex)
-      console.log(session.sessionToken)
-      console.log(constructListing(listingToUpdate.id, address))
+      if (ex.code == 401) {
+        signOut()
+        router.push('/login')
+      }
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
@@ -119,7 +121,10 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
-      console.log(ex)
+      if (ex.code == 401) {
+        signOut()
+        router.push('/login')
+      }
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)
