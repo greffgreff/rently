@@ -14,7 +14,7 @@ import { signOut } from 'next-auth/react'
 
 export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listing }) {
   const { data } = useSession()
-  const session : Session = data
+  const session: Session = data
   const [user, setUser] = useState<User>()
   const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
@@ -93,7 +93,8 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
 
   const handlePut = async () => {
     if (new Date() > session.expires) {
-      document.location.reload()
+      signOut()
+      router.push('/login')
     }
 
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
@@ -101,10 +102,6 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await putListing(constructListing(listingToUpdate.id, address), session.sessionToken)
     } catch (ex) {
-      if (ex.code == 401) {
-        signOut()
-        router.push('/login')
-      }
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
@@ -112,7 +109,8 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
 
   const handlePost = async () => {
     if (new Date() > session.expires) {
-      document.location.reload()
+      signOut()
+      router.push('/login')
     }
 
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
@@ -121,10 +119,6 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
-      if (ex.code == 401) {
-        signOut()
-        router.push('/login')
-      }
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)
