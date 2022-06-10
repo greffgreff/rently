@@ -1,5 +1,7 @@
-FROM node:lts-alpine
-ENV NODE_ENV production
-COPY package.json yarn.lock ./
+FROM node:latest
+WORKDIR /app
+COPY package.json /app
+RUN npm i
+COPY . /app
 EXPOSE 3000
 CMD ["npm", "start"]

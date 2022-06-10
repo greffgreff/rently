@@ -1,6 +1,6 @@
 import Styling from './styles/lease.module.css'
 import Head from 'next/head'
-import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
+import { Button, ButtonSecondary, Meta, NavigationBar, Map, Loading } from '../components'
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
@@ -10,11 +10,13 @@ import { v4 as uuid } from 'uuid'
 import { ServerResponse } from 'http'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 
 export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listing }) {
   const { data } = useSession()
-  const session : Session = data
+  const session: Session = data
   const [user, setUser] = useState<User>()
+  const [loading, isLoading] = useState<boolean>(false)
   const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
   const router = useRouter()
@@ -91,8 +93,10 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
   }
 
   const handlePut = async () => {
+    isLoading(true)
     if (new Date() > session.expires) {
-      document.location.reload()
+      signOut()
+      router.push('/login')
     }
 
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
@@ -100,17 +104,16 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await putListing(constructListing(listingToUpdate.id, address), session.sessionToken)
     } catch (ex) {
-      console.log(ex)
-      console.log(session.sessionToken)
-      console.log(constructListing(listingToUpdate.id, address))
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingToUpdate.id)
   }
 
   const handlePost = async () => {
+    isLoading(true)
     if (new Date() > session.expires) {
-      document.location.reload()
+      signOut()
+      router.push('/login')
     }
 
     const address = await fetchAddressTomTom(country.current.value, city.current.value, zip.current.value, street.current.value)
@@ -119,7 +122,6 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
     try {
       await postListing(constructListing(listingId, address), session.sessionToken)
     } catch (ex) {
-      console.log(ex)
       router.push('/error?msg=' + ex?.response?.data?.message + '&code=' + ex?.response?.data?.status)
     }
     router.push('/listings/' + listingId)
@@ -148,6 +150,15 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       </Head>
 
       <main>
+        {loading ? (
+          <div className={Styling.coverContainer}>
+            <div className={Styling.loading}>
+              <Loading />
+            </div>
+            <div className={Styling.cover} />
+          </div>
+        ) : null}
+
         <Meta />
         <NavigationBar />
 
@@ -197,7 +208,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h1 className={Styling.title}>Where to pickup</h1>
-            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
+            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease. Street name and address are optional.</h4>
 
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
