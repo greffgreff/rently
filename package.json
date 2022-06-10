@@ -23,7 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "next": "^12.1.1",
-    "next-auth": "^4.3.2",
+    "next-auth": "^4.3.3",
     "next-auth-client": "^1.5.0",
     "nextjs-redirect": "^5.2.1",
     "node-fetch": "^3.2.4",
@@ -32,7 +32,7 @@
     "react-dom": "17.0.2",
     "react-hotjar": "^5.0.0",
     "react-router-dom": "^6.2.2",
-    "sharp": "^0.30.4",
+    "sharp": "^0.30.5",
     "styled-components": "^5.3.3",
     "typescript": "^4.3.2",
     "uuid": "^8.3.2"
