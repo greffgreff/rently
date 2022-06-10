@@ -1,6 +1,6 @@
 import Styling from './styles/lease.module.css'
 import Head from 'next/head'
-import { Button, ButtonSecondary, Meta, NavigationBar, Map } from '../components'
+import { Button, ButtonSecondary, Meta, NavigationBar, Map, Loading } from '../components'
 import { useSession } from 'next-auth/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Listing, ProperAddress, Session, User } from '../types'
@@ -16,6 +16,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
   const { data } = useSession()
   const session: Session = data
   const [user, setUser] = useState<User>()
+  const [loading, isLoading] = useState<boolean>(false)
   const [imageFile, setImage] = useState<string>()
   const [address, setAddress] = useState<ProperAddress>(null)
   const router = useRouter()
@@ -92,6 +93,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
   }
 
   const handlePut = async () => {
+    isLoading(true)
     if (new Date() > session.expires) {
       signOut()
       router.push('/login')
@@ -108,6 +110,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
   }
 
   const handlePost = async () => {
+    isLoading(true)
     if (new Date() > session.expires) {
       signOut()
       router.push('/login')
@@ -147,6 +150,15 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
       </Head>
 
       <main>
+        {loading ? (
+          <div className={Styling.coverContainer}>
+            <div className={Styling.loading}>
+              <Loading />
+            </div>
+            <div className={Styling.cover} />
+          </div>
+        ) : null}
+
         <Meta />
         <NavigationBar />
 
@@ -196,7 +208,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
         <div className={Styling.container}>
           <div className={Styling.innerContainer}>
             <h1 className={Styling.title}>Where to pickup</h1>
-            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease.</h4>
+            <h4 className={Styling.title}>Specify the location of the item you are attempting to lease. Street name and address are optional.</h4>
 
             <div className={Styling.columnInputs}>
               <div className={Styling.labeledInput}>
