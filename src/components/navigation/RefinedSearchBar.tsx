@@ -31,7 +31,7 @@ export default function RefinedSearchBar({ prevSearch, prevAddress, prevRange }:
     if (address) {
       uri.addParam('address', address).addParam('range', range?.slice(0, -3))
     }
-    Router.push(uri.createURLencoded())
+    window.location.replace(uri.createURLencoded())
   }
 
   return (
@@ -49,20 +49,22 @@ export default function RefinedSearchBar({ prevSearch, prevAddress, prevRange }:
             <input defaultValue={prevAddress} onChange={(event) => setAddress(event.target.value)} className={Styling.addressInput} placeholder={'Enter an address...'} />
             <Select prevValue={prevRange?.toString() + ' km'} onSelect={setRange} options={['1 km', '2 km', '5 km', '10 km', '15 km', '20 km', '30 km', '40 km', '50 km', '75 km', '100 km', '200 km']} />
           </div>
-          
-          <div className={Styling.suggestions}>
-            <>
-              <div className={Styling.suggestionLink}>
-                <b>Suggestions</b>
-              </div>
 
-              {suggestions.map((suggestion) => (
-                <div key={suggestion} className={Styling.suggestionLink}>
-                  <a href={`/listings?search=${suggestion}`}>{suggestion}</a>
+          {suggestions && prevSearch ? (
+            <div className={Styling.suggestions}>
+              <>
+                <div className={Styling.suggestionLink}>
+                  <b>Suggestions</b>
                 </div>
-              ))}
-            </>
-          </div>
+
+                {suggestions.map((suggestion) => (
+                  <div key={suggestion} className={Styling.suggestionLink}>
+                    <a href={`/listings?search=${suggestion}`}>{suggestion}</a>
+                  </div>
+                ))}
+              </>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
