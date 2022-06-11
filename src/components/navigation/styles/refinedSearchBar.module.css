@@ -79,3 +79,17 @@
 .extraInputsInput:checked + label .arrow {
   transform: rotate(90deg);
 }
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.suggestionLink {
+  padding: 5px;
+  text-decoration: none;
+  color: inherit;
+}

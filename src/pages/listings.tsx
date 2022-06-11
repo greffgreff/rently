@@ -1,7 +1,7 @@
 import Styling from './styles/listings.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../components'
+import { ListingCard, NavigationBar, Meta, RefinedSearchBar, Spoiler } from '../components'
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 import { aggregatedListingsSearch, getRandomListings } from '../api'
@@ -21,6 +21,7 @@ export default function Listings({ listings }: { listings: Listing[] }) {
         <Meta />
         <NavigationBar />
         <RefinedSearchBar prevSearch={search} prevAddress={address} prevRange={range} />
+        {/* {search ? <Spoiler search={search.toString()} /> : null} */}
 
         <div className={Styling.resultsContainer}>
           {search ? (
@@ -52,7 +53,7 @@ export async function getServerSideProps({ query }) {
 
   let listings: Listing[] = []
 
-  if (search == null && address == null) {
+  if (!search && !address) {
     try {
       listings = (await getRandomListings(20))
     } catch (ex) {
