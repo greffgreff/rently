@@ -51,19 +51,28 @@ export default function Listings({ listings }: { listings: Listing[] }) {
 export async function getServerSideProps({ query }) {
   const { search, range, address } = query
 
+  console.log(search)
+  console.log(search == undefined)
+
   let listings: Listing[] = []
 
   if (!search && !address) {
     try {
-      listings = (await getRandomListings(20))
+      listings = await getRandomListings(20)
     } catch (ex) {
       console.log(ex)
     }
   } else {
-    const uri: QueryBuilder = QueryBuilder.of('').addPathVar(search)
+    const uri = QueryBuilder.of('')
+
+    if (search !== undefined) {
+      uri.addPathVar(search)
+    }
+
     if (address) {
       uri.addParam('range', range).addParam('address', address)
     }
+
     try {
       listings = (await aggregatedListingsSearch(uri.createURLencoded())).results
     } catch (ex) {
