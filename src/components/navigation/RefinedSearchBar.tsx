@@ -27,7 +27,10 @@ export default function RefinedSearchBar({ prevSearch, prevAddress, prevRange }:
   }, [])
 
   const makeSearch = (search?: string) => {
-    const uri = QueryBuilder.of('/listings').addParam('search', search)
+    const uri = QueryBuilder.of('/listings')
+    if (search !== '') {
+      uri.addParam('search', search)
+    }
     if (address) {
       uri.addParam('address', address).addParam('range', range?.slice(0, -3))
     }

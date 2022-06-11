@@ -41,7 +41,7 @@ export default class QueryBuilder {
     let uri: string = this.base
 
     this.pathVariables.forEach((path) => {
-      if (path !== '' || path != null) uri += '/' + path
+      if (path !== '' || path != null || path !== undefined) uri += '/' + path
     })
 
     if (!!this.queryParameters.size) {
