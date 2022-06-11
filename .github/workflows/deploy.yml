@@ -1,4 +1,4 @@
-name: Rently CI CD
+name: Frontend Deploy
 
 on:
   push:
@@ -15,9 +15,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '13.10'
-      - name: Install yarn and run unittest
-        run: npm run build
-      - name: Build & push Docker image
+      - name: Build next
+        run: npm ci
+      - run: npm run build
+      - name: Push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: dockeroo80/rently-user-service
