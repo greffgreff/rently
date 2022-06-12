@@ -13,7 +13,7 @@ import { signOut } from 'next-auth/react'
 export default function Account() {
   const router = useRouter()
   const { data } = useSession()
-  const session : Session = data
+  const session: Session = data
 
   const handleDelete = async () => {
     if (new Date() > session.expires) {
@@ -77,9 +77,7 @@ export default function Account() {
               <div className={Styling.header}>
                 <h1>My profile</h1>
                 <div>
-                  <div onClick={handleDelete}>
-                    <ButtonSecondary text={'Delete Account'} />
-                  </div>
+                  <ButtonSecondary text="Delete Account" onClick={handleDelete} />
                 </div>
               </div>
 
@@ -120,7 +118,7 @@ export default function Account() {
             <div id="notifications">
               <div className={Styling.header}>
                 <h1>Activity</h1>
-                <Button text={'Mark as seen'} />
+                <Button text="Mark as seen" />
               </div>
             </div>
           </div>
@@ -137,5 +135,5 @@ export async function getServerSideProps(context: { res: ServerResponse }) {
     res.writeHead(302, { Location: '/login' })
     res.end()
   }
-  return { props: { } }
+  return { props: {} }
 }

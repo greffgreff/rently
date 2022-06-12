@@ -1,7 +1,7 @@
 import Styling from './styles/listings.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ListingCard, NavigationBar, Meta, RefinedSearchBar, Spoiler } from '../components'
+import { ListingCard, NavigationBar, Meta, RefinedSearchBar } from '../components'
 import { Listing } from '../types'
 import Loading from '../components/other/Loading'
 import { aggregatedListingsSearch, getRandomListings } from '../api'

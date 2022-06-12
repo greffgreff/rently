@@ -11,16 +11,16 @@ export default function NavigationBar() {
         <div className={Styling.navItemsContainer}>
           <Logo />
           <Button id="account" icon="fa fa-plus" text="Lease something" route="/lease" />
-          <ButtonLink icon="fa fa-search" text="Search" route="/listings" />
+          <ButtonLink id="search" icon="fa fa-search" text="Search" route="/listings" />
         </div>
         <div className={Styling.navItemsContainer}>
           {status === 'authenticated' ? (
             <>
-              <Button text="Account" icon="fa fa-user" route="/account" />
-              <ButtonSecondary text="Sign out" id="signout" onClick={signOut} />
+              <Button id="account" text="Account" icon="fa fa-user" route="/account" />
+              <ButtonSecondary id="signout" text="Sign out" onClick={signOut} />
             </>
           ) : (
-            <Button text="Sign in" id="signin" onClick={signIn} />
+            <Button id="signin" text="Sign in" onClick={signIn} />
           )}
         </div>
       </div>

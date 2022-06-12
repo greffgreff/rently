@@ -140,12 +140,8 @@ export default function ListingPage() {
 
             {(session as Session)?.user?.id == listing.leaser ? (
               <div className={Styling.btns}>
-                <div onClick={showLeasePage}>
-                  <Button text="Change something" width="200px" />
-                </div>
-                <div onClick={deleteAd}>
-                  <ButtonSecondary text="Remove this listing" width="200px" />
-                </div>
+                <Button onClick={showLeasePage} text="Change something" width="200px" />
+                <ButtonSecondary onClick={deleteAd} text="Remove this listing" width="200px" />
               </div>
             ) : null}
           </>
