@@ -7,14 +7,23 @@ export async function fetchListingById(id: string): Promise<Listing> {
 }
 
 export async function postListing(listing: Listing, token: string) {
+  console.log(listing)
+  console.log(token)
+
   await axios.post(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/', listing, getHeaders(token))
 }
 
 export async function putListing(listing: Listing, token: string) {
+  console.log(listing)
+  console.log(token)
+
   await axios.put(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/' + listing.id, listing, getHeaders(token))
 }
 
 export async function deleteListing(id: string, token: string) {
+  console.log(id)
+  console.log(token)
+
   await axios.delete(process.env.NEXT_PUBLIC_LISTING_SERVICE_BASE_URL + 'api/v1/' + id, getHeaders(token))
 }
 

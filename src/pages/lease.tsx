@@ -15,7 +15,6 @@ import { signOut } from 'next-auth/react'
 export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listing }) {
   const { data } = useSession()
   const session: Session = data
-  console.log(session)
   const [user, setUser] = useState<User>()
   const [loading, isLoading] = useState<boolean>(false)
   const [imageFile, setImage] = useState<string>()
