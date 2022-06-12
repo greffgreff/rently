@@ -10,11 +10,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"./src/**/*.js\" \"./src/**/*.css\""
+    "format": "prettier --write \"./src/**/*.js\" \"./src/**/*.css\"",
+    "cypress": "cypress open",
+    "record": "npx cypress run --record --key a3b8256a-4431-4930-8c58-ee2cb3c2012b",
+    "e2e": "npx cypress run"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.7.0",
     "@types/google.maps": "^3.48.5",
+    "@types/jest": "^28.1.1",
     "@types/pouchdb-core": "^7.0.10",
     "axios": "^0.26.1",
     "cookie-cutter": "^0.2.0",
@@ -23,10 +27,10 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "next": "^12.1.1",
-    "next-auth": "^4.3.3",
+    "next-auth": "^4.5.0",
     "next-auth-client": "^1.5.0",
     "nextjs-redirect": "^5.2.1",
-    "node-fetch": "^3.2.4",
+    "node-fetch": "^3.2.6",
     "postcss": "^8.2.13",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -38,10 +42,14 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^8.0.3",
     "@types/cookies": "^0.7.7",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.31",
     "@types/react": "^17.0.44",
+    "chance": "^1.1.8",
+    "cypress": "^10.1.0",
+    "cypress-social-logins": "^1.14.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.0.10"
   }

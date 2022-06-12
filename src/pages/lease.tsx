@@ -246,8 +246,8 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
               )}
             </div>
 
-            <div className={Styling.btns} onClick={checkAddress}>
-              <ButtonSecondary text="Check address" icon="fa fa-search" width="200px" />
+            <div className={Styling.btns}>
+              <ButtonSecondary onClick={checkAddress} text="Check address" icon="fa fa-search" width="200px" />
             </div>
           </div>
         </div>
@@ -276,15 +276,7 @@ export default function LeasePage({ listingToUpdate }: { listingToUpdate: Listin
         </div>
 
         <div className={Styling.btns}>
-          {!listingToUpdate ? (
-            <div onClick={handlePost}>
-              <Button submit={true} text="Place advert!" icon="fa fa-check" width="200px" />
-            </div>
-          ) : (
-            <div onClick={handlePut}>
-              <Button submit={true} text="Updated listing" icon="fa fa-check" width="200px" />
-            </div>
-          )}
+          {!listingToUpdate ? <Button onClick={handlePost} submit text="Place advert!" icon="fa fa-check" width="200px" /> : <Button onClick={handlePut} submit text="Updated listing" icon="fa fa-check" width="200px" />}
           <ButtonSecondary text="Cancel" route={listingToUpdate ? '/listings/' + listingToUpdate.id : '/'} width="200px" />
         </div>
       </main>

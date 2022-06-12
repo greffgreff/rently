@@ -10,21 +10,17 @@ export default function NavigationBar() {
       <div className={Styling.content}>
         <div className={Styling.navItemsContainer}>
           <Logo />
-          <Button icon={'fa fa-plus'} text={'Lease something'} route={'/lease'} />
-          <ButtonLink icon={'fa fa-search'} text={'Search'} route={'/listings'} />
+          <Button id="account" icon="fa fa-plus" text="Lease something" route="/lease" />
+          <ButtonLink id="search" icon="fa fa-search" text="Search" route="/listings" />
         </div>
         <div className={Styling.navItemsContainer}>
           {status === 'authenticated' ? (
             <>
-              <Button text={'Account'} icon={'fa fa-user'} route={'/account'} />
-              <div onClick={signOut}>
-                <ButtonSecondary text={'Sign out'} />
-              </div>
+              <Button id="account" text="Account" icon="fa fa-user" route="/account" />
+              <ButtonSecondary id="signout" text="Sign out" onClick={signOut} />
             </>
           ) : (
-            <div onClick={signIn}>
-              <Button text={'Sign in'} />
-            </div>
+            <Button id="signin" text="Sign in" onClick={signIn} />
           )}
         </div>
       </div>

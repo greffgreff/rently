@@ -24,6 +24,7 @@ export default function Login({ providers }) {
                 <div
                   key={provider.name.split(' ')[0]}
                   className={provider.name.split(' ')[0]}
+                  id={provider.name.split(' ')[0]}
                   onClick={() =>
                     signIn(provider.id, {
                       callbackUrl: `${window.location.origin}/`,
