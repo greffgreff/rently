@@ -1,10 +1,14 @@
 import { defineConfig } from 'cypress'
 
+const { GoogleSocialLogin } = require("cypress-social-logins").plugins
+
 export default defineConfig({
   projectId: 'frhfvc',
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      on('task', {
+        GoogleSocialLogin: GoogleSocialLogin,
+      })
     },
   },
 })
