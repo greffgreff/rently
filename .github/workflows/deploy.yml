@@ -15,8 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '13.10'
-      - name: Build next
-        run: npm ci
+      - run: npm ci
       - run: npm run build
       - name: Push Docker image
       - name: Build and push Docker image
