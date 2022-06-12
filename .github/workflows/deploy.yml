@@ -10,27 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 13.10
+        uses: actions/setup-node@v1
+        with:
+          node-version: '13.10'
+      - name: Build next
+        run: npm ci
+      - run: npm run build
+      - name: Push Docker image
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: dockeroo80/rently-user-service
+          image: dockeroo80/rently
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#   Deploy:
+  Deploy:
     
-#     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
-#     steps:
-#       - uses: actions/checkout@v2
-#       - run: git fetch --prune --unshallow
-#       - name: Deploying to Heroku...
-#         env:
-#           TOKEN: ${{ secrets.HEROKU_API_KEY }}
-#           APP: ${{ secrets.HEROKU_APP }}
-#         run: |
-#           git remote add heroku https://heroku:$TOKEN@git.heroku.com/$APP.git
-#           git push heroku HEAD:master -f
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+      - name: Deploying to Heroku...
+        env:
+          TOKEN: ${{ secrets.HEROKU_API_KEY }}
+          APP: ${{ secrets.HEROKU_APP }}
+        run: |
+          git remote add heroku https://heroku:$TOKEN@git.heroku.com/$APP.git
+          git push heroku HEAD:master -f
