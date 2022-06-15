@@ -8,7 +8,18 @@ This repository corresponds to the NextJS frontend of Rently. NextJS was chosen 
 ![C2 model](https://i.imgur.com/34Nvkd4.jpg)
 
 ## User experience
-Testing remote assessement testing and in person exploratory testing...
+Hojar is a tool one can implement on his website to perform user experience testing. Every 100 ms, Hotjar records user inputs and website events anonymously. 
+
+Among other things, this tool generates heatmaps of user interaction on a per page basis:
+
+<p align="center">
+  <img src="https://i.imgur.com/38AUB0l.jpg" width=450px />
+  <img src="https://i.imgur.com/bMkoB62.jpg" width=450px />
+</p>
+
+This tool gives me the ability to perform unmoinotered remote UX testing contiously. Testing that reveals design flaws or potential hotspots of user frustration.
+
+For more information regarding some of the findings, please click [here](https://github.com/greffgreff/semester-content/blob/main/ux-testing.md).
 
 ## Web pages 
 
