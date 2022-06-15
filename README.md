@@ -13,8 +13,8 @@ Hojar is a tool one can implement on his website to perform user experience test
 Among other things, this tool generates heatmaps of user interaction on a per page basis:
 
 <p align="center">
-  <img src="https://i.imgur.com/38AUB0l.jpg" width=420px />
-  <img src="https://i.imgur.com/bMkoB62.jpg" width=420px />
+  <img src="https://i.imgur.com/38AUB0l.jpg" width=400px />
+  <img src="https://i.imgur.com/bMkoB62.jpg" width=400px />
 </p>
 
 This tool gives me the ability to perform unmoinotered remote UX testing contiously. Testing that reveals design flaws or potential hotspots of user frustration.
